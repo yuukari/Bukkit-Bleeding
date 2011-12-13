@@ -146,11 +146,27 @@ public abstract class JavaPlugin implements Plugin {
     }
 
     public void saveDefaultConfig() {
-        File outFile = new File(getDataFolder(), "config.yml");
-        InputStream in = getResource("config.yml");
+        saveResource("config.yml", false);
+    }
 
-        if(!getDataFolder().exists()) {
-            getDataFolder().mkdir();
+    public void saveResource(String resourcePath, boolean replace) {
+        if(resourcePath == null || resourcePath.equals("")) {
+            throw new IllegalArgumentException("ResourcePath cannot be null or empty");
+        }
+
+        resourcePath = resourcePath.replace('\\', '/');
+        InputStream in = getResource(resourcePath);
+        if(in == null) {
+            throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found in " + getFile());
+        }
+
+        File outFile = new File(getDataFolder(), resourcePath);  
+        int lastIndex = resourcePath.lastIndexOf('/');
+        File outDir = new File(getDataFolder(), resourcePath.substring(0, lastIndex >= 0 ? lastIndex : 0));
+        
+        
+        if(!outDir.exists()) {
+            outDir.mkdirs();
         }
 
         if(in == null) {
@@ -158,7 +174,7 @@ public abstract class JavaPlugin implements Plugin {
         }
 
         try {
-            if(!outFile.exists()) {
+            if(!outFile.exists() || replace) {
                 OutputStream out = new FileOutputStream(outFile);
                 byte[] buf = new byte[1024];
                 int len;
@@ -168,10 +184,10 @@ public abstract class JavaPlugin implements Plugin {
                 out.close();
                 in.close();
             } else {
-                Logger.getLogger(JavaPlugin.class.getName()).log(Level.WARNING, "Could not save default config to " + outFile + " because " + outFile.getName() + " already exists.");
+                Logger.getLogger(JavaPlugin.class.getName()).log(Level.WARNING, "Could not save " + outFile.getName() + " to " + outFile + " because " + outFile.getName() + " already exists.");
             }
         } catch (IOException ex) {
-            Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, "Could not save default config to " + outFile, ex);
+            Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, "Could not save " + outFile.getName() + " to " + outFile, ex);
         }
     }
     
