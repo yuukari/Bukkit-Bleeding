@@ -116,7 +116,7 @@ public final class SimplePluginManager implements PluginManager {
         File[] files = directory.listFiles();
 
         boolean allFailed = false;
-        boolean finalPass = false;
+        int pass = 0;
 
         LinkedList<File> filesList = new LinkedList(Arrays.asList(files));
 
@@ -124,7 +124,7 @@ public final class SimplePluginManager implements PluginManager {
             updateDirectory = new File(directory, server.getUpdateFolder());
         }
 
-        while (!allFailed || finalPass) {
+        while (!allFailed || pass < 2) {
             allFailed = true;
             Iterator<File> itr = filesList.iterator();
 
@@ -133,9 +133,9 @@ public final class SimplePluginManager implements PluginManager {
                 Plugin plugin = null;
 
                 try {
-                    plugin = loadPlugin(file, finalPass);
+                    plugin = (pass >= 1)?loadPlugin(file, true):loadPlugin(file, false);
                 } catch (UnknownDependencyException ex) {
-                    if (finalPass) {
+                    if (pass > 2) {
                         server.getLogger().log(Level.SEVERE, "Could not load '" + file.getPath() + "' in folder '" + directory.getPath() + "': " + ex.getMessage(), ex);
                         itr.remove();
                     } else {
@@ -152,14 +152,14 @@ public final class SimplePluginManager implements PluginManager {
                 if (plugin != null) {
                     result.add(plugin);
                     allFailed = false;
-                    finalPass = false;
+                    pass = 0;
                     itr.remove();
                 }
             }
-            if (finalPass) {
+            if (pass != 0) {
                 break;
             } else if (allFailed) {
-                finalPass = true;
+                pass++;
             }
         }
 
