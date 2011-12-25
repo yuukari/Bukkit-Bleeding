@@ -117,14 +117,15 @@ public final class SimplePluginManager implements PluginManager {
 
         boolean allFailed = false;
         int pass = 0;
+        final int MAX_PASSES = 2;
 
-        LinkedList<File> filesList = new LinkedList(Arrays.asList(files));
+        LinkedList<File> filesList = new LinkedList<File>(Arrays.asList(files));
 
         if (!(server.getUpdateFolder().equals(""))) {
             updateDirectory = new File(directory, server.getUpdateFolder());
         }
 
-        while (!allFailed || pass < 2) {
+        while (!allFailed || pass < MAX_PASSES) {
             allFailed = true;
             Iterator<File> itr = filesList.iterator();
 
@@ -133,9 +134,10 @@ public final class SimplePluginManager implements PluginManager {
                 Plugin plugin = null;
 
                 try {
-                    plugin = (pass >= 1)?loadPlugin(file, true):loadPlugin(file, false);
+                    boolean ignoreSoftDeps = pass >= 1;
+                    plugin = loadPlugin(file, ignoreSoftDeps);
                 } catch (UnknownDependencyException ex) {
-                    if (pass > 2) {
+                    if (pass > MAX_PASSES) {
                         server.getLogger().log(Level.SEVERE, "Could not load '" + file.getPath() + "' in folder '" + directory.getPath() + "': " + ex.getMessage(), ex);
                         itr.remove();
                     } else {
