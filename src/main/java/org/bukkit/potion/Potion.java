@@ -40,7 +40,7 @@ public class Potion {
     /**
      * Applies the effects of this potion to the given {@link ItemStack}. The
      * itemstack must be a potion.
-     * 
+     *
      * @param to
      *            The itemstack to apply to
      */
@@ -54,7 +54,7 @@ public class Potion {
     /**
      * Applies the effects that would be applied by this potion to the given
      * {@link LivingEntity}.
-     * 
+     *
      * @see LivingEntity#addEffects(Collection)
      * @param to
      *            The entity to apply the effects to
@@ -79,7 +79,7 @@ public class Potion {
     /**
      * Returns a collection of {@link PotionEffect}s that this {@link Potion}
      * would confer upon a {@link LivingEntity}.
-     * 
+     *
      * @see PotionBrewer#getEffectsFromDamage(int)
      * @see Potion#toDamageValue()
      * @return The effects that this potion applies
@@ -90,7 +90,7 @@ public class Potion {
 
     /**
      * Returns the {@link Tier} of this potion.
-     * 
+     *
      * @return The tier of this potion
      */
     public Tier getTier() {
@@ -99,7 +99,7 @@ public class Potion {
 
     /**
      * Returns the {@link PotionType} of this potion.
-     * 
+     *
      * @return The type of this potion
      */
     public PotionType getType() {
@@ -108,7 +108,7 @@ public class Potion {
 
     /**
      * Returns whether this potion has an extended duration.
-     * 
+     *
      * @return Whether this potion has extended duration
      */
     public boolean hasExtendedDuration() {
@@ -127,7 +127,7 @@ public class Potion {
 
     /**
      * Returns whether this potion is a splash potion.
-     * 
+     *
      * @return Whether this is a splash potion
      */
     public boolean isSplash() {
@@ -137,7 +137,7 @@ public class Potion {
     /**
      * Set whether this potion has extended duration. This will cause the potion
      * to have roughly 8/3 more duration than a regular potion.
-     * 
+     *
      * @param isExtended
      *            Whether the potion should have extended duration
      */
@@ -148,7 +148,7 @@ public class Potion {
     /**
      * Sets whether this potion is a splash potion. Splash potions can be thrown
      * for a radius effect.
-     * 
+     *
      * @param isSplash
      *            Whether this is a splash potion
      */
@@ -158,7 +158,7 @@ public class Potion {
 
     /**
      * Sets the {@link Tier} of this potion.
-     * 
+     *
      * @param tier
      *            The new tier of this potion
      */
@@ -170,7 +170,7 @@ public class Potion {
     /**
      * Converts this potion to a valid potion damage short, usable for potion
      * item stacks.
-     * 
+     *
      * @return The damage value of this potion
      */
     public short toDamageValue() {
@@ -188,7 +188,7 @@ public class Potion {
     /**
      * Converts this potion to an {@link ItemStack} with the specified amount
      * and a correct damage value.
-     * 
+     *
      * @param amount
      *            The amount of the ItemStack
      * @return The created ItemStack
@@ -243,7 +243,7 @@ public class Potion {
 
     /**
      * Returns an instance of {@link PotionBrewer}.
-     * 
+     *
      * @return An instance of PotionBrewer
      */
     public static PotionBrewer getBrewer() {
@@ -253,7 +253,7 @@ public class Potion {
     /**
      * Sets the current instance of {@link PotionBrewer}. Generally not to be
      * used from within a plugin.
-     * 
+     *
      * @param other
      *            The new PotionBrewer
      */

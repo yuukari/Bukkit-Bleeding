@@ -24,7 +24,7 @@ public class PotionEffect {
     /**
      * Attempts to add the effect represented by this object to the given
      * {@link LivingEntity}.
-     * 
+     *
      * @see LivingEntity#addPotionEffect(PotionEffect)
      * @param entity
      *            The entity to add this effect to
@@ -71,7 +71,7 @@ public class PotionEffect {
 
     /**
      * Returns the {@link PotionEffectType} of this effect.
-     * 
+     *
      * @return The potion type of this effect
      */
     public PotionEffectType getType() {

@@ -230,18 +230,18 @@ public interface LivingEntity extends Entity {
     public Player getKiller();
 
     /**
-     * Adds the given {@link PotionEffect} to this entity. 
+     * Adds the given {@link PotionEffect} to this entity.
      * Only one potion effect can be present for a given {@link PotionEffectType}.
-     * 
+     *
      * @param effect PotionEffect to be added
      * @return Whether the effect could be added
      */
     public boolean addPotionEffect(PotionEffect effect);
 
     /**
-     * Adds the given {@link PotionEffect} to this entity. 
+     * Adds the given {@link PotionEffect} to this entity.
      * Only one potion effect can be present for a given {@link PotionEffectType}.
-     * 
+     *
      * @param effect PotionEffect to be added
      * @param force Whether conflicting effects should be removed
      * @return Whether the effect could be added
@@ -250,30 +250,30 @@ public interface LivingEntity extends Entity {
 
     /**
      * Attempts to add all of the given {@link PotionEffect} to this entity.
-     * 
+     *
      * @param effects The effects to add
      * @return Whether all of the effects could be added
      */
     public boolean addPotionEffects(Collection<PotionEffect> effects);
 
     /**
-     * Returns whether the entity already has an existing 
+     * Returns whether the entity already has an existing
      * effect of the given {@link PotionEffectType} applied to it.
-     * 
+     *
      * @param type The potion type to check
      */
     public boolean hasPotionEffect(PotionEffectType type);
 
     /**
      * Removes any effects present of the given {@link PotionEffectType}.
-     * 
+     *
      * @param type The potion type to remove
      */
     public void removePotionEffect(PotionEffectType type);
 
     /**
      * Returns all currently active {@link PotionEffect}s on this entity.
-     * 
+     *
      * @return A collection of {@link PotionEffect}s
      */
     public Collection<PotionEffect> getActivePotionEffects();

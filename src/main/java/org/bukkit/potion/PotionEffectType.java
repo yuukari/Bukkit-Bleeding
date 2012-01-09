@@ -118,14 +118,14 @@ public abstract class PotionEffectType {
 
     /**
      * Returns the duration modifier applied to effects of this type.
-     * 
+     *
      * @return duration modifier
      */
     public abstract double getDurationModifier();
 
     /**
      * Returns the unique ID of this type.
-     * 
+     *
      * @return Unique ID
      */
     public int getId() {
@@ -134,14 +134,14 @@ public abstract class PotionEffectType {
 
     /**
      * Returns the name of this effect type.
-     * 
+     *
      * @return The name of this effect type
      */
     public abstract String getName();
 
     /**
      * Returns whether the effect of this type happens once, immediately.
-     * 
+     *
      * @return whether this type is normally instant
      */
     public abstract boolean isInstant();
@@ -178,7 +178,7 @@ public abstract class PotionEffectType {
 
     /**
      * Gets the effect type specified by the unique id.
-     * 
+     *
      * @param id
      *            Unique ID to fetch
      * @return Resulting type, or null if not found.
@@ -191,7 +191,7 @@ public abstract class PotionEffectType {
 
     /**
      * Gets the effect type specified by the given name.
-     * 
+     *
      * @param name
      *            Name of PotionEffectType to fetch
      * @return Resulting PotionEffectType, or null if not found.
@@ -205,7 +205,7 @@ public abstract class PotionEffectType {
      * Registers an effect type with the given object.
      * <p>
      * Generally not to be used from within a plugin.
-     * 
+     *
      * @param potionType
      *            PotionType to register
      */
@@ -230,7 +230,7 @@ public abstract class PotionEffectType {
 
     /**
      * Returns an array of all the registered {@link PotionEffectType}s.
-     * 
+     *
      * @return Array of types.
      */
     public static PotionEffectType[] values() {
