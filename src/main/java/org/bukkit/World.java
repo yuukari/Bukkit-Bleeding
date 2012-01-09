@@ -714,7 +714,21 @@ public interface World {
      * @param keepLoaded if true then the world's spawn area will be kept loaded into memory.
      */
     public void setKeepSpawnInMemory(boolean keepLoaded);
+    
+    /**
+     * Gets wether growth occurs in the world.
+     *
+     * @return true if growth is allowed.
+     */
+    public boolean getAllowGrowth();
 
+    /**
+     * Sets whether growth occurs in the world.
+     *
+     * @param growth if true then growth occurs.
+     */    
+    public boolean setAllowGrowth(boolean growth);
+    
     /**
      * Gets whether or not the world will automatically save
      *
