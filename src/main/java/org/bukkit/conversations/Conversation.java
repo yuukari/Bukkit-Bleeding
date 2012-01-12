@@ -59,7 +59,7 @@ public class Conversation {
 
     public void begin() {
         outputNextPrompt();
-        //forWhom.beginConversation(this);
+        forWhom.beginConversation(this);
     }
 
     public void acceptInput(String input) {
@@ -70,7 +70,9 @@ public class Conversation {
     }
 
     public void abandon() {
-        //forWhom.abandonConversation(this);
+        conversationQueue.clear();
+        activePrompt = null;
+        forWhom.abandonConversation(this);
     }
 
     private void outputNextPrompt() {
