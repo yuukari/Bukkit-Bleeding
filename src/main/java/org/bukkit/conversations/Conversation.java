@@ -14,13 +14,13 @@ public class Conversation {
     private Prompt activePrompt;
     
     private Plugin plugin;
-    private CommandSender forWhom;
+    private Conversable forWhom;
 
     private boolean modal;
     private ConversationPrefix prefix;
     private int timeoutSeconds;
 
-    public Conversation(Plugin plugin, CommandSender forWhom) {
+    public Conversation(Plugin plugin, Conversable forWhom) {
         this.plugin = plugin;
         this.forWhom = forWhom;
     }

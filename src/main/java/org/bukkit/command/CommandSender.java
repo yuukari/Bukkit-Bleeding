@@ -26,16 +26,4 @@ public interface CommandSender extends Permissible {
      * @return Name of the sender
      */
     public String getName();
-
-    /**
-     * Enters into a dialog with a Conversation object
-     * @param conversation The conversation to begin
-     */
-    public void beginConversation(Conversation conversation);
-
-    /**
-     * Abandons an active conversation.
-     * @param conversation The conversation to abandon
-     */
-    public void abandonConversation(Conversation conversation);
 }
