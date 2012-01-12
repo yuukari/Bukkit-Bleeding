@@ -10,7 +10,7 @@ import java.util.Queue;
  */
 public class Conversation {
 
-    private Queue<PromptFactory> conversationQueue = new LinkedList<PromptFactory>();
+    private Queue<Prompt> conversationQueue = new LinkedList<Prompt>();
     private Prompt activePrompt;
     
     private Plugin plugin;
@@ -54,11 +54,7 @@ public class Conversation {
     }
     
     public void appendPrompt(Prompt prompt) {
-        conversationQueue.add(new StaticPromptFactory(prompt));
-    }
-    
-    public void appendPrompt(PromptFactory factory) {
-        conversationQueue.add(factory);
+        conversationQueue.add(prompt);
     }
 
     public void begin() {
@@ -78,28 +74,14 @@ public class Conversation {
     }
 
     private void outputNextPrompt() {
-        PromptFactory factory = conversationQueue.poll();
-        if(factory == null) {
+        activePrompt = conversationQueue.poll();
+        if(activePrompt == null) {
             abandon();
         } else {
-            activePrompt = factory.createPrompt();
             forWhom.sendMessage(prefix.getPrefix(forWhom) + activePrompt.getPromptText(forWhom));
             if(!activePrompt.blocksForInput()) {
                 outputNextPrompt();
             }
-        }
-    }
-
-    private class StaticPromptFactory extends PromptFactory {
-        private Prompt prompt;
-
-        public StaticPromptFactory(Prompt prompt) {
-            super(null);
-            this.prompt = prompt;
-        }
-        
-        public Prompt createPrompt() {
-            return prompt;
         }
     }
 }
