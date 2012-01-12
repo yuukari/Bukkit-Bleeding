@@ -68,7 +68,7 @@ public class Conversation {
 
     public void acceptInput(String input) {
         if(activePrompt != null) {
-            activePrompt.acceptInput(input);
+            activePrompt.acceptInput(this, input);
             outputNextPrompt();
         }
     }

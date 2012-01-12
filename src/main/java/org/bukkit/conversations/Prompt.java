@@ -15,7 +15,9 @@ public abstract class Prompt implements Cloneable{
     
     public abstract String getPromptText(CommandSender forWhom);
 
-    public abstract boolean blocksForInput();
+    public boolean blocksForInput() {
+        return true;
+    }
 
-    public abstract void acceptInput(String input);
+    public abstract void acceptInput(Conversation activeConversation, String input);
 }
