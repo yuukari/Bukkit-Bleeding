@@ -45,9 +45,10 @@ public interface ItemType {
     public int getBurnTime();
 
     /**
-     * Sets the number of ticks this fuel type will burn for.
+     * Sets the number of ticks this item type will burn for.
+     * A value of 0 or below will cause this type not to burn.
      *
-     * @param ticks New number of ticks for this fuel type.
+     * @param ticks New number of ticks for this item type.
      * @throws IllegalArgumentException Thrown if damage < 0
      */
     public void setBurnTime(int ticks);

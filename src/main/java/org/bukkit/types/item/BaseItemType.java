@@ -5,6 +5,7 @@ package org.bukkit.types.item;
  */
 public abstract class BaseItemType implements ItemType {
     private final int id;
+    private int burnTime = 0;
 
     public BaseItemType(int id) {
         this.id = id;
@@ -12,6 +13,14 @@ public abstract class BaseItemType implements ItemType {
 
     public final int getId() {
         return id;
+    }
+
+    public int getBurnTime() {
+        return burnTime;
+    }
+
+    public void setBurnTime(int ticks) {
+        burnTime = ticks;
     }
 
     @Override
