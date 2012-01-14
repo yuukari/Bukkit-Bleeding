@@ -1,7 +1,6 @@
 package org.bukkit.command;
 
 import org.bukkit.Server;
-import org.bukkit.conversations.Conversation;
 import org.bukkit.permissions.Permissible;
 
 public interface CommandSender extends Permissible {
