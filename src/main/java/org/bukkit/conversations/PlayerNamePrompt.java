@@ -17,9 +17,9 @@ public abstract class PlayerNamePrompt extends ValidatingPrompt{
     }
 
     @Override
-    protected void acceptValidatedInput(Conversation activeConversation, String input) {
-        acceptValidatedInput(activeConversation, plugin.getServer().getPlayer(input));
+    protected Prompt acceptValidatedInput(String input) {
+        return acceptValidatedInput(plugin.getServer().getPlayer(input));
     }
     
-    protected abstract void acceptValidatedInput(Conversation activeConversation, Player input);
+    protected abstract Prompt acceptValidatedInput(Player input);
 }

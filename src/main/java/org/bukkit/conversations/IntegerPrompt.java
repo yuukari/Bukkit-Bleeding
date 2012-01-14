@@ -20,10 +20,10 @@ public abstract class IntegerPrompt extends ValidatingPrompt{
     }
 
     @Override
-    protected void acceptValidatedInput(Conversation activeConversation, String input) {
-        acceptValidatedInput(activeConversation, Integer.parseInt(input));
+    protected Prompt acceptValidatedInput(String input) {
+        return acceptValidatedInput(Integer.parseInt(input));
     }
 
-    protected abstract void acceptValidatedInput(Conversation activeConversation, int input);
+    protected abstract Prompt acceptValidatedInput(int input);
 
 }

@@ -18,9 +18,9 @@ public abstract class BooleanPrompt extends ValidatingPrompt{
     }
 
     @Override
-    protected void acceptValidatedInput(Conversation activeConversation, String input) {
-        acceptValidatedInput(activeConversation, input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("true"));
+    protected Prompt acceptValidatedInput(String input) {
+        return acceptValidatedInput(input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("true"));
     }
 
-    protected abstract void acceptValidatedInput(Conversation activeConversation, boolean input);
+    protected abstract Prompt acceptValidatedInput(boolean input);
 }

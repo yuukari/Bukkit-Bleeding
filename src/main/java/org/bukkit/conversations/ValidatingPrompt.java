@@ -9,16 +9,16 @@ public abstract class ValidatingPrompt extends PromptBase {
         super(plugin);
     }
 
-    public void acceptInput(Conversation activeConversation, String input) {
+    public Prompt acceptInput(String input) {
         if (isInputValid(input)) {
-            acceptValidatedInput(activeConversation, input);
+            return acceptValidatedInput(input);
         } else {
             // Redisplay this prompt to the user to re-collect input
-            activeConversation.appendPrompt(this);
+            return this;
         }
     }
     
     protected abstract boolean isInputValid(String input);
     
-    protected abstract void acceptValidatedInput(Conversation activeConversation, String input);
+    protected abstract Prompt acceptValidatedInput(String input);
 }
