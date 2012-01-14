@@ -12,18 +12,23 @@ public class ItemWrapper extends BaseItemType {
         return Items.get(getId());
     }
 
-    @Override
     public String getName() {
         return getHandle().getName();
     }
 
-    @Override
     public int getMaxUses() {
         return getHandle().getMaxUses();
     }
 
-    @Override
     public void setMaxUses(int uses) {
         getHandle().setMaxUses(uses);
+    }
+
+    public int getBurnTime() {
+        return getHandle().getBurnTime();
+    }
+
+    public void setBurnTime(int ticks) {
+        getHandle().setBurnTime(ticks);
     }
 }

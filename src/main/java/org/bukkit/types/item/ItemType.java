@@ -36,4 +36,19 @@ public interface ItemType {
      * @throws IllegalArgumentException Thrown if uses < 0
      */
     public void setMaxUses(int uses);
+
+    /**
+     * Gets the number of ticks this fuel type will burn for.
+     *
+     * @return Ticks this fuel will burn for.
+     */
+    public int getBurnTime();
+
+    /**
+     * Sets the number of ticks this fuel type will burn for.
+     *
+     * @param ticks New number of ticks for this fuel type.
+     * @throws IllegalArgumentException Thrown if damage < 0
+     */
+    public void setBurnTime(int ticks);
 }

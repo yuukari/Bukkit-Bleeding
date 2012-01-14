@@ -9,7 +9,7 @@ public interface Weapon extends ItemType {
      *
      * @return Damage that this sword will create.
      */
-    public abstract int getDamage();
+    public int getDamage();
 
     /**
      * Sets the damage that this sword will inflict upon an entity.
@@ -17,7 +17,7 @@ public interface Weapon extends ItemType {
      * @param damage New damage that this will cause.
      * @throws IllegalArgumentException Thrown if damage < 0
      */
-    public abstract void setDamage(int damage);
+    public void setDamage(int damage);
 
     public static class Wrapper extends ItemWrapper implements Weapon {
         public Wrapper(int id) {
