@@ -1,10 +1,9 @@
 package org.bukkit.conversations;
 
-import org.bukkit.plugin.Plugin;
-
 import java.util.regex.Pattern;
 
 /**
+ * RegexPrompt is the base class for any prompt that requires an input validated by a regular expression.
  */
 public abstract class RegexPrompt extends ValidatingPrompt {
 

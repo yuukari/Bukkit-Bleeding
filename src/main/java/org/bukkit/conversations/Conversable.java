@@ -3,11 +3,12 @@ package org.bukkit.conversations;
 import org.bukkit.command.CommandSender;
 
 /**
+ * The Conversable interface is used to indicate objects that can have conversations.
  */
 public interface Conversable extends CommandSender {
 
     /**
-     * Tests to see of a Conversable object is actively engaged in a conversation
+     * Tests to see of a Conversable object is actively engaged in a conversation.
      * @return True if a conversation is in progress
      */
     public boolean isConversing();
@@ -20,7 +21,7 @@ public interface Conversable extends CommandSender {
     public void acceptConversationInput(String input);
 
     /**
-     * Enters into a dialog with a Conversation object
+     * Enters into a dialog with a Conversation object.
      * @param conversation The conversation to begin
      */
     public void beginConversation(Conversation conversation);

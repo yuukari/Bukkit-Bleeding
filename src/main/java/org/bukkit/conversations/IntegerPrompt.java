@@ -1,8 +1,7 @@
 package org.bukkit.conversations;
 
-import org.bukkit.plugin.Plugin;
-
 /**
+ * IntegerPrompt is the base class for any prompt that requires an integer response from the user.
  */
 public abstract class IntegerPrompt extends ValidatingPrompt{
     public IntegerPrompt() {
@@ -24,6 +23,11 @@ public abstract class IntegerPrompt extends ValidatingPrompt{
         return acceptValidatedInput(Integer.parseInt(input));
     }
 
+    /**
+     * Override this method to perform some action with the user's integer response.
+     * @param input The user's boolean response.
+     * @return The next {@link Prompt} in the prompt graph.
+     */
     protected abstract Prompt acceptValidatedInput(int input);
 
 }

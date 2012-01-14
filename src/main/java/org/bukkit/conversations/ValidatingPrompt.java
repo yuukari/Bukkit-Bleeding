@@ -1,14 +1,20 @@
 package org.bukkit.conversations;
 
-import org.bukkit.plugin.Plugin;
-
 /**
+ * ValidatingPrompt is the base class for any prompt that requires validation. ValidatingPrompt will keep replaying
+ * the prompt text until the user enters a valid response.
  */
-public abstract class ValidatingPrompt extends PromptBase {
+public abstract class ValidatingPrompt implements Prompt {
     public ValidatingPrompt() {
         super();
     }
 
+    /**
+     * Accepts and processes input from the user and validates it. If validation fails, this prompt is returned for
+     * re-execution, otherwise the next Prompt in the prompt graph is returned.
+     * @param input The input text from the user.
+     * @return This prompt or the next Prompt in the prompt graph.
+     */
     public Prompt acceptInput(String input) {
         if (isInputValid(input)) {
             return acceptValidatedInput(input);
@@ -17,8 +23,27 @@ public abstract class ValidatingPrompt extends PromptBase {
             return this;
         }
     }
-    
+
+    /**
+     * Ensures that the prompt waits for the user to provide input.
+     * @return True.
+     */
+    public boolean blocksForInput() {
+        return true;
+    }
+
+    /**
+     * Override this method to check the validity of the player's input.
+     * @param input The player's raw console input.
+     * @return True or false depending on the validity of the input.
+     */
     protected abstract boolean isInputValid(String input);
-    
+
+    /**
+     * Override this method to accept and processes the validated input from the user. Using the input, the next Prompt
+     * in the prompt graph should be returned.
+     * @param input The validated input text from the user.
+     * @return The next Prompt in the prompt graph.
+     */
     protected abstract Prompt acceptValidatedInput(String input);
 }
