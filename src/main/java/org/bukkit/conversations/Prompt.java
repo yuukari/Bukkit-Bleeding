@@ -5,9 +5,12 @@ import org.bukkit.command.CommandSender;
 /**
  */
 public interface Prompt extends Cloneable{
+
+    static final Prompt END_OF_CONVERSATION = null;
+
     String getPromptText(CommandSender forWhom);
 
     boolean blocksForInput();
 
-    void acceptInput(Conversation activeConversation, String input);
+    Prompt acceptInput(String input);
 }

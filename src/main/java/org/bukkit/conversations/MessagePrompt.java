@@ -15,7 +15,9 @@ public abstract class MessagePrompt extends PromptBase {
         return false;
     }
 
-    public void acceptInput(Conversation activeConversation, String input) {
-        // Do nothing. Never called.
+    public Prompt acceptInput(String input) {
+        return getNextPrompt();
     }
+
+    protected abstract Prompt getNextPrompt();
 }

@@ -10,8 +10,7 @@ import java.util.Queue;
  */
 public class Conversation {
 
-    private Queue<Prompt> conversationQueue = new LinkedList<Prompt>();
-    private Prompt activePrompt;
+    private Prompt currentPrompt;
     
     private Plugin plugin;
     private Conversable forWhom;
@@ -20,9 +19,10 @@ public class Conversation {
     private ConversationPrefix prefix;
     private int timeoutSeconds;
 
-    public Conversation(Plugin plugin, Conversable forWhom) {
+    public Conversation(Plugin plugin, Conversable forWhom, Prompt firstPrompt) {
         this.plugin = plugin;
         this.forWhom = forWhom;
+        this.currentPrompt = firstPrompt;
     }
     
     public CommandSender getForWhom() {
@@ -52,10 +52,6 @@ public class Conversation {
     void setTimeoutSeconds(int timeoutSeconds) {
         this.timeoutSeconds = timeoutSeconds;
     }
-    
-    public void appendPrompt(Prompt prompt) {
-        conversationQueue.add(prompt);
-    }
 
     public void begin() {
         outputNextPrompt();
@@ -63,25 +59,24 @@ public class Conversation {
     }
 
     public void acceptInput(String input) {
-        if(activePrompt != null) {
-            activePrompt.acceptInput(this, input);
+        if(currentPrompt != null) {
+            currentPrompt = currentPrompt.acceptInput(input);
             outputNextPrompt();
         }
     }
 
     public void abandon() {
-        conversationQueue.clear();
-        activePrompt = null;
+        currentPrompt = null;
         forWhom.abandonConversation(this);
     }
 
     private void outputNextPrompt() {
-        activePrompt = conversationQueue.poll();
-        if(activePrompt == null) {
+        if(currentPrompt == null) {
             abandon();
         } else {
-            forWhom.sendMessage(prefix.getPrefix(forWhom) + activePrompt.getPromptText(forWhom));
-            if(!activePrompt.blocksForInput()) {
+            forWhom.sendMessage(prefix.getPrefix(forWhom) + currentPrompt.getPromptText(forWhom));
+            if(!currentPrompt.blocksForInput()) {
+                currentPrompt = currentPrompt.acceptInput(null);
                 outputNextPrompt();
             }
         }
