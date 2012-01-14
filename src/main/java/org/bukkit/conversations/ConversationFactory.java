@@ -12,16 +12,14 @@ public class ConversationFactory {
     private boolean isModal;
     ConversationPrefix prefix;
     int timeout;
-    List<Prompt> prompts;
-    Plugin plugin;
-    
-    public ConversationFactory(Plugin plugin)
+    Prompt firstPrompt;
+
+    public ConversationFactory()
     {
-        plugin = plugin;
         isModal = true;
-        prefix = new PluginNameConversationPrefix(plugin);
+        prefix = new NullConversationPrefix();
         timeout = 600; // 5 minutes
-        prompts = new ArrayList<Prompt>();
+        firstPrompt = Prompt.END_OF_CONVERSATION;
     }
 
     public ConversationFactory withModality(boolean modal)
@@ -40,19 +38,16 @@ public class ConversationFactory {
         return this;
     }
 
-    public ConversationFactory withPrompt(Prompt prompt) {
-        prompts.add(prompt);
+    public ConversationFactory withFirstPrompt(Prompt prompt) {
+        firstPrompt = prompt;
         return this;
     }
 
     public Conversation buildConversation(Conversable forWhom) {
-        Conversation conversation = new Conversation(plugin, forWhom);
+        Conversation conversation = new Conversation(forWhom, firstPrompt);
         conversation.setModal(isModal);
         conversation.setPrefix(prefix);
         conversation.setTimeoutSeconds(timeout);
-        for(Prompt p : prompts) {
-            conversation.appendPrompt(p);
-        }
         return conversation;
     }
 }

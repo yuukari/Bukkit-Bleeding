@@ -3,24 +3,19 @@ package org.bukkit.conversations;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 /**
  */
 public class Conversation {
 
     private Prompt currentPrompt;
-    
-    private Plugin plugin;
+
     private Conversable forWhom;
 
     private boolean modal;
     private ConversationPrefix prefix;
     private int timeoutSeconds;
 
-    public Conversation(Plugin plugin, Conversable forWhom, Prompt firstPrompt) {
-        this.plugin = plugin;
+    public Conversation(Conversable forWhom, Prompt firstPrompt) {
         this.forWhom = forWhom;
         this.currentPrompt = firstPrompt;
     }

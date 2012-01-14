@@ -11,8 +11,8 @@ public abstract class FixedSetPrompt extends ValidatingPrompt {
     
     private List<String> fixedSet;
     
-    public FixedSetPrompt(Plugin plugin, String... fixedSet) {
-        super(plugin);
+    public FixedSetPrompt(String... fixedSet) {
+        super();
         this.fixedSet = Arrays.asList(fixedSet);
     }
 

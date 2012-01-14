@@ -6,8 +6,11 @@ import org.bukkit.plugin.Plugin;
 /**
  */
 public abstract class PlayerNamePrompt extends ValidatingPrompt{
+    private Plugin plugin;
+
     public PlayerNamePrompt(Plugin plugin) {
-        super(plugin);
+        super();
+        this.plugin = plugin;
     }
 
     @Override

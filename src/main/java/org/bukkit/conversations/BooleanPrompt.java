@@ -5,8 +5,8 @@ import org.bukkit.plugin.Plugin;
 /**
  */
 public abstract class BooleanPrompt extends ValidatingPrompt{
-    public BooleanPrompt(Plugin plugin) {
-        super(plugin);
+    public BooleanPrompt() {
+        super();
     }
 
     @Override

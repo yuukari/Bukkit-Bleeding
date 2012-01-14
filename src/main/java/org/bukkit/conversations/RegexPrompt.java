@@ -10,12 +10,12 @@ public abstract class RegexPrompt extends ValidatingPrompt {
 
     private Pattern pattern;
 
-    public RegexPrompt(Plugin plugin, String regex) {
-        this(plugin, Pattern.compile(regex));
+    public RegexPrompt(String regex) {
+        this(Pattern.compile(regex));
     }
 
-    public RegexPrompt(Plugin plugin, Pattern pattern) {
-        super(plugin);
+    public RegexPrompt(Pattern pattern) {
+        super();
         this.pattern = pattern;
     }
 

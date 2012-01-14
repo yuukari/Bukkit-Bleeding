@@ -5,8 +5,8 @@ import org.bukkit.plugin.Plugin;
 /**
  */
 public abstract class IntegerPrompt extends ValidatingPrompt{
-    public IntegerPrompt(Plugin plugin) {
-        super(plugin);
+    public IntegerPrompt() {
+        super();
     }
 
     @Override

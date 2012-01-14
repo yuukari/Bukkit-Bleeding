@@ -6,8 +6,8 @@ import org.bukkit.plugin.Plugin;
  */
 public abstract class MessagePrompt extends PromptBase {
 
-    public MessagePrompt(Plugin plugin) {
-        super(plugin);
+    public MessagePrompt() {
+        super();
     }
 
     @Override

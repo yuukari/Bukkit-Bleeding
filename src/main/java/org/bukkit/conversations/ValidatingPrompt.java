@@ -5,8 +5,8 @@ import org.bukkit.plugin.Plugin;
 /**
  */
 public abstract class ValidatingPrompt extends PromptBase {
-    public ValidatingPrompt(Plugin plugin) {
-        super(plugin);
+    public ValidatingPrompt() {
+        super();
     }
 
     public Prompt acceptInput(String input) {
