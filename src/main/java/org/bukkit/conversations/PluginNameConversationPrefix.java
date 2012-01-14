@@ -6,7 +6,7 @@ import org.bukkit.plugin.Plugin;
 
 /**
  */
-public class PluginNameConversationPrefix extends ConversationPrefix {
+public class PluginNameConversationPrefix extends ConversationPrefixBase {
     
     protected String separator;
     protected ChatColor prefixColor;
@@ -25,7 +25,6 @@ public class PluginNameConversationPrefix extends ConversationPrefix {
         cachedPrefix = prefixColor + plugin.getDescription().getName() + separator + ChatColor.WHITE;
     }
 
-    @Override
     public String getPrefix(CommandSender forWhom) {
         return cachedPrefix;
     }

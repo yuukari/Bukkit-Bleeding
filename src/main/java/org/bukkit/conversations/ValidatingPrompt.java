@@ -4,12 +4,11 @@ import org.bukkit.plugin.Plugin;
 
 /**
  */
-public abstract class ValidatingPrompt extends Prompt{
+public abstract class ValidatingPrompt extends PromptBase {
     public ValidatingPrompt(Plugin plugin) {
         super(plugin);
     }
 
-    @Override
     public void acceptInput(Conversation activeConversation, String input) {
         if (isInputValid(input)) {
             acceptValidatedInput(activeConversation, input);

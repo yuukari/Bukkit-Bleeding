@@ -4,12 +4,11 @@ import org.bukkit.command.CommandSender;
 
 /**
  */
-public class NullConversationPrefix extends ConversationPrefix{
+public class NullConversationPrefix extends ConversationPrefixBase {
     public NullConversationPrefix() {
         super(null);
     }
 
-    @Override
     public String getPrefix(CommandSender forWhom) {
         return "";
     }

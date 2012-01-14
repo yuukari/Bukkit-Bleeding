@@ -4,7 +4,7 @@ import org.bukkit.plugin.Plugin;
 
 /**
  */
-public abstract class MessagePrompt extends Prompt{
+public abstract class MessagePrompt extends PromptBase {
 
     public MessagePrompt(Plugin plugin) {
         super(plugin);
@@ -15,7 +15,6 @@ public abstract class MessagePrompt extends Prompt{
         return false;
     }
 
-    @Override
     public void acceptInput(Conversation activeConversation, String input) {
         // Do nothing. Never called.
     }
