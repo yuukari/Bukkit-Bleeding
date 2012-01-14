@@ -12,12 +12,13 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 import org.bukkit.conversations.Conversable;
 import org.bukkit.map.MapView;
+import org.bukkit.plugin.messaging.PluginMessageRecipient;
 
 /**
  * Represents a player, connected or not
  *
  */
-public interface Player extends HumanEntity, Conversable, OfflinePlayer {
+public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginMessageRecipient {
     /**
      * Gets the "friendly" name to display of this player. This may include color.
      *
@@ -49,6 +50,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer {
      * Sets the name that is shown on the in-game player list.
      * <p>
      * The name cannot be longer than 16 characters, but {@link ChatColor} is supported.
+     * Colors do not count towards the length limitation.
      * <p>
      * If the value is null, the name will be identical to {@link #getName()}.
      * <p>
