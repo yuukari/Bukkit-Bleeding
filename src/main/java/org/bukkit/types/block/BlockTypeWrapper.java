@@ -1,13 +1,16 @@
 package org.bukkit.types.block;
 
+import org.bukkit.types.item.ItemWrapper;
+
 /**
  * A wrapper class for {@link BlockType}s to point towards any registered BlockType with a given ID
  */
-public class BlockTypeWrapper extends BaseBlockType {
+public class BlockTypeWrapper extends ItemWrapper implements BlockType {
     public BlockTypeWrapper(int id) {
         super(id);
     }
 
+    @Override
     public BlockType getHandle() {
         return Blocks.get(getId());
     }
@@ -17,22 +20,18 @@ public class BlockTypeWrapper extends BaseBlockType {
         return getHandle().getName();
     }
 
-    @Override
     public void setLightEmission(int amount) {
         getHandle().setLightEmission(amount);
     }
 
-    @Override
     public int getLightEmission() {
         return getHandle().getLightEmission();
     }
 
-    @Override
     public void setLightBlock(int amount) {
         getHandle().setLightBlock(amount);
     }
 
-    @Override
     public int getLightBlock() {
         return getHandle().getLightBlock();
     }

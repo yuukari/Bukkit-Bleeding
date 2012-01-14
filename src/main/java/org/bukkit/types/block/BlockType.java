@@ -1,9 +1,11 @@
 package org.bukkit.types.block;
 
+import org.bukkit.types.item.ItemType;
+
 /**
  * Represents the various types of blocks in a world.
  */
-public interface BlockType {
+public interface BlockType extends ItemType {
     /**
      * Gets the ID of this BlockType.
      *
