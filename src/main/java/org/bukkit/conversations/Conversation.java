@@ -2,6 +2,9 @@ package org.bukkit.conversations;
 
 import org.bukkit.command.CommandSender;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The Conversation class is responsible for tracking the current state of a conversation, displaying prompts to
  * the user, and dispatching the user's response to the appropriate place. Conversation objects are not typically
@@ -22,19 +25,29 @@ public class Conversation {
 
     private Prompt firstPrompt;
     private Prompt currentPrompt;
-    private Conversable forWhom;
+    private ConversationContext context;
     private boolean modal;
     private ConversationPrefix prefix;
     private int timeoutSeconds;
 
     /**
-     * Constructs a new Conversation.
+     * Initializes a new Conversation.
      * @param forWhom The entity for whom this conversation is mediating.
      * @param firstPrompt The first prompt in the conversation graph.
      */
     public Conversation(Conversable forWhom, Prompt firstPrompt) {
-        this.forWhom = forWhom;
-        this.firstPrompt = firstPrompt;
+        this(forWhom, firstPrompt, new HashMap<Object, Object>());
+    }
+
+    /**
+     * Initializes a new Conversation.
+     * @param forWhom The entity for whom this conversation is mediating.
+     * @param firstPrompt The first prompt in the conversation graph.
+     * @param initialSessionData Any initial values to put in the conversation context sessionData map.
+     */
+    public Conversation(Conversable forWhom, Prompt firstPrompt, Map<Object, Object> initialSessionData) {
+        firstPrompt = firstPrompt;
+        context = new ConversationContext(forWhom, initialSessionData);
     }
 
     /**
@@ -42,7 +55,7 @@ public class Conversation {
      * @return The entity.
      */
     public CommandSender getForWhom() {
-        return forWhom;
+        return context.getForWhom();
     }
 
     /**
@@ -102,7 +115,7 @@ public class Conversation {
         if (currentPrompt == null) {
             currentPrompt = firstPrompt;
             outputNextPrompt();
-            forWhom.beginConversation(this);
+            context.getForWhom().beginConversation(this);
         }
     }
 
@@ -113,7 +126,7 @@ public class Conversation {
      */
     public void acceptInput(String input) {
         if (currentPrompt != null) {
-            currentPrompt = currentPrompt.acceptInput(input);
+            currentPrompt = currentPrompt.acceptInput(context, input);
             outputNextPrompt();
         }
     }
@@ -123,7 +136,7 @@ public class Conversation {
      */
     public void abandon() {
         currentPrompt = null;
-        forWhom.abandonConversation(this);
+        context.getForWhom().abandonConversation(this);
     }
 
     /**
@@ -133,9 +146,9 @@ public class Conversation {
         if (currentPrompt == null) {
             abandon();
         } else {
-            forWhom.sendMessage(prefix.getPrefix(forWhom) + currentPrompt.getPromptText(forWhom));
-            if (!currentPrompt.blocksForInput()) {
-                currentPrompt = currentPrompt.acceptInput(null);
+            context.getForWhom().sendMessage(prefix.getPrefix(context) + currentPrompt.getPromptText(context));
+            if (!currentPrompt.blocksForInput(context)) {
+                currentPrompt = currentPrompt.acceptInput(context, null);
                 outputNextPrompt();
             }
         }

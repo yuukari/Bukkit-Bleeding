@@ -15,20 +15,21 @@ public abstract class PlayerNamePrompt extends ValidatingPrompt{
     }
 
     @Override
-    protected boolean isInputValid(String input) {
+    protected boolean isInputValid(ConversationContext context, String input) {
         return plugin.getServer().getPlayer(input) != null;
         
     }
 
     @Override
-    protected Prompt acceptValidatedInput(String input) {
-        return acceptValidatedInput(plugin.getServer().getPlayer(input));
+    protected Prompt acceptValidatedInput(ConversationContext context, String input) {
+        return acceptValidatedInput(context, plugin.getServer().getPlayer(input));
     }
 
     /**
      * Override this method to perform some action with the user's player name response.
+     * @param context Context information about the conversation.
      * @param input The user's player name response.
      * @return The next {@link Prompt} in the prompt graph.
      */
-    protected abstract Prompt acceptValidatedInput(Player input);
+    protected abstract Prompt acceptValidatedInput(ConversationContext context, Player input);
 }

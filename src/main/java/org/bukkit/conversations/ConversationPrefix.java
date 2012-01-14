@@ -10,8 +10,8 @@ public interface ConversationPrefix {
 
     /**
      * Gets the prefix to use before each message to the player.
-     * @param forWhom The entity receiving the message.
+     * @param context Context information about the conversation.
      * @return The prefix text.
      */
-    String getPrefix(CommandSender forWhom);
+    String getPrefix(ConversationContext context);
 }

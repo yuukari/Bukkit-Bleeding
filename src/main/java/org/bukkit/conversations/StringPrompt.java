@@ -7,9 +7,10 @@ public abstract class StringPrompt implements Prompt{
 
     /**
      * Ensures that the prompt waits for the user to provide input.
+     * @param context Context information about the conversation.
      * @return True.
      */
-    public boolean blocksForInput() {
+    public boolean blocksForInput(ConversationContext context) {
         return true;
     }
 }

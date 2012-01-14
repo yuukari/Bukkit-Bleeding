@@ -30,10 +30,10 @@ public class PluginNameConversationPrefix implements ConversationPrefix {
 
     /**
      * Prepends each conversation message with the plugin name.
-     * @param forWhom The entity receiving the message.
+     * @param context Context information about the conversation.
      * @return An empty string.
      */
-    public String getPrefix(CommandSender forWhom) {
+    public String getPrefix(ConversationContext context) {
         return cachedPrefix;
     }
 }

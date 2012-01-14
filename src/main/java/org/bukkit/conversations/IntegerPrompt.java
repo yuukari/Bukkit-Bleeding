@@ -9,7 +9,7 @@ public abstract class IntegerPrompt extends ValidatingPrompt{
     }
 
     @Override
-    protected boolean isInputValid(String input) {
+    protected boolean isInputValid(ConversationContext context, String input) {
         try {
             Integer.parseInt(input);
             return true;
@@ -19,15 +19,16 @@ public abstract class IntegerPrompt extends ValidatingPrompt{
     }
 
     @Override
-    protected Prompt acceptValidatedInput(String input) {
-        return acceptValidatedInput(Integer.parseInt(input));
+    protected Prompt acceptValidatedInput(ConversationContext context, String input) {
+        return acceptValidatedInput(context, Integer.parseInt(input));
     }
 
     /**
      * Override this method to perform some action with the user's integer response.
+     * @param context Context information about the conversation.
      * @param input The user's boolean response.
      * @return The next {@link Prompt} in the prompt graph.
      */
-    protected abstract Prompt acceptValidatedInput(int input);
+    protected abstract Prompt acceptValidatedInput(ConversationContext context, int input);
 
 }

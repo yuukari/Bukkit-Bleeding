@@ -19,7 +19,7 @@ public abstract class FixedSetPrompt extends ValidatingPrompt {
     }
 
     @Override
-    protected boolean isInputValid(String input) {
+    protected boolean isInputValid(ConversationContext context, String input) {
         return fixedSet.contains(input);
     }
 }

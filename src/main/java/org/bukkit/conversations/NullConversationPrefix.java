@@ -10,10 +10,10 @@ public class NullConversationPrefix implements ConversationPrefix{
 
     /**
      * Prepends each conversation message with an empty string.
-     * @param forWhom The entity receiving the message.
+     * @param context Context information about the conversation.
      * @return An empty string.
      */
-    public String getPrefix(CommandSender forWhom) {
+    public String getPrefix(ConversationContext context) {
         return "";
     }
 }

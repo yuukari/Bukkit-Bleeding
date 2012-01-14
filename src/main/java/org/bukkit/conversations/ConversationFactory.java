@@ -1,5 +1,8 @@
 package org.bukkit.conversations;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A ConversationFactory is responsible for creating a {@link Conversation} from a predefined template. A ConversationFactory
  * is typically created when a plugin is instantiated and builds a Conversation each time a user initiates a conversation
@@ -10,9 +13,10 @@ package org.bukkit.conversations;
 public class ConversationFactory {
 
     private boolean isModal;
-    ConversationPrefix prefix;
-    int timeout;
-    Prompt firstPrompt;
+    private ConversationPrefix prefix;
+    private int timeout;
+    private Prompt firstPrompt;
+    private Map<Object, Object> initialSessionData;
 
     /**
      * Constructs a ConversationFactory.
@@ -23,6 +27,7 @@ public class ConversationFactory {
         prefix = new NullConversationPrefix();
         timeout = 600; // 5 minutes
         firstPrompt = Prompt.END_OF_CONVERSATION;
+        initialSessionData = new HashMap<Object, Object>();
     }
 
     /**
@@ -67,11 +72,21 @@ public class ConversationFactory {
      * Sets the first prompt to use in all generated conversations.
      *
      * The default is Prompt.END_OF_CONVERSATION.
-     * @param prompt The first prompt.
+     * @param firstPrompt The first prompt.
      * @return This object.
      */
-    public ConversationFactory withFirstPrompt(Prompt prompt) {
-        firstPrompt = prompt;
+    public ConversationFactory withFirstPrompt(Prompt firstPrompt) {
+        this.firstPrompt = firstPrompt;
+        return this;
+    }
+
+    /**
+     * Sets any initial data with which to populate the conversation context sessionData map.
+     * @param initialSessionData The conversation context's initial sessionData.
+     * @return This object.
+     */
+    public ConversationFactory withInitialSessionData(Map<Object, Object> initialSessionData) {
+        this.initialSessionData = initialSessionData;
         return this;
     }
 
@@ -81,7 +96,10 @@ public class ConversationFactory {
      * @return A new conversation.
      */
     public Conversation buildConversation(Conversable forWhom) {
-        Conversation conversation = new Conversation(forWhom, firstPrompt);
+        Map<Object, Object> copiedInitialSessionData = new HashMap<Object, Object>();
+        copiedInitialSessionData.putAll(initialSessionData);
+        
+        Conversation conversation = new Conversation(forWhom, firstPrompt, copiedInitialSessionData);
         conversation.setModal(isModal);
         conversation.setPrefix(prefix);
         conversation.setTimeoutSeconds(timeout);
