@@ -1,5 +1,7 @@
 package org.bukkit.conversations;
 
+import org.apache.commons.lang.BooleanUtils;
+
 /**
  * BooleanPrompt is the base class for any prompt that requires a boolean response from the user.
  */
@@ -11,10 +13,7 @@ public abstract class BooleanPrompt extends ValidatingPrompt{
 
     @Override
     protected boolean isInputValid(ConversationContext context, String input) {
-        return input.equalsIgnoreCase("yes")  ||
-               input.equalsIgnoreCase("no")   ||
-               input.equalsIgnoreCase("true") ||
-               input.equalsIgnoreCase("false");
+        return BooleanUtils.toBoolean(input);
     }
 
     @Override
