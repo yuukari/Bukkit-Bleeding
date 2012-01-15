@@ -30,7 +30,7 @@ public abstract class BaseItemType implements ItemType {
         }
 
         if (obj instanceof ItemType) {
-            ItemType other = (ItemType)obj;
+            ItemType other = (ItemType) obj;
             if (this.getId() == other.getId()) {
                 return true;
             }

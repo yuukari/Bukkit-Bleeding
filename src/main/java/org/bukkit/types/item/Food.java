@@ -26,7 +26,7 @@ public interface Food extends ItemType {
 
         @Override
         public Food getHandle() {
-            return (Food)super.getHandle();
+            return (Food) super.getHandle();
         }
 
         public int getNourishment() {

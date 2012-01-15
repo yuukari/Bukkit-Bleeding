@@ -26,7 +26,7 @@ public interface Weapon extends ItemType {
 
         @Override
         public Weapon getHandle() {
-            return (Weapon)super.getHandle();
+            return (Weapon) super.getHandle();
         }
 
         public int getDamage() {
