@@ -52,4 +52,34 @@ public interface ItemType {
      * @throws IllegalArgumentException Thrown if damage < 0
      */
     public void setBurnTime(int ticks);
+
+    public class Wrapper extends BaseItemType {
+        public Wrapper(int id) {
+            super(id);
+        }
+
+        public ItemType getHandle() {
+            return Items.get(getId());
+        }
+
+        public String getName() {
+            return getHandle().getName();
+        }
+
+        public int getMaxUses() {
+            return getHandle().getMaxUses();
+        }
+
+        public void setMaxUses(int uses) {
+            getHandle().setMaxUses(uses);
+        }
+
+        public int getBurnTime() {
+            return getHandle().getBurnTime();
+        }
+
+        public void setBurnTime(int ticks) {
+            getHandle().setBurnTime(ticks);
+        }
+    }
 }

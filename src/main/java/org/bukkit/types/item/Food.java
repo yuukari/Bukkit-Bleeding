@@ -19,7 +19,7 @@ public interface Food extends ItemType {
      */
     public void setNourishment(int amount);
 
-    public static class Wrapper extends ItemWrapper implements Food {
+    public static class Wrapper extends ItemType.Wrapper implements Food {
         public Wrapper(int id) {
             super(id);
         }

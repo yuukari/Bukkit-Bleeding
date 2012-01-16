@@ -19,7 +19,7 @@ public interface Weapon extends ItemType {
      */
     public void setDamage(int damage);
 
-    public static class Wrapper extends ItemWrapper implements Weapon {
+    public static class Wrapper extends ItemType.Wrapper implements Weapon {
         public Wrapper(int id) {
             super(id);
         }
