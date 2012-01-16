@@ -28,10 +28,9 @@ public abstract class ValidatingPrompt implements Prompt {
     /**
      * Ensures that the prompt waits for the user to provide input.
      * @param context Context information about the conversation.
-     * @param input The input text from the user.
      * @return True.
      */
-    public boolean blocksForInput(ConversationContext context, String input) {
+    public boolean blocksForInput(ConversationContext context) {
         return true;
     }
 

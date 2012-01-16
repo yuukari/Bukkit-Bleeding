@@ -20,15 +20,18 @@ import java.util.Map;
  * Each conversation has a timeout measured in the number of inactive seconds to wait before abandoning the conversation.
  * If the inactivity timeout is reached, the conversation is abandoned and the user's incoming and outgoing chat is
  * returned to normal.
+ *
+ * You should not construct a conversation manually. Instead, use the {@link ConversationFactory} for access to all
+ * available options.
  */
 public class Conversation {
 
     private Prompt firstPrompt;
-    private Prompt currentPrompt;
-    private ConversationContext context;
-    private boolean modal;
-    private ConversationPrefix prefix;
-    private int timeoutSeconds;
+    protected Prompt currentPrompt;
+    protected ConversationContext context;
+    protected boolean modal;
+    protected ConversationPrefix prefix;
+    protected int timeoutSeconds;
 
     /**
      * Initializes a new Conversation.
@@ -46,8 +49,10 @@ public class Conversation {
      * @param initialSessionData Any initial values to put in the conversation context sessionData map.
      */
     public Conversation(Conversable forWhom, Prompt firstPrompt, Map<Object, Object> initialSessionData) {
-        firstPrompt = firstPrompt;
-        context = new ConversationContext(forWhom, initialSessionData);
+        this.firstPrompt = firstPrompt;
+        this.context = new ConversationContext(forWhom, initialSessionData);
+        this.modal = true;
+        this.prefix = new NullConversationPrefix();
     }
 
     /**

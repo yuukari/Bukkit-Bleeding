@@ -1,5 +1,6 @@
 package org.bukkit.conversations;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.BooleanUtils;
 
 /**
@@ -13,12 +14,13 @@ public abstract class BooleanPrompt extends ValidatingPrompt{
 
     @Override
     protected boolean isInputValid(ConversationContext context, String input) {
-        return BooleanUtils.toBoolean(input);
+        String[] accepted = {"true", "false", "on", "off", "yes", "no"};
+        return ArrayUtils.contains(accepted, input.toLowerCase());
     }
 
     @Override
     protected Prompt acceptValidatedInput(ConversationContext context, String input) {
-        return acceptValidatedInput(context, input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("true"));
+        return acceptValidatedInput(context, BooleanUtils.toBoolean(input));
     }
 
     /**
