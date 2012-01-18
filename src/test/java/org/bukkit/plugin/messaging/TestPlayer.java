@@ -605,4 +605,14 @@ public class TestPlayer implements Player {
     public void setAllowFlight(boolean flight) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public boolean isInvisible()
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Set<Player> getTrackers()
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

@@ -176,4 +176,11 @@ public class EntityListener implements Listener {
      * @param event Relevant event details
      */
     public void onEntityCreatePortalEvent(EntityCreatePortalEvent event) {}
+
+    /**
+     * Called when an entity should be tracked by a player
+     *
+     * @param event Relevant event details
+     */
+    public void onEntityTrack(EntityTrackEvent event) {}
 }

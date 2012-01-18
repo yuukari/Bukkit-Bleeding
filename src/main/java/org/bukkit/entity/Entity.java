@@ -8,6 +8,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
@@ -226,4 +227,21 @@ public interface Entity {
      * @param type Effect to play.
      */
     public void playEffect(EntityEffect type);
+
+    /**
+     * Checks if entity is currently invisible
+     * 
+     * @return visibility status
+     */
+    public boolean isInvisible();
+
+    /**
+     * Returns the set of players tracking an entity.
+     * <p>
+     * Removing a player from the Set sets the invisible flag on the Entity.
+     * Calling clear() on the Set removes the invisible flag.
+     *
+     * @return Set<Player> Set of players tracking
+     */
+    public Set<Player> getTrackers();
 }
