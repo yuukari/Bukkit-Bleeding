@@ -17,7 +17,7 @@ public class PluginNameConversationPrefix implements ConversationPrefix {
     private String cachedPrefix;
     
     public PluginNameConversationPrefix(Plugin plugin) {
-        this(plugin, " > ", ChatColor.DARK_GRAY);
+        this(plugin, " > ", ChatColor.LIGHT_PURPLE);
     }
     
     public PluginNameConversationPrefix(Plugin plugin, String separator, ChatColor prefixColor) {
