@@ -12,7 +12,18 @@ public abstract class NumericPrompt extends ValidatingPrompt{
 
     @Override
     protected boolean isInputValid(ConversationContext context, String input) {
-        return NumberUtils.isNumber(input);
+        return NumberUtils.isNumber(input) && isNumberValid(context, NumberUtils.createNumber(input));
+    }
+
+    /**
+     * Override this method to do further validation on the numeric player input after the input has been determined
+     * to actually be a number.
+     * @param context Context information about the conversation.
+     * @param input The number the player provided.
+     * @return The validity of the player's input.
+     */
+    protected boolean isNumberValid(ConversationContext context, Number input) {
+        return true;
     }
 
     @Override

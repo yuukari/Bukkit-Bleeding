@@ -1,5 +1,7 @@
 package org.bukkit.conversations;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,9 +10,11 @@ import java.util.List;
  */
 public abstract class FixedSetPrompt extends ValidatingPrompt {
     
-    private List<String> fixedSet;
+    protected List<String> fixedSet;
 
     /**
+     * Creates a FixedSetPrompt from a set of strings.
+     * foo = new FixedSetPrompt("bar", "cheese", "panda");
      * @param fixedSet A fixed set of strings, one of which the user must type.
      */
     public FixedSetPrompt(String... fixedSet) {
@@ -23,5 +27,14 @@ public abstract class FixedSetPrompt extends ValidatingPrompt {
     @Override
     protected boolean isInputValid(ConversationContext context, String input) {
         return fixedSet.contains(input);
+    }
+
+    /**
+     * Utility function to create a formatted string containing all the options declared in the constructor.
+     * The result is formatted like "[bar, cheese, panda]"
+     * @return
+     */
+    protected String formatFixedSet() {
+        return "[" + StringUtils.join(fixedSet, ", ") + "]";
     }
 }
