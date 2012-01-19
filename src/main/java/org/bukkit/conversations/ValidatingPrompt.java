@@ -1,5 +1,7 @@
 package org.bukkit.conversations;
 
+import org.bukkit.ChatColor;
+
 /**
  * ValidatingPrompt is the base class for any prompt that requires validation. ValidatingPrompt will keep replaying
  * the prompt text until the user enters a valid response.
@@ -20,6 +22,10 @@ public abstract class ValidatingPrompt implements Prompt {
         if (isInputValid(context, input)) {
             return acceptValidatedInput(context, input);
         } else {
+            String failPrompt = getFailedValidationText(context, input);
+            if (failPrompt != null) {
+                context.getForWhom().sendMessage(ChatColor.RED + failPrompt);
+            }
             // Redisplay this prompt to the user to re-collect input
             return this;
         }
@@ -50,4 +56,14 @@ public abstract class ValidatingPrompt implements Prompt {
      * @return The next Prompt in the prompt graph.
      */
     protected abstract Prompt acceptValidatedInput(ConversationContext context, String input);
+
+    /**
+     * Optionally override this method to display an additional message if the user enters an invalid input.
+     * @param context Context information about the conversation.
+     * @param invalidInput The invalid input provided by the user.
+     * @return A message explaining how to correct the input.
+     */
+    protected String getFailedValidationText(ConversationContext context, String invalidInput) {
+        return null;
+    }
 }

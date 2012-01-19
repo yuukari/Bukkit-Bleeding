@@ -44,4 +44,32 @@ public abstract class NumericPrompt extends ValidatingPrompt{
      */
     protected abstract Prompt acceptValidatedInput(ConversationContext context, Number input);
 
+    @Override
+    protected String getFailedValidationText(ConversationContext context, String invalidInput) {
+        if (NumberUtils.isNumber(invalidInput)) {
+            return getFailedValidationText(context, NumberUtils.createNumber(invalidInput));
+        } else {
+            return getInputNotNumericText(context, invalidInput);
+        }
+    }
+
+    /**
+     * Optionally override this method to display an additional message if the user enters an invalid number.
+     * @param context Context information about the conversation.
+     * @param invalidInput The invalid input provided by the user.
+     * @return A message explaining how to correct the input.
+     */
+    protected String getInputNotNumericText(ConversationContext context, String invalidInput) {
+        return null;
+    }
+
+    /**
+     * Optionally override this method to display an additional message if the user enters an invalid numeric input.
+     * @param context Context information about the conversation.
+     * @param invalidInput The invalid input provided by the user.
+     * @return A message explaining how to correct the input.
+     */
+    protected String getFailedValidationText(ConversationContext context, Number invalidInput) {
+        return null;
+    }
 }
