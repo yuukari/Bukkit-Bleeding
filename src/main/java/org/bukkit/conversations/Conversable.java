@@ -23,8 +23,9 @@ public interface Conversable {
     /**
      * Enters into a dialog with a Conversation object.
      * @param conversation The conversation to begin
+     * @return True if the conversation should proceed, false if it has been enqueued
      */
-    public void beginConversation(Conversation conversation);
+    public boolean beginConversation(Conversation conversation);
 
     /**
      * Abandons an active conversation.

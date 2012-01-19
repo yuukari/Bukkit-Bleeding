@@ -23,8 +23,10 @@ public class FakeConversable implements Conversable {
          
     }
 
-    public void beginConversation(Conversation conversation) {
+    public boolean beginConversation(Conversation conversation) {
         begunConversation = conversation;
+        conversation.outputNextPrompt();
+        return true;
     }
 
     public void abandonConversation(Conversation conversation) {

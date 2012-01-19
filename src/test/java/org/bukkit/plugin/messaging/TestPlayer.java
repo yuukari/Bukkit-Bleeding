@@ -607,7 +607,7 @@ public class TestPlayer implements Player {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void beginConversation(Conversation conversation) {
+    public boolean beginConversation(Conversation conversation) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

@@ -121,7 +121,6 @@ public class Conversation {
         if (currentPrompt == null) {
             abandoned = false;
             currentPrompt = firstPrompt;
-            outputNextPrompt();
             context.getForWhom().beginConversation(this);
         }
     }
@@ -153,7 +152,7 @@ public class Conversation {
     /**
      * Displays the next user prompt and abandons the conversation if the next prompt is null.
      */
-    private void outputNextPrompt() {
+    public void outputNextPrompt() {
         if (currentPrompt == null) {
             abandon();
         } else {
