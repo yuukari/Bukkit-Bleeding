@@ -27,6 +27,7 @@ import java.util.Map;
 public class Conversation {
 
     private Prompt firstPrompt;
+    private boolean abandoned;
     protected Prompt currentPrompt;
     protected ConversationContext context;
     protected boolean modal;
@@ -118,6 +119,7 @@ public class Conversation {
      */
     public void begin() {
         if (currentPrompt == null) {
+            abandoned = false;
             currentPrompt = firstPrompt;
             outputNextPrompt();
             context.getForWhom().beginConversation(this);
@@ -141,8 +143,11 @@ public class Conversation {
      * Abandons and resets the current conversation. Restores the user's normal chat behavior.
      */
     public void abandon() {
-        currentPrompt = null;
-        context.getForWhom().abandonConversation(this);
+        if (!abandoned) {
+            abandoned = true;
+            currentPrompt = null;
+            context.getForWhom().abandonConversation(this);
+        }
     }
 
     /**
