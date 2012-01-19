@@ -31,7 +31,7 @@ public class FakeConversable implements Conversable {
         abandonedConverstion = conversation;
     }
 
-    public void sendMessage(String message) {
+    public void sendRawMessage(String message) {
         lastSentMessage = message;     
     }
 

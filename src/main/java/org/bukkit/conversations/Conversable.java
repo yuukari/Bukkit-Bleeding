@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 /**
  * The Conversable interface is used to indicate objects that can have conversations.
  */
-public interface Conversable extends CommandSender {
+public interface Conversable {
 
     /**
      * Tests to see of a Conversable object is actively engaged in a conversation.
@@ -31,4 +31,11 @@ public interface Conversable extends CommandSender {
      * @param conversation The conversation to abandon
      */
     public void abandonConversation(Conversation conversation);
+
+    /**
+     * Sends this sender a message raw
+     *
+     * @param message Message to be displayed
+     */
+    public void sendRawMessage(String message);
 }

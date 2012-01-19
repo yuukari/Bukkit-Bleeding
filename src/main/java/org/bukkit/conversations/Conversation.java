@@ -59,7 +59,7 @@ public class Conversation {
      * Gets the entity for whom this conversation is mediating.
      * @return The entity.
      */
-    public CommandSender getForWhom() {
+    public Conversable getForWhom() {
         return context.getForWhom();
     }
 
@@ -131,6 +131,7 @@ public class Conversation {
      */
     public void acceptInput(String input) {
         if (currentPrompt != null) {
+            context.getForWhom().sendRawMessage(prefix.getPrefix(context) + input);
             currentPrompt = currentPrompt.acceptInput(context, input);
             outputNextPrompt();
         }
@@ -151,7 +152,7 @@ public class Conversation {
         if (currentPrompt == null) {
             abandon();
         } else {
-            context.getForWhom().sendMessage(prefix.getPrefix(context) + currentPrompt.getPromptText(context));
+            context.getForWhom().sendRawMessage(prefix.getPrefix(context) + currentPrompt.getPromptText(context));
             if (!currentPrompt.blocksForInput(context)) {
                 currentPrompt = currentPrompt.acceptInput(context, null);
                 outputNextPrompt();
