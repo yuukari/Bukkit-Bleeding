@@ -29,11 +29,22 @@ public class ConversationContext {
     }
 
     /**
-     * Gets the session data collection that is shared between all {@link Prompt} invocations. Use this as a way
+     * Gets session data shared between all {@link Prompt} invocations. Use this as a way
      * to pass data through each Prompt as the conversation develops.
-     * @return The session data map.
+     * @param key The session data key.
+     * @return The requested session data.
      */
-    public Map<Object, Object> getSessionData() {
-        return sessionData;
+    public Object getSessionData(Object key) {
+        return sessionData.get(key);
+    }
+
+    /**
+     * Sets session data shared between all {@link Prompt} invocations. Use this as a way to pass
+     * data through each prompt as the conversation develops.
+     * @param key The session data key.
+     * @param value The session data value.
+     */
+    public void setSessionData(Object key, Object value) {
+        sessionData.put(key, value);
     }
 }
