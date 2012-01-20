@@ -1,5 +1,7 @@
 package org.bukkit.conversations;
 
+import org.bukkit.entity.Player;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,11 +14,12 @@ import java.util.Map;
  */
 public class ConversationFactory {
 
-    private boolean isModal;
-    private ConversationPrefix prefix;
-    private int timeout;
-    private Prompt firstPrompt;
-    private Map<Object, Object> initialSessionData;
+    protected boolean isModal;
+    protected ConversationPrefix prefix;
+    protected int timeout;
+    protected Prompt firstPrompt;
+    protected Map<Object, Object> initialSessionData;
+    protected String playerOnlyMessage = null;
 
     /**
      * Constructs a ConversationFactory.
@@ -91,18 +94,47 @@ public class ConversationFactory {
     }
 
     /**
+     * Prevents this factory from creating a conversation for non-player {@link Conversable} objects.
+     * @param playerOnlyMessage The message to return to a non-play in lieu of starting a conversation.
+     * @return This object.
+     */
+    public ConversationFactory thatExcludesNonPlayersWithMessage(String playerOnlyMessage) {
+        this.playerOnlyMessage = playerOnlyMessage;
+        return this;
+    }
+
+    /**
      * Constructs a {@link Conversation} in accordance with the defaults set for this factory.
      * @param forWhom The entity for whom the new conversation is mediating.
      * @return A new conversation.
      */
     public Conversation buildConversation(Conversable forWhom) {
+        //Abort conversation construction if we aren't supposed to talk to non-players
+        if(playerOnlyMessage != null && !(forWhom instanceof Player)) {
+            return new Conversation(forWhom, new NotPlayerMessagePrompt());
+        }
+
+        //Clone any initial session data
         Map<Object, Object> copiedInitialSessionData = new HashMap<Object, Object>();
         copiedInitialSessionData.putAll(initialSessionData);
-        
+
+        //Build and return a conversation
         Conversation conversation = new Conversation(forWhom, firstPrompt, copiedInitialSessionData);
         conversation.setModal(isModal);
         conversation.setPrefix(prefix);
         conversation.setTimeoutSeconds(timeout);
         return conversation;
+    }
+
+    private class NotPlayerMessagePrompt extends MessagePrompt {
+
+        public String getPromptText(ConversationContext context) {
+            return playerOnlyMessage;
+        }
+
+        @Override
+        protected Prompt getNextPrompt(ConversationContext context) {
+            return Prompt.END_OF_CONVERSATION;
+        }
     }
 }
