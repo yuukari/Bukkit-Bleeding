@@ -19,7 +19,7 @@ public class ConversationTest {
 
         // Begin the conversation
         conversation.begin();
-        assertEquals(forWhom.lastSentMessage, "FirstPrompt");
+        assertEquals("FirstPrompt", forWhom.lastSentMessage);
         assertEquals(conversation, forWhom.begunConversation);
 
         // Send the first input
@@ -48,12 +48,44 @@ public class ConversationTest {
 
         // Begin the conversation
         conversation.begin();
-        assertEquals(forWhom.lastSentMessage, "FirstPrompt");
+        assertEquals("FirstPrompt", forWhom.lastSentMessage);
         assertEquals(conversation, forWhom.begunConversation);
 
         // Send the first input
         conversation.acceptInput("FirstInput");
         assertEquals("SecondPrompt", forWhom.lastSentMessage);
+        assertEquals(conversation, forWhom.abandonedConverstion);
+    }
+
+    @Test
+    public void testEscapeSequence() {
+        FakeConversable forWhom = new FakeConversable();
+        Conversation conversation = new Conversation(forWhom, new FirstPrompt());
+        conversation.setEscapeSequence("bananas");
+
+        // Begin the conversation
+        conversation.begin();
+        assertEquals("FirstPrompt", forWhom.lastSentMessage);
+        assertEquals(conversation, forWhom.begunConversation);
+
+        // Send the first input
+        conversation.acceptInput("bananas");
+        assertEquals("bananas", forWhom.lastSentMessage);
+        assertEquals(conversation, forWhom.abandonedConverstion);
+    }
+
+    @Test
+    public void testNotPlayer() {
+        FakeConversable forWhom = new FakeConversable();
+        NullConversationPrefix prefix = new NullConversationPrefix();
+        ConversationFactory factory = new ConversationFactory()
+                .thatExcludesNonPlayersWithMessage("bye");
+        Conversation conversation = factory.buildConversation(forWhom);
+
+        // Begin the conversation
+        conversation.begin();
+        assertEquals("bye", forWhom.lastSentMessage);
+        assertEquals(conversation, forWhom.begunConversation);
         assertEquals(conversation, forWhom.abandonedConverstion);
     }
 
@@ -65,7 +97,7 @@ public class ConversationTest {
 
         public Prompt acceptInput(ConversationContext context, String input) {
             assertEquals("FirstInput", input);
-            context.getSessionData().put("data", 10);
+            context.setSessionData("data", 10);
             return new SecondPrompt();
         }
     }
@@ -79,7 +111,7 @@ public class ConversationTest {
 
         public String getPromptText(ConversationContext context) {
             // Assert that session data passes from one prompt to the next
-            assertEquals(context.getSessionData().get("data"), 10);
+            assertEquals(context.getSessionData("data"), 10);
             return "SecondPrompt";
         }
     }

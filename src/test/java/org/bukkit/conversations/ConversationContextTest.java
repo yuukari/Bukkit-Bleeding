@@ -22,6 +22,6 @@ public class ConversationContextTest {
         Map session = new HashMap();
         session.put("key", "value");
         ConversationContext context = new ConversationContext(conversable, session);
-        assertEquals("value", context.getSessionData().get("key"));
+        assertEquals("value", context.getSessionData("key"));
     }
 }
