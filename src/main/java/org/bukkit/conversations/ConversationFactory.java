@@ -19,7 +19,8 @@ public class ConversationFactory {
     protected int timeout;
     protected Prompt firstPrompt;
     protected Map<Object, Object> initialSessionData;
-    protected String playerOnlyMessage = null;
+    protected String playerOnlyMessage;
+    protected String escapeSequence;
 
     /**
      * Constructs a ConversationFactory.
@@ -31,6 +32,8 @@ public class ConversationFactory {
         timeout = 600; // 5 minutes
         firstPrompt = Prompt.END_OF_CONVERSATION;
         initialSessionData = new HashMap<Object, Object>();
+        playerOnlyMessage = null;
+        escapeSequence = null;
     }
 
     /**
@@ -94,6 +97,15 @@ public class ConversationFactory {
     }
 
     /**
+     * Sets the player input that, when received, will immediately terminate the conversation.
+     * @param escapeSequence Input to terminate the conversation.
+     */
+    public ConversationFactory withEscapeSequence(String escapeSequence) {
+        this.escapeSequence = escapeSequence;
+        return this;
+    }
+
+    /**
      * Prevents this factory from creating a conversation for non-player {@link Conversable} objects.
      * @param playerOnlyMessage The message to return to a non-play in lieu of starting a conversation.
      * @return This object.
@@ -123,6 +135,7 @@ public class ConversationFactory {
         conversation.setModal(isModal);
         conversation.setPrefix(prefix);
         conversation.setTimeoutSeconds(timeout);
+        conversation.setEscapeSequence(escapeSequence);
         return conversation;
     }
 

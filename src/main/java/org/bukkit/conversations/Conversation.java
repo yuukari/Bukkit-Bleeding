@@ -33,6 +33,7 @@ public class Conversation {
     protected boolean modal;
     protected ConversationPrefix prefix;
     protected int timeoutSeconds;
+    protected String escapeSequence;
 
     /**
      * Initializes a new Conversation.
@@ -54,6 +55,7 @@ public class Conversation {
         this.context = new ConversationContext(forWhom, initialSessionData);
         this.modal = true;
         this.prefix = new NullConversationPrefix();
+        this.escapeSequence = null;
     }
 
     /**
@@ -115,6 +117,22 @@ public class Conversation {
     }
 
     /**
+     * Sets the player input that, when received, will immediately terminate the conversation.
+     * @param escapeSequence Input to terminate the conversation.
+     */
+    void setEscapeSequence(String escapeSequence) {
+        this.escapeSequence = escapeSequence;
+    }
+
+    /**
+     * Gets the player input that, when received, will immediately terminate the conversation.
+     * @return Input to terminate the conversation.
+     */
+    public String getEscapeSequence() {
+        return escapeSequence;
+    }
+
+    /**
      * Displays the first prompt of this conversation and begins redirecting the user's chat responses.
      */
     public void begin() {
@@ -133,7 +151,11 @@ public class Conversation {
     public void acceptInput(String input) {
         if (currentPrompt != null) {
             context.getForWhom().sendRawMessage(prefix.getPrefix(context) + input);
-            currentPrompt = currentPrompt.acceptInput(context, input);
+            if (input.equals(escapeSequence)) {
+                currentPrompt = Prompt.END_OF_CONVERSATION;
+            } else {
+                currentPrompt = currentPrompt.acceptInput(context, input);
+            }
             outputNextPrompt();
         }
     }
