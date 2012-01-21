@@ -526,9 +526,9 @@ public final class SimplePluginManager implements PluginManager {
         }
 
         if (useTimings) {
-            getEventListeners(type.getEventClass()).register(new TimedRegisteredListener(listener, plugin.getPluginLoader().createExecutor(type, listener), priority.getNewPriority(), plugin));
+            getEventListeners(type.getEventClass()).register(new TimedRegisteredListener(listener, plugin.getPluginLoader().createExecutor(type, listener), priority.getNewPriority(), plugin, false));
         } else {
-            getEventListeners(type.getEventClass()).register(new RegisteredListener(listener, plugin.getPluginLoader().createExecutor(type, listener), priority.getNewPriority(), plugin));
+            getEventListeners(type.getEventClass()).register(new RegisteredListener(listener, plugin.getPluginLoader().createExecutor(type, listener), priority.getNewPriority(), plugin, false));
         }
     }
 
@@ -559,10 +559,10 @@ public final class SimplePluginManager implements PluginManager {
         }
 
         if (useTimings) {
-            getEventListeners(type.getEventClass()).register(new TimedRegisteredListener(listener, executor, priority.getNewPriority(), plugin));
+            getEventListeners(type.getEventClass()).register(new TimedRegisteredListener(listener, executor, priority.getNewPriority(), plugin, false));
         }
         else {
-            getEventListeners(type.getEventClass()).register(new RegisteredListener(listener, executor, priority.getNewPriority(), plugin));
+            getEventListeners(type.getEventClass()).register(new RegisteredListener(listener, executor, priority.getNewPriority(), plugin, false));
         }
     }
 
@@ -587,9 +587,9 @@ public final class SimplePluginManager implements PluginManager {
         }
 
         if (useTimings) {
-            getEventListeners(event).register(new TimedRegisteredListener(listener, executor, priority, plugin));
+            getEventListeners(event).register(new TimedRegisteredListener(listener, executor, priority, plugin, false));
         } else {
-            getEventListeners(event).register(new RegisteredListener(listener, executor, priority, plugin));
+            getEventListeners(event).register(new RegisteredListener(listener, executor, priority, plugin, false));
         }
     }
 
