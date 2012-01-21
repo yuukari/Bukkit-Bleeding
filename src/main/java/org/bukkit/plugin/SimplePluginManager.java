@@ -582,14 +582,18 @@ public final class SimplePluginManager implements PluginManager {
     }
 
     public void registerEvent(Class<? extends Event> event, Listener listener, EventPriority priority, EventExecutor executor, Plugin plugin) {
+        registerEvent(event, listener, priority, executor, plugin, false);
+    }
+
+    public void registerEvent(Class<? extends Event> event, Listener listener, EventPriority priority, EventExecutor executor, Plugin plugin, boolean ignoreCancelled) {
         if (!plugin.isEnabled()) {
             throw new IllegalPluginAccessException("Plugin attempted to register " + event + " while not enabled");
         }
 
         if (useTimings) {
-            getEventListeners(event).register(new TimedRegisteredListener(listener, executor, priority, plugin, false));
+            getEventListeners(event).register(new TimedRegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
         } else {
-            getEventListeners(event).register(new RegisteredListener(listener, executor, priority, plugin, false));
+            getEventListeners(event).register(new RegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
         }
     }
 
