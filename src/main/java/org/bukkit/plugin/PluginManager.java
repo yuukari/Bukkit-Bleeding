@@ -2,9 +2,9 @@ package org.bukkit.plugin;
 
 import java.io.File;
 import java.util.Set;
-
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
@@ -92,6 +92,7 @@ public interface PluginManager {
      * Calls an event with the given details
      *
      * @param event Event details
+     * @return Called event
      */
     public void callEvent(Event event);
 
@@ -102,7 +103,9 @@ public interface PluginManager {
      * @param listener Listener to register
      * @param priority Priority of this event
      * @param plugin Plugin to register
+     * @deprecated see PluginManager#registerEvents
      */
+    @Deprecated
     public void registerEvent(Event.Type type, Listener listener, Priority priority, Plugin plugin);
 
     /**
@@ -113,8 +116,29 @@ public interface PluginManager {
      * @param executor EventExecutor to register
      * @param priority Priority of this event
      * @param plugin Plugin to register
+     * @deprecated see PluginManager#registerEvent(Class, Listener, EventPriority, EventExecutor, Plugin)
      */
+    @Deprecated
     public void registerEvent(Event.Type type, Listener listener, EventExecutor executor, Priority priority, Plugin plugin);
+
+    /**
+     * Registers all the events in the given listener class
+     *
+     * @param listener Listener to register
+     * @param plugin Plugin to register
+     */
+    public void registerEvents(Listener listener, Plugin plugin);
+
+    /**
+     * Registers the specified executor to the given event class
+     *
+     * @param event Event type to register
+     * @param listener Listener to register
+     * @param priority Priority to register this event at
+     * @param executor EventExecutor to register
+     * @param plugin Plugin to register
+     */
+    public void registerEvent(Class<? extends Event> event, Listener listener, EventPriority priority, EventExecutor executor, Plugin plugin);
 
     /**
      * Enables the specified plugin
@@ -252,4 +276,11 @@ public interface PluginManager {
      * @return Set containing all current registered permissions
      */
     public Set<Permission> getPermissions();
+
+    /**
+     * Returns whether or not timing code should be used for event calls
+     *
+     * @return True if event timings are to be used
+     */
+    public boolean useTimings();
 }

@@ -1,6 +1,8 @@
 package org.bukkit.plugin;
 
 import java.io.File;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.bukkit.event.Event;
@@ -50,8 +52,19 @@ public interface PluginLoader {
      * @param type Type of the event executor to create
      * @param listener the object that will handle the eventual call back
      * @return The new executor
+     * @deprecated see PluginLoader#createRegisteredListeners
      */
+    @Deprecated
     public EventExecutor createExecutor(Event.Type type, Listener listener);
+
+    /**
+     * Creates and returns registered listeners for the event classes used in this listener
+     *
+     * @param listener The object that will handle the eventual call back
+     * @param plugin The plugin to use when creating registered listeners
+     * @return The registered listeners.
+     */
+    public Map<Class<? extends Event>, Set<RegisteredListener>> createRegisteredListeners(Listener listener, Plugin plugin);
 
     /**
      * Enables the specified plugin
