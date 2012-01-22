@@ -12,8 +12,15 @@ public class ConversationContextTest {
     @Test
     public void TestFromWhom() {
         Conversable conversable = new FakeConversable();
-        ConversationContext context = new ConversationContext(conversable, new HashMap<Object, Object>());
+        ConversationContext context = new ConversationContext(null, conversable, new HashMap<Object, Object>());
         assertEquals(conversable, context.getForWhom());
+    }
+
+    @Test
+    public void TestPlugin() {
+        Conversable conversable = new FakeConversable();
+        ConversationContext context = new ConversationContext(null, conversable, new HashMap<Object, Object>());
+        assertEquals(null, context.getPlugin());
     }
 
     @Test
@@ -21,7 +28,7 @@ public class ConversationContextTest {
         Conversable conversable = new FakeConversable();
         Map session = new HashMap();
         session.put("key", "value");
-        ConversationContext context = new ConversationContext(conversable, session);
+        ConversationContext context = new ConversationContext(null, conversable, session);
         assertEquals("value", context.getSessionData("key"));
     }
 }

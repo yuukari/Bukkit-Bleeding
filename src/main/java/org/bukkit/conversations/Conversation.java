@@ -1,8 +1,11 @@
 package org.bukkit.conversations;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,30 +35,31 @@ public class Conversation {
     protected ConversationContext context;
     protected boolean modal;
     protected ConversationPrefix prefix;
-    protected int timeoutSeconds;
-    protected String escapeSequence;
+    protected List<ConversationCanceller> cancellers;
 
     /**
      * Initializes a new Conversation.
+     * @param plugin The plugin that owns this conversation.
      * @param forWhom The entity for whom this conversation is mediating.
      * @param firstPrompt The first prompt in the conversation graph.
      */
-    public Conversation(Conversable forWhom, Prompt firstPrompt) {
-        this(forWhom, firstPrompt, new HashMap<Object, Object>());
+    public Conversation(Plugin plugin, Conversable forWhom, Prompt firstPrompt) {
+        this(plugin, forWhom, firstPrompt, new HashMap<Object, Object>());
     }
 
     /**
      * Initializes a new Conversation.
+     * @param plugin The plugin that owns this conversation.
      * @param forWhom The entity for whom this conversation is mediating.
      * @param firstPrompt The first prompt in the conversation graph.
      * @param initialSessionData Any initial values to put in the conversation context sessionData map.
      */
-    public Conversation(Conversable forWhom, Prompt firstPrompt, Map<Object, Object> initialSessionData) {
+    public Conversation(Plugin plugin, Conversable forWhom, Prompt firstPrompt, Map<Object, Object> initialSessionData) {
         this.firstPrompt = firstPrompt;
-        this.context = new ConversationContext(forWhom, initialSessionData);
+        this.context = new ConversationContext(plugin, forWhom, initialSessionData);
         this.modal = true;
         this.prefix = new NullConversationPrefix();
-        this.escapeSequence = null;
+        this.cancellers = new ArrayList<ConversationCanceller>();
     }
 
     /**
@@ -101,35 +105,28 @@ public class Conversation {
     }
 
     /**
-     * Gets the number inactive seconds to wait before automatically abandoning this conversation.
-     * @return The number of seconds to wait.
+     * Adds a {@link ConversationCanceller} to the cancellers collection.
+     * @param canceller The {@link ConversationCanceller} to add.
      */
-    public int getTimeoutSeconds() {
-        return timeoutSeconds;
+    void addConversationCanceller(ConversationCanceller canceller) {
+        canceller.setConversation(this);
+        this.cancellers.add(canceller);
     }
 
     /**
-     * Sets the number of inactive seconds to wait before automatically abandoning this conversation.
-     * @param timeoutSeconds The number of seconds to wait.
+     * Gets the list of {@link ConversationCanceller}s
+     * @return The list.
      */
-    void setTimeoutSeconds(int timeoutSeconds) {
-        this.timeoutSeconds = timeoutSeconds;
+    public List<ConversationCanceller> getCancellers() {
+        return cancellers;
     }
 
     /**
-     * Sets the player input that, when received, will immediately terminate the conversation.
-     * @param escapeSequence Input to terminate the conversation.
+     * Returns the Conversation's {@link ConversationContext}.
+     * @return The ConversationContext.
      */
-    void setEscapeSequence(String escapeSequence) {
-        this.escapeSequence = escapeSequence;
-    }
-
-    /**
-     * Gets the player input that, when received, will immediately terminate the conversation.
-     * @return Input to terminate the conversation.
-     */
-    public String getEscapeSequence() {
-        return escapeSequence;
+    public ConversationContext getContext() {
+        return context;
     }
 
     /**
@@ -144,18 +141,34 @@ public class Conversation {
     }
 
     /**
+     * Returns True if this conversation has begun and not yet been abandoned.
+     * @return The activity state of the conversation.
+     */
+    public boolean isActive() {
+        return currentPrompt != null;
+    }
+
+    /**
      * Passes player input into the current prompt. The next prompt (as determined by the current prompt) is then
      * displayed to the user.
      * @param input The user's chat text.
      */
     public void acceptInput(String input) {
         if (currentPrompt != null) {
+
+            // Echo the user's input
             context.getForWhom().sendRawMessage(prefix.getPrefix(context) + input);
-            if (input.equals(escapeSequence)) {
-                currentPrompt = Prompt.END_OF_CONVERSATION;
-            } else {
-                currentPrompt = currentPrompt.acceptInput(context, input);
+
+            // Test for conversation abandonment based on input
+            for(ConversationCanceller canceller : cancellers) {
+                if (canceller.cancelBasedOnInput(context, input)) {
+                    abandon();
+                    return;
+                }
             }
+
+            // Not abandoned, output the next prompt
+            currentPrompt = currentPrompt.acceptInput(context, input);
             outputNextPrompt();
         }
     }

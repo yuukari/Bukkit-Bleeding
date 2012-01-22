@@ -10,7 +10,7 @@ public class ConversationTest {
     @Test
     public void testBaseConversationFlow() {
         FakeConversable forWhom = new FakeConversable();
-        Conversation conversation = new Conversation(forWhom, new FirstPrompt());
+        Conversation conversation = new Conversation(null, forWhom, new FirstPrompt());
 
         // Conversation not yet begun
         assertNull(forWhom.lastSentMessage);
@@ -32,18 +32,16 @@ public class ConversationTest {
     public void testConversationFactory() {
         FakeConversable forWhom = new FakeConversable();
         NullConversationPrefix prefix = new NullConversationPrefix();
-        ConversationFactory factory = new ConversationFactory()
+        ConversationFactory factory = new ConversationFactory(null)
                 .withFirstPrompt(new FirstPrompt())
                 .withModality(false)
-                .withPrefix(prefix)
-                .withTimeout(100);
+                .withPrefix(prefix);
         Conversation conversation = factory.buildConversation(forWhom);
 
         // Conversation not yet begun
         assertNull(forWhom.lastSentMessage);
         assertEquals(conversation.getForWhom(), forWhom);
         assertFalse(conversation.isModal());
-        assertEquals(conversation.getTimeoutSeconds(), 100);
         assertEquals(conversation.getPrefix(), prefix);
 
         // Begin the conversation
@@ -60,8 +58,8 @@ public class ConversationTest {
     @Test
     public void testEscapeSequence() {
         FakeConversable forWhom = new FakeConversable();
-        Conversation conversation = new Conversation(forWhom, new FirstPrompt());
-        conversation.setEscapeSequence("bananas");
+        Conversation conversation = new Conversation(null, forWhom, new FirstPrompt());
+        conversation.addConversationCanceller(new ExactMatchConversationCanceller("bananas"));
 
         // Begin the conversation
         conversation.begin();
@@ -78,7 +76,7 @@ public class ConversationTest {
     public void testNotPlayer() {
         FakeConversable forWhom = new FakeConversable();
         NullConversationPrefix prefix = new NullConversationPrefix();
-        ConversationFactory factory = new ConversationFactory()
+        ConversationFactory factory = new ConversationFactory(null)
                 .thatExcludesNonPlayersWithMessage("bye");
         Conversation conversation = factory.buildConversation(forWhom);
 

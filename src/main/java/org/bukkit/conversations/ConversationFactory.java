@@ -1,8 +1,11 @@
 package org.bukkit.conversations;
 
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,26 +17,26 @@ import java.util.Map;
  */
 public class ConversationFactory {
 
+    protected Plugin plugin;
     protected boolean isModal;
     protected ConversationPrefix prefix;
-    protected int timeout;
     protected Prompt firstPrompt;
     protected Map<Object, Object> initialSessionData;
     protected String playerOnlyMessage;
-    protected String escapeSequence;
+    protected List<ConversationCanceller> cancellers;
 
     /**
      * Constructs a ConversationFactory.
      */
-    public ConversationFactory()
+    public ConversationFactory(Plugin plugin)
     {
+        this.plugin = plugin;
         isModal = true;
         prefix = new NullConversationPrefix();
-        timeout = 600; // 5 minutes
         firstPrompt = Prompt.END_OF_CONVERSATION;
         initialSessionData = new HashMap<Object, Object>();
         playerOnlyMessage = null;
-        escapeSequence = null;
+        cancellers = new ArrayList<ConversationCanceller>();
     }
 
     /**
@@ -70,8 +73,7 @@ public class ConversationFactory {
      * @return This object.
      */
     public ConversationFactory withTimeout(int timeoutSeconds) {
-        this.timeout = timeoutSeconds;
-        return this;
+        return withConversationCanceller(new InactivityConversationCanceller(plugin, timeoutSeconds));
     }
 
     /**
@@ -99,9 +101,20 @@ public class ConversationFactory {
     /**
      * Sets the player input that, when received, will immediately terminate the conversation.
      * @param escapeSequence Input to terminate the conversation.
+     * @return This object.
      */
     public ConversationFactory withEscapeSequence(String escapeSequence) {
-        this.escapeSequence = escapeSequence;
+        return withConversationCanceller(new ExactMatchConversationCanceller(escapeSequence));
+    }
+
+
+    /**
+     * Adds a {@link ConversationCanceller to constructed conversations.}
+     * @param canceller The {@link ConversationCanceller to add.}
+     * @return This object.
+     */
+    public ConversationFactory withConversationCanceller(ConversationCanceller canceller) {
+        cancellers.add(canceller);
         return this;
     }
 
@@ -123,7 +136,7 @@ public class ConversationFactory {
     public Conversation buildConversation(Conversable forWhom) {
         //Abort conversation construction if we aren't supposed to talk to non-players
         if(playerOnlyMessage != null && !(forWhom instanceof Player)) {
-            return new Conversation(forWhom, new NotPlayerMessagePrompt());
+            return new Conversation(plugin, forWhom, new NotPlayerMessagePrompt());
         }
 
         //Clone any initial session data
@@ -131,11 +144,15 @@ public class ConversationFactory {
         copiedInitialSessionData.putAll(initialSessionData);
 
         //Build and return a conversation
-        Conversation conversation = new Conversation(forWhom, firstPrompt, copiedInitialSessionData);
+        Conversation conversation = new Conversation(plugin, forWhom, firstPrompt, copiedInitialSessionData);
         conversation.setModal(isModal);
         conversation.setPrefix(prefix);
-        conversation.setTimeoutSeconds(timeout);
-        conversation.setEscapeSequence(escapeSequence);
+
+        for(ConversationCanceller canceller : cancellers) {
+            canceller.setConversation(conversation);
+        }
+        conversation.cancellers.addAll(cancellers);
+
         return conversation;
     }
 

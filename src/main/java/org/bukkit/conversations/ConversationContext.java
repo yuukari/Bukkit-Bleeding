@@ -1,5 +1,7 @@
 package org.bukkit.conversations;
 
+import org.bukkit.plugin.Plugin;
+
 import java.util.Map;
 
 /**
@@ -10,14 +12,24 @@ import java.util.Map;
 public class ConversationContext {
     private Conversable forWhom;
     private Map<Object, Object> sessionData;
+    private Plugin plugin;
 
     /**
      * @param forWhom The subject of the conversation.
      * @param initialSessionData Any initial values to put in the sessionData map.
      */
-    public ConversationContext(Conversable forWhom, Map<Object, Object> initialSessionData) {
+    public ConversationContext(Plugin plugin, Conversable forWhom, Map<Object, Object> initialSessionData) {
+        this.plugin = plugin;
         this.forWhom = forWhom;
         this.sessionData = initialSessionData;
+    }
+
+    /**
+     * Gets the plugin that owns this conversation.
+     * @return The owning plugin.
+     */
+    public Plugin getPlugin() {
+        return plugin;
     }
 
     /**
