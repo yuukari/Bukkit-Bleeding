@@ -148,10 +148,10 @@ public class ConversationFactory {
         conversation.setModal(isModal);
         conversation.setPrefix(prefix);
 
+        //Clone the conversation cancellers
         for(ConversationCanceller canceller : cancellers) {
-            canceller.setConversation(conversation);
+            conversation.addConversationCanceller(canceller.clone());
         }
-        conversation.cancellers.addAll(cancellers);
 
         return conversation;
     }

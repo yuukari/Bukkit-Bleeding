@@ -19,4 +19,8 @@ public class ExactMatchConversationCanceller implements ConversationCanceller {
     public boolean cancelBasedOnInput(ConversationContext context, String input) {
         return input.equals(escapeSequence);
     }
+
+    public ConversationCanceller clone() {
+        return new ExactMatchConversationCanceller(escapeSequence);
+    }
 }

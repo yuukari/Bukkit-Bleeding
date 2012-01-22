@@ -1,5 +1,6 @@
 package org.bukkit.conversations;
 
+import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 
 /**
@@ -19,11 +20,11 @@ public class InactivityConversationCanceller implements ConversationCanceller {
     public InactivityConversationCanceller(Plugin plugin, int timeoutSeconds) {
         this.plugin = plugin;
         this.timeoutSeconds = timeoutSeconds;
-        startTimer();
     }
 
     public void setConversation(Conversation conversation) {
         this.conversation = conversation;
+        startTimer();
     }
 
     public boolean cancelBasedOnInput(ConversationContext context, String input) {
@@ -33,17 +34,21 @@ public class InactivityConversationCanceller implements ConversationCanceller {
         return false;
     }
 
+    public ConversationCanceller clone() {
+        return new InactivityConversationCanceller(plugin, timeoutSeconds);
+    }
+
     /**
      * Starts an inactivity timer.
      */
     private void startTimer() {
         taskId = plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
             public void run() {
-                if (conversation.isActive()) {
+                if (conversation.getState() == Conversation.ConversationState.UNSTARTED) {
+                    startTimer();
+                } else if (conversation.getState() ==  Conversation.ConversationState.STARTED) {
                     cancelling(conversation);
                     conversation.abandon();
-                } else {
-                    startTimer();
                 }
             }
         }, timeoutSeconds * 20);
@@ -55,6 +60,7 @@ public class InactivityConversationCanceller implements ConversationCanceller {
     private void stopTimer() {
         if (taskId != -1) {
             plugin.getServer().getScheduler().cancelTask(taskId);
+            taskId = -1;
         }
     }
 

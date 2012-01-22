@@ -141,11 +141,17 @@ public class Conversation {
     }
 
     /**
-     * Returns True if this conversation has begun and not yet been abandoned.
-     * @return The activity state of the conversation.
+     * Returns Returns the current state of the conversation.
+     * @return The current state of the conversation.
      */
-    public boolean isActive() {
-        return currentPrompt != null;
+    public ConversationState getState() {
+        if (currentPrompt != null) {
+            return ConversationState.STARTED;
+        } else if (abandoned) {
+            return ConversationState.ABANDONED;
+        } else {
+            return ConversationState.UNSTARTED;
+        }
     }
 
     /**
@@ -197,5 +203,11 @@ public class Conversation {
                 outputNextPrompt();
             }
         }
+    }
+
+    public enum ConversationState {
+        UNSTARTED,
+        STARTED,
+        ABANDONED
     }
 }
