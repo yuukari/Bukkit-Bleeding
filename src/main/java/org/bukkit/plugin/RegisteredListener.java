@@ -16,12 +16,12 @@ public class RegisteredListener {
     private final EventExecutor executor;
     private final boolean receiveCancelled;
 
-    public RegisteredListener(final Listener pluginListener, final EventExecutor eventExecutor, final EventPriority eventPriority, final Plugin registeredPlugin, final boolean listenCancelled) {
-        listener = pluginListener;
-        priority = eventPriority;
-        plugin = registeredPlugin;
-        executor = eventExecutor;
-        receiveCancelled = listenCancelled;
+    public RegisteredListener(final Listener listener, final EventExecutor executor, final EventPriority priority, final Plugin plugin, final boolean receiveCancelled) {
+        this.listener = listener;
+        this.priority = priority;
+        this.plugin = plugin;
+        this.executor = executor;
+        this.receiveCancelled = receiveCancelled;
     }
 
     /**
@@ -56,7 +56,7 @@ public class RegisteredListener {
      *
      * @param event The event
      */
-    public void callEvent(Event event) throws EventException {
+    public void callEvent(final Event event) throws EventException {
         if (event instanceof Cancellable){
             if (((Cancellable) event).isCancelled() && getIgnoreCancelled()){
                 return;

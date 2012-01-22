@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -416,7 +417,7 @@ public final class SimplePluginManager implements PluginManager {
             } catch (Throwable ex) {
                 server.getLogger().log(Level.SEVERE, "Error occurred (in the plugin loader) while unregistering events for " + plugin.getDescription().getFullName() + " (Is it up to date?): " + ex.getMessage(), ex);
             }
-            
+
             try {
                 server.getMessenger().unregisterIncomingPluginChannel(plugin);
                 server.getMessenger().unregisterOutgoingPluginChannel(plugin);
@@ -507,29 +508,11 @@ public final class SimplePluginManager implements PluginManager {
      * @param listener PlayerListener to register
      * @param priority Priority of this event
      * @param plugin Plugin to register
+     * @deprecated See {@link #registerEvent(Class, Listener, EventPriority, EventExecutor, Plugin, boolean)}
      */
+    @Deprecated
     public void registerEvent(Event.Type type, Listener listener, Priority priority, Plugin plugin) {
-        if (type == null) {
-            throw new IllegalArgumentException("Type cannot be null");
-        }
-        if (listener == null) {
-            throw new IllegalArgumentException("Listener cannot be null");
-        }
-        if (priority == null) {
-            throw new IllegalArgumentException("Priority cannot be null");
-        }
-        if (plugin == null) {
-            throw new IllegalArgumentException("Plugin cannot be null");
-        }
-        if (!plugin.isEnabled()) {
-            throw new IllegalPluginAccessException("Plugin attempted to register " + type + " while not enabled");
-        }
-
-        if (useTimings) {
-            getEventListeners(type.getEventClass()).register(new TimedRegisteredListener(listener, plugin.getPluginLoader().createExecutor(type, listener), priority.getNewPriority(), plugin, false));
-        } else {
-            getEventListeners(type.getEventClass()).register(new RegisteredListener(listener, plugin.getPluginLoader().createExecutor(type, listener), priority.getNewPriority(), plugin, false));
-        }
+        registerEvent(type.getEventClass(), listener, priority.getNewPriority(), plugin.getPluginLoader().createExecutor(type, listener), plugin);
     }
 
     /**
@@ -540,36 +523,21 @@ public final class SimplePluginManager implements PluginManager {
      * @param executor EventExecutor to register
      * @param priority Priority of this event
      * @param plugin Plugin to register
+     * @deprecated See {@link #registerEvent(Class, Listener, EventPriority, EventExecutor, Plugin, boolean)}
      */
+    @Deprecated
     public void registerEvent(Event.Type type, Listener listener, EventExecutor executor, Priority priority, Plugin plugin) {
-        if (type == null) {
-            throw new IllegalArgumentException("Type cannot be null");
-        }
-        if (listener == null) {
-            throw new IllegalArgumentException("Listener cannot be null");
-        }
-        if (priority == null) {
-            throw new IllegalArgumentException("Priority cannot be null");
-        }
-        if (plugin == null) {
-            throw new IllegalArgumentException("Plugin cannot be null");
-        }
-        if (!plugin.isEnabled()) {
-            throw new IllegalPluginAccessException("Plugin attempted to register " + type + " while not enabled");
-        }
+        Validate.notNull(type, "Type cannot be null");
+        Validate.notNull(priority, "Priority cannot be null");
 
-        if (useTimings) {
-            getEventListeners(type.getEventClass()).register(new TimedRegisteredListener(listener, executor, priority.getNewPriority(), plugin, false));
-        }
-        else {
-            getEventListeners(type.getEventClass()).register(new RegisteredListener(listener, executor, priority.getNewPriority(), plugin, false));
-        }
+        registerEvent(type.getEventClass(), listener, priority.getNewPriority(), executor, plugin);
     }
 
     public void registerEvents(Listener listener, Plugin plugin) {
         if (!plugin.isEnabled()) {
-                    throw new IllegalPluginAccessException("Plugin attempted to register " + listener + " while not enabled");
+            throw new IllegalPluginAccessException("Plugin attempted to register " + listener + " while not enabled");
         }
+
         for (Map.Entry<Class<? extends Event>, Set<RegisteredListener>> entry : plugin.getPluginLoader().createRegisteredListeners(listener, plugin).entrySet()) {
             Class<? extends Event> delegatedClass = getRegistrationClass(entry.getKey());
             if (!entry.getKey().equals(delegatedClass)) {
@@ -585,7 +553,22 @@ public final class SimplePluginManager implements PluginManager {
         registerEvent(event, listener, priority, executor, plugin, false);
     }
 
+    /**
+     * Registers the given event to the specified listener using a directly passed EventExecutor
+     *
+     * @param event Event class to register
+     * @param listener PlayerListener to register
+     * @param priority Priority of this event
+     * @param executor EventExecutor to register
+     * @param plugin Plugin to register
+     * @param ignoreCancelled Do not call executor if event was already cancelled
+     */
     public void registerEvent(Class<? extends Event> event, Listener listener, EventPriority priority, EventExecutor executor, Plugin plugin, boolean ignoreCancelled) {
+        Validate.notNull(listener, "Listener cannot be null");
+        Validate.notNull(priority, "Priority cannot be null");
+        Validate.notNull(executor, "Executor cannot be null");
+        Validate.notNull(plugin, "Plugin cannot be null");
+
         if (!plugin.isEnabled()) {
             throw new IllegalPluginAccessException("Plugin attempted to register " + event + " while not enabled");
         }
@@ -597,17 +580,11 @@ public final class SimplePluginManager implements PluginManager {
         }
     }
 
-    /**
-     * Returns the specified event type's HandlerList
-     *
-     * @param type EventType to lookup
-     * @return HandlerList The list of registered handlers for the event.
-     */
     private HandlerList getEventListeners(Class<? extends Event> type) {
         try {
             Method method = getRegistrationClass(type).getDeclaredMethod("getHandlerList");
             method.setAccessible(true);
-            return (HandlerList)method.invoke(null);
+            return (HandlerList) method.invoke(null);
         } catch (Exception e) {
             throw new IllegalPluginAccessException(e.toString());
         }
