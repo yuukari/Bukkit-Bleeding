@@ -1,8 +1,6 @@
 package org.bukkit.event.entity;
 
 import org.bukkit.event.Listener;
-import org.bukkit.event.Event.Category;
-import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.painting.PaintingPlaceEvent;
 import org.bukkit.event.painting.PaintingBreakEvent;
 
@@ -137,13 +135,6 @@ public class EntityListener implements Listener {
      * @param event Relevant event details
      */
     public void onProjectileHit(ProjectileHitEvent event) {}
-
-    /**
-     * Called when a splash potion hits an area
-     *
-     * @param event Relevant event details
-     */
-    public void onPotionSplash(PotionSplashEvent event) {}
 
     /**
      * Called when an Enderman picks a block up
