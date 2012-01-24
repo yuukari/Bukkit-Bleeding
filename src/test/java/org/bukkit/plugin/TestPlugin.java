@@ -1,8 +1,10 @@
-package org.bukkit.plugin.messaging;
+package org.bukkit.plugin;
 
 import com.avaje.ebean.EbeanServer;
 import java.io.File;
 import java.io.InputStream;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -13,10 +15,12 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginLogger;
+import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.util.config.Configuration;
 
 public class TestPlugin implements Plugin {
     private boolean enabled = true;
+    private PluginLoader loader = new JavaPluginLoader(Bukkit.getServer());
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
@@ -63,7 +67,7 @@ public class TestPlugin implements Plugin {
     }
 
     public PluginLoader getPluginLoader() {
-        throw new UnsupportedOperationException("Not supported.");
+        return loader;
     }
 
     public Server getServer() {
