@@ -13,6 +13,8 @@ import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.Validate;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 
@@ -45,18 +47,13 @@ public class JavaPluginLoader implements PluginLoader {
     }
 
     public Plugin loadPlugin(File file) throws InvalidPluginException, InvalidDescriptionException, UnknownDependencyException {
-        JavaPlugin result = null;
-        PluginDescriptionFile description = null;
-
-        if(file == null) {
-            throw new IllegalArgumentException("File cannot be null");
-        }
+        Validate.notNull(file, "File cannot be null");
 
         if (!file.exists()) {
             throw new InvalidPluginException(new FileNotFoundException(String.format("%s does not exist", file.getPath())));
         }
 
-        description = getPluginDescription(file);
+        PluginDescriptionFile description = getPluginDescription(file);
 
         File dataFolder = new File(file.getParentFile(), description.getName());
         File oldDataFolder = getDataFolder(file);
@@ -117,6 +114,7 @@ public class JavaPluginLoader implements PluginLoader {
         }
 
         PluginClassLoader loader = null;
+        JavaPlugin result = null;
 
         try {
             URL[] urls = new URL[1];
@@ -172,10 +170,7 @@ public class JavaPluginLoader implements PluginLoader {
     }
 
     public PluginDescriptionFile getPluginDescription(File file) throws InvalidDescriptionException, InvalidPluginException {
-
-        if(file == null) {
-            throw new IllegalArgumentException("File cannot be null");
-        }
+        Validate.notNull(file, "File cannot be null");
 
         JarFile jar = null;
         InputStream stream = null;
@@ -197,13 +192,13 @@ public class JavaPluginLoader implements PluginLoader {
         } catch (YAMLException ex) {
             throw new InvalidDescriptionException(ex);
         } finally {
-            if(jar != null) {
+            if (jar != null) {
                 try {
                     jar.close();
                 } catch (IOException e) {
                 }
             }
-            if(stream != null) {
+            if (stream != null) {
                 try {
                     stream.close();
                 } catch (IOException e) {
