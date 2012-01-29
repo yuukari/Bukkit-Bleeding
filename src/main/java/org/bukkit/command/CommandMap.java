@@ -1,6 +1,8 @@
 package org.bukkit.command;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface CommandMap {
 
@@ -62,4 +64,18 @@ public interface CommandMap {
      * @return Command with the specified name or null if a command with that label doesn't exist
      */
     public Command getCommand(String name);
+
+    /**
+     * Gets a map of all known commands
+     *
+     * @return A map with all known commands
+     */
+    public Map<String, Command> getKnownCommands();
+
+     /**
+     * Gets a set of all known command aliases
+     *
+     * @return A set with all known command aliases
+     */
+    public Set<String> getKnownAliases();
 }

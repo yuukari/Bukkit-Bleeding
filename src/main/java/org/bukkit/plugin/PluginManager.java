@@ -2,6 +2,7 @@ package org.bukkit.plugin;
 
 import java.io.File;
 import java.util.Set;
+import org.bukkit.command.CommandMap;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.EventPriority;
@@ -283,4 +284,11 @@ public interface PluginManager {
      * @return True if event timings are to be used
      */
     public boolean useTimings();
+
+    /**
+     * Returns the complete list of registered command mapping
+     *
+     * @return The command map in use by this plugin manager
+     */
+    public CommandMap getCommands();
 }

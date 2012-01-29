@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommandYamlParser;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.event.Event.Priority;
@@ -756,5 +757,9 @@ public final class SimplePluginManager implements PluginManager {
      */
     public void useTimings(boolean use) {
         useTimings = use;
+    }
+
+    public CommandMap getCommands() {
+        return commandMap;
     }
 }
