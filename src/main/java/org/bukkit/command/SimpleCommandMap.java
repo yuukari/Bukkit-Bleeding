@@ -186,7 +186,22 @@ public class SimpleCommandMap implements CommandMap {
     }
 
     public Command getCommand(String name) {
-        return knownCommands.get(name.toLowerCase());
+        name = name.toLowerCase();
+        Command command = knownCommands.get(name);
+        if (command == null) {
+            command = getFallback(name);
+        }
+        
+        return command;
+    }
+
+    public Set<Command> getCommands() {
+        Map<String, Command> ret = new HashMap<String, Command>();
+        for (VanillaCommand vanilla : fallbackCommands) {
+            ret.put(vanilla.getName(), vanilla);
+        }
+        ret.putAll(knownCommands);
+        return new HashSet<Command>(ret.values());
     }
 
     public void registerServerAliases() {
@@ -222,13 +237,5 @@ public class SimpleCommandMap implements CommandMap {
                 server.getLogger().warning("The following command(s) could not be aliased under '" + alias + "' because they do not exist: " + bad);
             }
         }
-    }
-
-    public Map<String, Command> getKnownCommands() {
-        return knownCommands;
-    }
-
-    public Set<String> getKnownAliases() {
-        return aliases;
     }
 }

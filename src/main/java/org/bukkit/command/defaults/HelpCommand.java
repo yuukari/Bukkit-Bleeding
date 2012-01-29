@@ -10,33 +10,43 @@ public class HelpCommand extends VanillaCommand {
     public HelpCommand() {
         super("help");
         this.description = "Shows the help menu";
-        this.usageMessage = "/help";
+        this.usageMessage = "/help [command]";
         this.setPermission("bukkit.command.help");
     }
 
     @Override
     public boolean execute(CommandSender sender, String currentAlias, String[] args) {
         if (!testPermission(sender)) return true;
-
         CommandMap list = Bukkit.getServer().getPluginManager().getCommands();
-        // 9 Commands per page
-        for (Command command : list.getKnownCommands().values()) {
-            boolean show = false;
-            if (list.getKnownAliases().contains(command.getName().toLowerCase())){
-                continue;
+        if (args.length > 0) {
+            Command command = list.getCommand(args[0]);
+            if (command == null) {
+                sender.sendMessage("There is no such command: " + args[0]);
+                return false;
             }
-            String permission = command.getPermission();
-            if (permission == null) {
-                show = true;
-            } else if (sender.hasPermission(command.getPermission())) {
-                show = true;
+            
+            final String permission = command.getPermission();
+            if (permission == null || sender.hasPermission(command.getPermission())) {
+                printCommand(sender, command);
+            } else {
+                sender.sendMessage(ChatColor.RED + "You do not have permission to view the command '" + command.getName() + "'");
+                return false;
             }
-            if (show) {
-                sender.sendMessage(ChatColor.RED + command.getName() + ChatColor.GRAY + ": " + command.getDescription());
+        } else {
+            // 9 Commands per page
+            for (Command command : list.getCommands()) {
+                final String permission = command.getPermission();
+                if (permission == null || sender.hasPermission(command.getPermission())) {
+                    printCommand(sender, command);
+                }
             }
         }
 
         return true;
+    }
+    
+    private static void printCommand(CommandSender target, Command command) {
+        target.sendMessage(ChatColor.RED + command.getUsage().replaceAll("<command>", command.getName()) + ChatColor.GRAY + ": " + command.getDescription());
     }
 
     @Override

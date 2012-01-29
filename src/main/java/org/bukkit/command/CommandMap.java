@@ -66,16 +66,9 @@ public interface CommandMap {
     public Command getCommand(String name);
 
     /**
-     * Gets a map of all known commands
-     *
-     * @return A map with all known commands
+     * Returns the commands registered, including fallback commands. 
+     * There will be no duplicate entries for command aliases.
+     * @return The commands registered
      */
-    public Map<String, Command> getKnownCommands();
-
-     /**
-     * Gets a set of all known command aliases
-     *
-     * @return A set with all known command aliases
-     */
-    public Set<String> getKnownAliases();
+    public Set<Command> getCommands();
 }
