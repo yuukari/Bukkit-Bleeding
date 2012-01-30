@@ -19,9 +19,9 @@ public class PlayerChatEvent extends PlayerEvent implements Cancellable {
     private String format = "<%1$s> %2$s";
     private final Set<Player> recipients;
 
-    protected PlayerChatEvent(final Player player, final String message) {
+    public PlayerChatEvent(final Player player, final String message) {
         super(player);
-        recipients = new HashSet<Player>(Arrays.asList(player.getServer().getOnlinePlayers()));
+        this.recipients = new HashSet<Player>(Arrays.asList(player.getServer().getOnlinePlayers()));
         this.message = message;
     }
 
