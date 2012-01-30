@@ -10,10 +10,10 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class VehicleMoveEvent extends VehicleEvent {
     private static final HandlerList handlers = new HandlerList();
-    private Location from;
-    private Location to;
+    private final Location from;
+    private final Location to;
 
-    public VehicleMoveEvent(Vehicle vehicle, Location from, Location to) {
+    public VehicleMoveEvent(final Vehicle vehicle, final Location from, final Location to) {
         super(vehicle);
 
         this.from = from;

@@ -23,9 +23,9 @@ import org.bukkit.event.HandlerList;
 public class BlockFormEvent extends BlockEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private boolean cancelled;
-    private BlockState newState;
+    private final BlockState newState;
 
-    public BlockFormEvent(Block block, BlockState newState) {
+    public BlockFormEvent(final Block block, final BlockState newState) {
         super(block);
         this.block = block;
         this.newState = newState;

@@ -11,7 +11,7 @@ import org.bukkit.event.HandlerList;
 public class PlayerAnimationEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
-    private PlayerAnimationType animationType;
+    private final PlayerAnimationType animationType;
     private boolean isCancelled = false;
 
     /**

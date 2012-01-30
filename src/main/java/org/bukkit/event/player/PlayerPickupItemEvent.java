@@ -13,9 +13,9 @@ public class PlayerPickupItemEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private final Item item;
     private boolean cancel = false;
-    private int remaining;
+    private final int remaining;
 
-    public PlayerPickupItemEvent(final Player player, final Item item, int remaining) {
+    public PlayerPickupItemEvent(final Player player, final Item item, final int remaining) {
         super(player);
         this.item = item;
         this.remaining = remaining;

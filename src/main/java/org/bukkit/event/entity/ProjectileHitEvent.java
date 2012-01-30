@@ -10,7 +10,7 @@ import org.bukkit.event.HandlerList;
 public class ProjectileHitEvent extends EntityEvent {
     private static final HandlerList handlers = new HandlerList();
 
-    public ProjectileHitEvent(Projectile projectile) {
+    public ProjectileHitEvent(final Projectile projectile) {
         super(projectile);
     }
 

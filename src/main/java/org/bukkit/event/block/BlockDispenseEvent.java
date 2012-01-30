@@ -19,7 +19,7 @@ public class BlockDispenseEvent extends BlockEvent implements Cancellable {
     private ItemStack item;
     private Vector velocity;
 
-    public BlockDispenseEvent(Block block, ItemStack dispensed, Vector velocity) {
+    public BlockDispenseEvent(final Block block, final ItemStack dispensed, final Vector velocity) {
         super(block);
         this.item = dispensed;
         this.velocity = velocity;

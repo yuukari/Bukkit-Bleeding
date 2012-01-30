@@ -9,8 +9,8 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class PlayerItemHeldEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
-    private int previous;
-    private int current;
+    private final int previous;
+    private final int current;
 
     public PlayerItemHeldEvent(final Player player, final int previous, final int current) {
         super(player);

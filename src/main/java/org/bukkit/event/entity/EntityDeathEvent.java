@@ -11,14 +11,14 @@ import org.bukkit.inventory.ItemStack;
 @SuppressWarnings("serial")
 public class EntityDeathEvent extends EntityEvent {
     private static final HandlerList handlers = new HandlerList();
-    private List<ItemStack> drops;
+    private final List<ItemStack> drops;
     private int dropExp = 0;
 
     public EntityDeathEvent(final Entity entity, final List<ItemStack> drops) {
         this(entity, drops, 0);
     }
 
-    public EntityDeathEvent(final Entity what, final List<ItemStack> drops, int droppedExp) {
+    public EntityDeathEvent(final Entity what, final List<ItemStack> drops, final int droppedExp) {
         super(what);
         this.drops = drops;
         this.dropExp = droppedExp;

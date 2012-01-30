@@ -13,9 +13,9 @@ public class PlayerBedEnterEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private boolean cancel = false;
-    private Block bed;
+    private final Block bed;
 
-    public PlayerBedEnterEvent(Player who, Block bed) {
+    public PlayerBedEnterEvent(final Player who, final Block bed) {
         super(who);
         this.bed = bed;
     }

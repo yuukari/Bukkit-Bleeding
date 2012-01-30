@@ -7,7 +7,7 @@ import org.bukkit.event.HandlerList;
 public class WorldSaveEvent extends WorldEvent {
     private static final HandlerList handlers = new HandlerList();
 
-    public WorldSaveEvent(World world) {
+    public WorldSaveEvent(final World world) {
         super(world);
     }
 

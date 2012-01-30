@@ -15,11 +15,11 @@ import java.util.List;
 public class EntityExplodeEvent extends EntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private boolean cancel;
-    private Location location;
-    private List<Block> blocks;
+    private final Location location;
+    private final List<Block> blocks;
     private float yield;
 
-    public EntityExplodeEvent(Entity what, Location location, List<Block> blocks, float yield) {
+    public EntityExplodeEvent(final Entity what, final Location location, final List<Block> blocks, final float yield) {
         super(what);
         this.location = location;
         this.blocks = blocks;

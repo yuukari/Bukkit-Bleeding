@@ -10,9 +10,9 @@ public class PlayerGameModeChangeEvent extends PlayerEvent implements Cancellabl
     private static final HandlerList handlers = new HandlerList();
 
     private boolean cancelled;
-    private GameMode newGameMode;
+    private final GameMode newGameMode;
 
-    public PlayerGameModeChangeEvent(Player player, GameMode newGameMode) {
+    public PlayerGameModeChangeEvent(final Player player, final GameMode newGameMode) {
         super(player);
         this.newGameMode = newGameMode;
     }

@@ -9,7 +9,7 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class WorldInitEvent extends WorldEvent {
     private static final HandlerList handlers = new HandlerList();
-    public WorldInitEvent(World world) {
+    public WorldInitEvent(final World world) {
         super(world);
     }
 

@@ -10,9 +10,9 @@ import org.bukkit.event.HandlerList;
 public class ServerCommandEvent extends ServerEvent {
     private static final HandlerList handlers = new HandlerList();
     private String command;
-    private CommandSender sender;
+    private final CommandSender sender;
 
-    public ServerCommandEvent(CommandSender sender, String command) {
+    public ServerCommandEvent(final CommandSender sender, final String command) {
         this.command = command;
         this.sender = sender;
     }

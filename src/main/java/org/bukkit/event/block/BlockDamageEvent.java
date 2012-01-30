@@ -14,12 +14,12 @@ import org.bukkit.inventory.ItemStack;
 @SuppressWarnings("serial")
 public class BlockDamageEvent extends BlockEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private Player player;
+    private final Player player;
     private boolean instaBreak;
     private boolean cancel;
-    private ItemStack itemstack;
+    private final ItemStack itemstack;
 
-    public BlockDamageEvent(Player player, Block block, ItemStack itemInHand, boolean instaBreak) {
+    public BlockDamageEvent(final Player player, final Block block, final ItemStack itemInHand, final boolean instaBreak) {
         super(block);
         this.instaBreak = instaBreak;
         this.player = player;

@@ -11,12 +11,12 @@ import org.bukkit.event.HandlerList;
 public class ServerListPingEvent extends ServerEvent {
     private static final HandlerList handlers = new HandlerList();
 
-    private InetAddress address;
+    private final InetAddress address;
     private String motd;
-    private int numPlayers;
+    private final int numPlayers;
     private int maxPlayers;
 
-    public ServerListPingEvent(InetAddress address, String motd, int numPlayers, int maxPlayers) {
+    public ServerListPingEvent(final InetAddress address, final String motd, final int numPlayers, final int maxPlayers) {
         this.address = address;
         this.motd = motd;
         this.numPlayers = numPlayers;

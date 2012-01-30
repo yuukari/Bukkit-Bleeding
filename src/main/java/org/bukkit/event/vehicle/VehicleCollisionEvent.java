@@ -7,7 +7,7 @@ import org.bukkit.entity.Vehicle;
  */
 @SuppressWarnings("serial")
 public abstract class VehicleCollisionEvent extends VehicleEvent {
-    public VehicleCollisionEvent(Vehicle vehicle) {
+    public VehicleCollisionEvent(final Vehicle vehicle) {
         super(vehicle);
     }
 }

@@ -21,9 +21,9 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class BlockSpreadEvent extends BlockFormEvent {
     private static final HandlerList handlers = new HandlerList();
-    private Block source;
+    private final Block source;
 
-    public BlockSpreadEvent(Block block, Block source, BlockState newState) {
+    public BlockSpreadEvent(final Block block, final Block source, final BlockState newState) {
         super(block, newState);
         this.source = source;
     }

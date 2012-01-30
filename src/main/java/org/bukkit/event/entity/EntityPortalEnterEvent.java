@@ -11,9 +11,9 @@ import org.bukkit.event.HandlerList;
 public class EntityPortalEnterEvent extends EntityEvent {
     private static final HandlerList handlers = new HandlerList();
 
-    private Location location;
+    private final Location location;
 
-    public EntityPortalEnterEvent(Entity entity, Location location) {
+    public EntityPortalEnterEvent(final Entity entity, final Location location) {
         super(entity);
         this.location = location;
     }

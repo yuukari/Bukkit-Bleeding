@@ -14,15 +14,15 @@ public class CreeperPowerEvent extends EntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private boolean canceled;
-    private PowerCause cause;
+    private final PowerCause cause;
     private Entity bolt;
 
-    public CreeperPowerEvent(Entity creeper, Entity bolt, PowerCause cause) {
+    public CreeperPowerEvent(final Entity creeper, final Entity bolt, final PowerCause cause) {
         this(creeper, cause);
         this.bolt = bolt;
     }
 
-    public CreeperPowerEvent(Entity creeper, PowerCause cause) {
+    public CreeperPowerEvent(final Entity creeper, final PowerCause cause) {
         super(creeper);
         this.cause = cause;
     }

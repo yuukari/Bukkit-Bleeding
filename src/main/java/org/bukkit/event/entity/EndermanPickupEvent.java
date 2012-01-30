@@ -10,9 +10,9 @@ public class EndermanPickupEvent extends EntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private boolean cancel;
-    private Block block;
+    private final Block block;
 
-    public EndermanPickupEvent(Entity what, Block block) {
+    public EndermanPickupEvent(final Entity what, final Block block) {
         super(what);
         this.block = block;
         this.cancel = false;

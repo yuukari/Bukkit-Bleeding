@@ -12,7 +12,7 @@ public class WorldUnloadEvent extends WorldEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private boolean isCancelled;
 
-    public WorldUnloadEvent(World world) {
+    public WorldUnloadEvent(final World world) {
         super(world);
     }
 

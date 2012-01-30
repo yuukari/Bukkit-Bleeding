@@ -8,9 +8,9 @@ import org.bukkit.event.Cancellable;
 @SuppressWarnings("serial")
 public abstract class BlockPistonEvent extends BlockEvent implements Cancellable {
     private boolean cancelled;
-    private BlockFace direction;
+    private final BlockFace direction;
 
-    public BlockPistonEvent(Block block, BlockFace direction) {
+    public BlockPistonEvent(final Block block, final BlockFace direction) {
         super(block);
         this.direction = direction;
     }

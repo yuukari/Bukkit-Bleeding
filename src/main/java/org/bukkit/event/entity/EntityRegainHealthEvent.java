@@ -13,9 +13,9 @@ public class EntityRegainHealthEvent extends EntityEvent implements Cancellable 
 
     private boolean cancelled;
     private int amount;
-    private RegainReason regainReason;
+    private final RegainReason regainReason;
 
-    public EntityRegainHealthEvent(Entity entity, int amount, RegainReason regainReason) {
+    public EntityRegainHealthEvent(final Entity entity, final int amount, final RegainReason regainReason) {
         super(entity);
         this.amount = amount;
         this.regainReason = regainReason;

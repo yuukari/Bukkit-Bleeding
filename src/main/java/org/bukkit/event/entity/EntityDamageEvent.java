@@ -13,9 +13,9 @@ public class EntityDamageEvent extends EntityEvent implements Cancellable {
 
     private int damage;
     private boolean cancelled;
-    private DamageCause cause;
+    private final DamageCause cause;
 
-    public EntityDamageEvent(Entity damagee, DamageCause cause, int damage) {
+    public EntityDamageEvent(final Entity damagee, final DamageCause cause, final int damage) {
         super(damagee);
         this.cause = cause;
         this.damage = damage;

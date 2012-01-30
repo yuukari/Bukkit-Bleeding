@@ -13,11 +13,11 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class EntityCreatePortalEvent extends EntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private List<BlockState> blocks;
+    private final List<BlockState> blocks;
     private boolean cancelled = false;
     private PortalType type = PortalType.CUSTOM;
 
-    public EntityCreatePortalEvent(Entity what, List<BlockState> blocks, PortalType type) {
+    public EntityCreatePortalEvent(final Entity what, final List<BlockState> blocks, final PortalType type) {
         super(what);
 
         this.blocks = blocks;

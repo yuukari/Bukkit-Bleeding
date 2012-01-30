@@ -10,7 +10,7 @@ public class PlayerChangedWorldEvent extends PlayerEvent {
 
     private final World from;
 
-    public PlayerChangedWorldEvent(Player player, World from) {
+    public PlayerChangedWorldEvent(final Player player, final World from) {
         super(player);
         this.from = from;
     }
