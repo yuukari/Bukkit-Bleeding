@@ -1,7 +1,6 @@
 package org.bukkit.event.server;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.HandlerList;
 
 /**
@@ -13,13 +12,7 @@ public class ServerCommandEvent extends ServerEvent {
     private String command;
     private CommandSender sender;
 
-    @Deprecated
-    public ServerCommandEvent(ConsoleCommandSender console, String message) {
-        this(Type.SERVER_COMMAND, console, message);
-    }
-
-    public ServerCommandEvent(Type type, CommandSender sender, String command) {
-        super(type);
+    public ServerCommandEvent(CommandSender sender, String command) {
         this.command = command;
         this.sender = sender;
     }

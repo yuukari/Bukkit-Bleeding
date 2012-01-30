@@ -10,7 +10,7 @@ import org.bukkit.event.HandlerList;
 public class VehicleCreateEvent extends VehicleEvent {
     private static final HandlerList handlers = new HandlerList();
     public VehicleCreateEvent(Vehicle vehicle) {
-        super(Type.VEHICLE_CREATE, vehicle);
+        super(vehicle);
     }
 
     @Override

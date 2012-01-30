@@ -18,7 +18,7 @@ public class EntityCreatePortalEvent extends EntityEvent implements Cancellable 
     private PortalType type = PortalType.CUSTOM;
 
     public EntityCreatePortalEvent(Entity what, List<BlockState> blocks, PortalType type) {
-        super(Type.ENTITY_CREATE_PORTAL, what);
+        super(what);
 
         this.blocks = blocks;
         this.type = type;

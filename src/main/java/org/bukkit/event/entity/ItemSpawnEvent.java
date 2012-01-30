@@ -16,7 +16,7 @@ public class ItemSpawnEvent extends EntityEvent implements Cancellable {
     private boolean canceled;
 
     public ItemSpawnEvent(Entity spawnee, Location loc) {
-        super(Type.ITEM_SPAWN, spawnee);
+        super(spawnee);
         this.location = loc;
     }
 

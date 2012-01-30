@@ -14,7 +14,7 @@ public class SlimeSplitEvent extends EntityEvent implements Cancellable {
     private int count;
 
     public SlimeSplitEvent(Entity what, int count) {
-        super(Type.SLIME_SPLIT, what);
+        super(what);
         this.cancel = false;
         this.count = count;
     }

@@ -13,7 +13,7 @@ public class PlayerGameModeChangeEvent extends PlayerEvent implements Cancellabl
     private GameMode newGameMode;
 
     public PlayerGameModeChangeEvent(Player player, GameMode newGameMode) {
-        super(Type.PLAYER_GAME_MODE_CHANGE, player);
+        super(player);
         this.newGameMode = newGameMode;
     }
 

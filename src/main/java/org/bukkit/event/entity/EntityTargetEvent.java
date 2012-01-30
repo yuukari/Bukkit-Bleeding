@@ -15,7 +15,7 @@ public class EntityTargetEvent extends EntityEvent implements Cancellable {
     private TargetReason reason;
 
     public EntityTargetEvent(Entity entity, Entity target, TargetReason reason) {
-        super(Type.ENTITY_TARGET, entity);
+        super(entity);
         this.target = target;
         this.cancel = false;
         this.reason = reason;

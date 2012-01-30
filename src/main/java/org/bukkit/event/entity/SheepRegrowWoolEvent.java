@@ -13,7 +13,7 @@ public class SheepRegrowWoolEvent extends EntityEvent implements Cancellable {
     private boolean cancel;
 
     public SheepRegrowWoolEvent(Entity what) {
-        super(Type.SHEEP_REGROW_WOOL, what);
+        super(what);
         this.cancel = false;
     }
 

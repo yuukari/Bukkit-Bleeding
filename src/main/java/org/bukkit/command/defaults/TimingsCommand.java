@@ -1,5 +1,9 @@
 package org.bukkit.command.defaults;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -8,12 +12,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredListener;
 import org.bukkit.plugin.TimedRegisteredListener;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 public class TimingsCommand extends Command {
     public TimingsCommand(String name) {

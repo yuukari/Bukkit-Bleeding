@@ -14,7 +14,7 @@ public class FoodLevelChangeEvent extends EntityEvent implements Cancellable {
     private int level;
 
     public FoodLevelChangeEvent(Entity what, int level) {
-        super(Type.FOOD_LEVEL_CHANGE, what);
+        super(what);
         this.level = level;
     }
 

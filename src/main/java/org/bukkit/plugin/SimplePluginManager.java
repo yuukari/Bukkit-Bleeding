@@ -1,24 +1,38 @@
 package org.bukkit.plugin;
 
-import com.google.common.collect.ImmutableSet;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.PluginCommandYamlParser;
 import org.bukkit.command.SimpleCommandMap;
-import org.bukkit.event.Event.Priority;
-import org.bukkit.event.*;
+import org.bukkit.event.Event;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.util.FileUtil;
+
+import com.google.common.collect.ImmutableSet;
 
 /**
  * Handles all plugin management from the Server
@@ -85,6 +99,7 @@ public final class SimplePluginManager implements PluginManager {
      * @param directory Directory to check for plugins
      * @return A list of all plugins loaded
      */
+    @SuppressWarnings("unchecked")
     public Plugin[] loadPlugins(File directory) {
         Validate.notNull(directory, "Directory cannot be null");
         Validate.isTrue(directory.isDirectory(), "Directory must be a directory");
@@ -306,24 +321,6 @@ public final class SimplePluginManager implements PluginManager {
     }
 
     /**
-     * Loads the plugin in the specified file
-     * <p />
-     * File must be valid according to the current enabled Plugin interfaces
-     *
-     * @deprecated soft-dependencies are now ignored
-     * @param file File containing the plugin to load
-     * @param ignoreSoftDependencies Loader will ignore soft dependencies if this flag is set to true
-     * @return The Plugin loaded, or null if it was invalid
-     * @throws InvalidPluginException Thrown when the specified file is not a valid plugin
-     * @throws InvalidDescriptionException Thrown when the specified file contains an invalid description
-     * @throws UnknownDependencyException If a required dependency could not be found
-     */
-    @Deprecated
-    public synchronized Plugin loadPlugin(File file, boolean ignoreSoftDependencies) throws InvalidPluginException, InvalidDescriptionException, UnknownDependencyException {
-        return loadPlugin(file);
-    }
-
-    /**
      * Checks if the given plugin is loaded and returns it when applicable
      * <p />
      * Please note that the name of the plugin is case-sensitive
@@ -474,88 +471,6 @@ public final class SimplePluginManager implements PluginManager {
                     }
                 }
             }
-        }
-        // This is an ugly hack to handle old-style custom events in old plugins without breakage. All in the name of plugin compatibility.
-        if (event.getType() == Event.Type.CUSTOM_EVENT) {
-            TransitionalCustomEvent.getHandlerList().bake();
-            listeners = TransitionalCustomEvent.getHandlerList().getRegisteredListeners();
-            if (listeners != null) {
-                for (int i = 0; i < listeners.length; i++) {
-                    for (RegisteredListener registration : listeners[i]) {
-                        try {
-                            registration.callEvent(event);
-                        } catch (Throwable ex) {
-                            server.getLogger().log(Level.SEVERE, "Could not pass event " + event.getEventName() + " to " + registration.getPlugin().getDescription().getName(), ex);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Registers the given event to the specified listener
-     *
-     * @param type EventType to register
-     * @param listener PlayerListener to register
-     * @param priority Priority of this event
-     * @param plugin Plugin to register
-     */
-    public void registerEvent(Event.Type type, Listener listener, Priority priority, Plugin plugin) {
-        if (type == null) {
-            throw new IllegalArgumentException("Type cannot be null");
-        }
-        if (listener == null) {
-            throw new IllegalArgumentException("Listener cannot be null");
-        }
-        if (priority == null) {
-            throw new IllegalArgumentException("Priority cannot be null");
-        }
-        if (plugin == null) {
-            throw new IllegalArgumentException("Plugin cannot be null");
-        }
-        if (!plugin.isEnabled()) {
-            throw new IllegalPluginAccessException("Plugin attempted to register " + type + " while not enabled");
-        }
-
-        if (useTimings) {
-            getEventListeners(type.getEventClass()).register(new TimedRegisteredListener(listener, plugin.getPluginLoader().createExecutor(type, listener), priority.getNewPriority(), plugin));
-        } else {
-            getEventListeners(type.getEventClass()).register(new RegisteredListener(listener, plugin.getPluginLoader().createExecutor(type, listener), priority.getNewPriority(), plugin));
-        }
-    }
-
-    /**
-     * Registers the given event to the specified listener using a directly passed EventExecutor
-     *
-     * @param type EventType to register
-     * @param listener PlayerListener to register
-     * @param executor EventExecutor to register
-     * @param priority Priority of this event
-     * @param plugin Plugin to register
-     */
-    public void registerEvent(Event.Type type, Listener listener, EventExecutor executor, Priority priority, Plugin plugin) {
-        if (type == null) {
-            throw new IllegalArgumentException("Type cannot be null");
-        }
-        if (listener == null) {
-            throw new IllegalArgumentException("Listener cannot be null");
-        }
-        if (priority == null) {
-            throw new IllegalArgumentException("Priority cannot be null");
-        }
-        if (plugin == null) {
-            throw new IllegalArgumentException("Plugin cannot be null");
-        }
-        if (!plugin.isEnabled()) {
-            throw new IllegalPluginAccessException("Plugin attempted to register " + type + " while not enabled");
-        }
-
-        if (useTimings) {
-            getEventListeners(type.getEventClass()).register(new TimedRegisteredListener(listener, executor, priority.getNewPriority(), plugin));
-        }
-        else {
-            getEventListeners(type.getEventClass()).register(new RegisteredListener(listener, executor, priority.getNewPriority(), plugin));
         }
     }
 

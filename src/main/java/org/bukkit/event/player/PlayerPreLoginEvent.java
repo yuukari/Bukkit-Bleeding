@@ -16,7 +16,6 @@ public class PlayerPreLoginEvent extends Event {
     private InetAddress ipAddress;
 
     public PlayerPreLoginEvent(String name, InetAddress ipAddress) {
-        super(Type.PLAYER_PRELOGIN);
         this.result = Result.ALLOWED;
         this.message = "";
         this.name = name;

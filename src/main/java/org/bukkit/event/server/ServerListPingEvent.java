@@ -2,7 +2,6 @@ package org.bukkit.event.server;
 
 import java.net.InetAddress;
 
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
@@ -18,7 +17,6 @@ public class ServerListPingEvent extends ServerEvent {
     private int maxPlayers;
 
     public ServerListPingEvent(InetAddress address, String motd, int numPlayers, int maxPlayers) {
-        super(Event.Type.SERVER_LIST_PING);
         this.address = address;
         this.motd = motd;
         this.numPlayers = numPlayers;

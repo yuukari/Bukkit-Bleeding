@@ -9,7 +9,7 @@ import org.bukkit.event.HandlerList;
 public class BlockPistonRetractEvent extends BlockPistonEvent {
     private static final HandlerList handlers = new HandlerList();
     public BlockPistonRetractEvent(Block block, BlockFace direction) {
-        super(Type.BLOCK_PISTON_RETRACT, block, direction);
+        super(block, direction);
     }
 
     /**

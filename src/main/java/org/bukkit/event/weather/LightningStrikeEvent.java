@@ -16,7 +16,7 @@ public class LightningStrikeEvent extends WeatherEvent implements Cancellable {
     private LightningStrike bolt;
 
     public LightningStrikeEvent(World world, LightningStrike bolt) {
-        super(Type.LIGHTNING_STRIKE, world);
+        super(world);
         this.bolt = bolt;
     }
 

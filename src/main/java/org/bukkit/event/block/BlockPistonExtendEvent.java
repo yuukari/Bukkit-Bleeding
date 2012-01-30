@@ -15,7 +15,7 @@ public class BlockPistonExtendEvent extends BlockPistonEvent {
     private List<Block> blocks;
 
     public BlockPistonExtendEvent(Block block, int length, BlockFace direction) {
-        super(Type.BLOCK_PISTON_EXTEND, block, direction);
+        super(block, direction);
 
         this.length = length;
     }

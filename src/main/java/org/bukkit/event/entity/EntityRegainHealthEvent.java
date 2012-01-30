@@ -2,7 +2,6 @@ package org.bukkit.event.entity;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
@@ -17,7 +16,7 @@ public class EntityRegainHealthEvent extends EntityEvent implements Cancellable 
     private RegainReason regainReason;
 
     public EntityRegainHealthEvent(Entity entity, int amount, RegainReason regainReason) {
-        super(Event.Type.ENTITY_REGAIN_HEALTH, entity);
+        super(entity);
         this.amount = amount;
         this.regainReason = regainReason;
     }

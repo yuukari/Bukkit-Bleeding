@@ -20,7 +20,7 @@ public class EntityShootBowEvent extends EntityEvent implements Cancellable {
     private boolean cancelled;
 
     public EntityShootBowEvent(LivingEntity shooter, ItemStack bow, Projectile projectile, float force) {
-        super(Type.ENTITY_SHOOT_BOW, shooter);
+        super(shooter);
         this.bow = bow;
         this.projectile = projectile;
         this.force = force;

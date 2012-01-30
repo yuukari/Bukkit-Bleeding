@@ -2,7 +2,6 @@ package org.bukkit.event.entity;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
@@ -17,11 +16,7 @@ public class EntityDamageEvent extends EntityEvent implements Cancellable {
     private DamageCause cause;
 
     public EntityDamageEvent(Entity damagee, DamageCause cause, int damage) {
-        this(Event.Type.ENTITY_DAMAGE, damagee, cause, damage);
-    }
-
-    protected EntityDamageEvent(Event.Type type, Entity damagee, DamageCause cause, int damage) {
-        super(type, damagee);
+        super(damagee);
         this.cause = cause;
         this.damage = damage;
 

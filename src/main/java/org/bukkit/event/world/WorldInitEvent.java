@@ -10,7 +10,7 @@ import org.bukkit.event.HandlerList;
 public class WorldInitEvent extends WorldEvent {
     private static final HandlerList handlers = new HandlerList();
     public WorldInitEvent(World world) {
-        super(Type.WORLD_INIT, world);
+        super(world);
     }
 
     @Override

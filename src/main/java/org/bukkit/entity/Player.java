@@ -252,10 +252,7 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer, Plugi
 
     /**
      * Forces an update of the player's entire inventory.
-     *
-     * @deprecated This method should not be relied upon as it is a temporary work-around for a larger, more complicated issue.
      */
-    @Deprecated
     public void updateInventory();
 
     /**
@@ -362,28 +359,6 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer, Plugi
      * @param exp New experience points
      */
     public void setExp(float exp);
-
-    /**
-     * Gets the players current experience points towards the next level.
-     * <p>
-     * This is a percentage value. 0 is "no progress" and 1 is "next level".
-     *
-     * @return Current experience points
-     * @deprecated use {@link #getExp()} - this method is unsafe to use!
-     */
-    @Deprecated
-    public int getExperience();
-
-    /**
-     * Sets the players current experience points towards the next level
-     * <p>
-     * This is a percentage value. 0 is "no progress" and 1 is "next level".
-     *
-     * @param exp New experience points
-     * @deprecated use {@link #setExp(float)} - this method is unsafe to use!
-     */
-    @Deprecated
-    public void setExperience(int exp);
 
     /**
      * Gets the players current experience level

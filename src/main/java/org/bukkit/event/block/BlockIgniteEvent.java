@@ -3,7 +3,6 @@ package org.bukkit.event.block;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
@@ -19,7 +18,7 @@ public class BlockIgniteEvent extends BlockEvent implements Cancellable {
     private Player thePlayer;
 
     public BlockIgniteEvent(Block theBlock, IgniteCause cause, Player thePlayer) {
-        super(Event.Type.BLOCK_IGNITE, theBlock);
+        super(theBlock);
         this.cause = cause;
         this.thePlayer = thePlayer;
         this.cancel = false;
