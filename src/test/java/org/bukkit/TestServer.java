@@ -29,16 +29,16 @@ import java.util.logging.Logger;
 public class TestServer implements Server {
     private final PluginManager pluginManager = new SimplePluginManager(this, null);
     private static final Logger logger = Logger.getLogger("Bukkit");
-    
+
     private static TestServer instance;
-    
+
     public static TestServer getInstance() {
         if (instance == null) {
             instance = new TestServer();
         }
         return instance;
     }
-    
+
     public TestServer() {
         Bukkit.setServer(this);
     }
@@ -300,6 +300,10 @@ public class TestServer implements Server {
     }
 
     public Set<String> getListeningPluginChannels() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public boolean useExactLoginLocation() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
