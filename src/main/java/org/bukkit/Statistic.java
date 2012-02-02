@@ -8,15 +8,33 @@ import com.google.common.collect.Maps;
  * Represents a countable statistic, which is collected by the client
  */
 public enum Statistic {
+    GAMES_PLAYED(1000),
+    WORLDS_PLAYED(1001),
+    WORLDS_LOADED(1002),
+    SERVERS_JOINED(1003),
+    GAMES_QUIT(1004),
+    MINUTES_PLAYED(1100),
+    DISTANCE_WALKED(2000),
+    DISTANCE_SWUM(2001),
+    DISTANCE_FALLEN(2002),
+    DISTANCE_CLIMBED(2003),
+    DISTANCE_FLOWN(2004),
+    DISTANCE_DOVE(2005),
+    DISTANCE_BY_MINECART(2006),
+    DISTANCE_BY_BOAT(2007),
+    DISTANCE_BY_PIG(2008),
+    JUMPS(2010),
+    ITEMS_DROPPED(2011),
     DAMAGE_DEALT(2020),
     DAMAGE_TAKEN(2021),
     DEATHS(2022),
     MOB_KILLS(2023),
     PLAYER_KILLS(2024),
     FISH_CAUGHT(2025),
-    MINE_BLOCK(16777216, true),
-    USE_ITEM(6908288, false),
-    BREAK_ITEM(16973824, true);
+    MINE_BLOCK(0x1000000, true),
+    CRAFTED_ITEM(0x1010000, false),
+    USE_ITEM(0x1020000, false),
+    BREAK_ITEM(0x1030000, false);
 
     private final static Map<Integer, Statistic> BY_ID = Maps.newHashMap();
     private final int id;
