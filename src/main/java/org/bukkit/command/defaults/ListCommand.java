@@ -20,7 +20,7 @@ public class ListCommand extends VanillaCommand {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             // If a player is hidden from the sender don't show them in the list
-            if (sender instanceof Player && !((Player)sender).canSee(player))
+            if (sender instanceof Player && !((Player) sender).canSee(player))
                 continue;
 
             if (players.length() > 0) {
