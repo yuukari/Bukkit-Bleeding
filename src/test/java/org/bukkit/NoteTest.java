@@ -92,7 +92,7 @@ public class NoteTest {
     }
 
     @Test
-    public void doo() {
+    public void checkNewForAllValidValues() {
         for (int i = 1; i <= 24; i++) {
             Note note = new Note((byte) i);
             int octave = note.getOctave();
@@ -103,5 +103,17 @@ public class NoteTest {
             assertThat(newNote, is(note));
             assertThat(newNote.getId(), is(note.getId()));
         }
+    }
+
+    @Test
+    public void checkEquals() {
+        Note subject = new Note(1);
+
+        assertThat(subject, is(subject));
+        assertFalse(subject.equals(null));
+        assertFalse(subject.equals(1));
+        assertFalse(subject.equals(new Note(2)));
+        assertTrue(subject.equals(new Note(1)));
+        assertThat(subject.hashCode(), is(new Note(1).hashCode()));
     }
 }
