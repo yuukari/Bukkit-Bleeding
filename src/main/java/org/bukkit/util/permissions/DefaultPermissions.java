@@ -72,7 +72,7 @@ public final class DefaultPermissions {
     }
 
     public static void registerCorePermissions() {
-        Permission parent = registerPermission(ROOT, "Gives the user the ability to use all CraftBukkit utilities and commands");
+        Permission parent = registerPermission(ROOT, "Gives the user the ability to use all CraftBukkit utilities and commands", PermissionDefault.OP);
 
         CommandPermissions.registerPermissions(parent);
         BroadcastPermissions.registerPermissions(parent);
