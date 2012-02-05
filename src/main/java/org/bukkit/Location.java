@@ -1,5 +1,6 @@
 package org.bukkit;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
 
@@ -231,14 +232,10 @@ public class Location implements Cloneable {
      * @throws IllegalArgumentException for differing worlds
      */
     public Location add(Location vec) {
-        if (vec == null || vec.getWorld() != getWorld()) {
-            throw new IllegalArgumentException("Cannot add Locations of differing worlds");
-        }
+        Validate.notNull(vec, "Location cannot be null");
+        Validate.isTrue(getWorld().equals(vec.getWorld()), "Cannot add locations of differing worlds");
 
-        x += vec.x;
-        y += vec.y;
-        z += vec.z;
-        return this;
+        return add(vec.x, vec.y, vec.z);
     }
 
     /**
@@ -249,10 +246,8 @@ public class Location implements Cloneable {
      * @return the same location
      */
     public Location add(Vector vec) {
-        this.x += vec.getX();
-        this.y += vec.getY();
-        this.z += vec.getZ();
-        return this;
+        Validate.notNull(vec, "Vector cannot be null");
+        return add(vec.getX(), vec.getY(), vec.getZ());
     }
 
     /**
@@ -280,14 +275,10 @@ public class Location implements Cloneable {
      * @throws IllegalArgumentException for differing worlds
      */
     public Location subtract(Location vec) {
-        if (vec == null || vec.getWorld() != getWorld()) {
-            throw new IllegalArgumentException("Cannot add Locations of differing worlds");
-        }
+        Validate.notNull(vec, "Location cannot be null");
+        Validate.isTrue(getWorld().equals(vec.getWorld()), "Cannot subtract locations of differing worlds");
 
-        x -= vec.x;
-        y -= vec.y;
-        z -= vec.z;
-        return this;
+        return subtract(vec.x, vec.y, vec.z);
     }
 
     /**
@@ -298,10 +289,8 @@ public class Location implements Cloneable {
      * @return the same location
      */
     public Location subtract(Vector vec) {
-        this.x -= vec.getX();
-        this.y -= vec.getY();
-        this.z -= vec.getZ();
-        return this;
+        Validate.notNull(vec, "Vector cannot be null");
+        return subtract(vec.getX(), vec.getY(), vec.getZ());
     }
 
     /**
@@ -315,10 +304,7 @@ public class Location implements Cloneable {
      * @return the same location
      */
     public Location subtract(double x, double y, double z) {
-        this.x -= x;
-        this.y -= y;
-        this.z -= z;
-        return this;
+        return add(-x, -y, -z);
     }
 
     /**
@@ -372,13 +358,10 @@ public class Location implements Cloneable {
      * @throws IllegalArgumentException for differing worlds
      */
     public double distanceSquared(Location o) {
-        if (o == null) {
-            throw new IllegalArgumentException("Cannot measure distance to a null location");
-        } else if (o.getWorld() == null || getWorld() == null) {
-            throw new IllegalArgumentException("Cannot measure distance to a null world");
-        } else if (o.getWorld() != getWorld()) {
-            throw new IllegalArgumentException("Cannot measure distance between " + getWorld().getName() + " and " + o.getWorld().getName());
-        }
+        Validate.notNull(o, "Target location cannot be null");
+        Validate.notNull(getWorld(), "Source world cannot be null");
+        Validate.notNull(o.getWorld(), "Target world cannot be null");
+        Validate.isTrue(getWorld().equals(o.getWorld()), "Target and source world need to be the same");
 
         return Math.pow(x - o.x, 2) + Math.pow(y - o.y, 2) + Math.pow(z - o.z, 2);
     }
@@ -392,6 +375,9 @@ public class Location implements Cloneable {
      * @return the same location
      */
     public Location multiply(double m) {
+        if (m == 0) {
+            return this.zero();
+        }
         x *= m;
         y *= m;
         z *= m;
