@@ -3,6 +3,8 @@ package org.bukkit.potion;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.Validate;
+
 /**
  * Represents a type of potion and its effect on an entity.
  */
@@ -182,10 +184,11 @@ public abstract class PotionEffectType {
      * @return Resulting type, or null if not found.
      */
     public static PotionEffectType getById(int id) {
-        if (id >= byId.length)
+        if (id >= byId.length || id < 0)
             return null;
         return byId[id];
     }
+
     /**
      * Gets the effect type specified by the given name.
      * 
@@ -194,7 +197,8 @@ public abstract class PotionEffectType {
      * @return Resulting PotionEffectType, or null if not found.
      */
     public static PotionEffectType getByName(String name) {
-        return byName.get(name);
+        Validate.notNull(name, "name cannot be null");
+        return byName.get(name.toLowerCase());
     }
 
     /**
@@ -206,7 +210,7 @@ public abstract class PotionEffectType {
      *            PotionType to register
      */
     public static void registerPotionEffectType(PotionEffectType type) {
-        if (byId[type.id] != null || byName.containsKey(type.getName())) {
+        if (byId[type.id] != null || byName.containsKey(type.getName().toLowerCase())) {
             throw new IllegalArgumentException("Cannot set already-set type");
         } else if (!acceptingNew) {
             throw new IllegalStateException(
@@ -214,6 +218,7 @@ public abstract class PotionEffectType {
         }
 
         byId[type.id] = type;
+        byName.put(type.getName().toLowerCase(), type);
     }
 
     /**
