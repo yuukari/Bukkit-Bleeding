@@ -175,20 +175,30 @@ public abstract class PotionEffectType {
     private static boolean acceptingNew = true;
 
     /**
-     * Gets the PotionType specified by the unique id.
+     * Gets the effect type specified by the unique id.
      * 
      * @param id
-     *            unique ID to fetch
-     * @return Resulting PotionType, or null if not found.
+     *            Unique ID to fetch
+     * @return Resulting type, or null if not found.
      */
     public static PotionEffectType getById(int id) {
         if (id >= byId.length)
             return null;
         return byId[id];
     }
+    /**
+     * Gets the effect type specified by the given name.
+     * 
+     * @param name
+     *            Name of PotionEffectType to fetch
+     * @return Resulting PotionEffectType, or null if not found.
+     */
+    public static PotionEffectType getByName(String name) {
+        return byName.get(name);
+    }
 
     /**
-     * Registers a potion type with the given object.
+     * Registers an effect type with the given object.
      * <p>
      * Generally not to be used from within a plugin.
      * 
@@ -207,7 +217,7 @@ public abstract class PotionEffectType {
     }
 
     /**
-     * Stops accepting any potion type registrations.
+     * Stops accepting any effect type registrations.
      */
     public static void stopAcceptingRegistrations() {
         acceptingNew = false;
@@ -216,7 +226,7 @@ public abstract class PotionEffectType {
     /**
      * Returns an array of all the registered {@link PotionEffectType}s.
      * 
-     * @return Array of PotionTypes.
+     * @return Array of types.
      */
     public static PotionEffectType[] values() {
         return byId.clone();

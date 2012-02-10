@@ -234,6 +234,13 @@ public class Potion {
         return new Potion(type, tier, (damage & SPLASH_BIT) > 0, (damage & EXTENDED_BIT) > 0);
     }
 
+    public static Potion fromItemStack(ItemStack item) {
+        Validate.notNull(item, "item cannot be null");
+        if (item.getType() != Material.POTION)
+            throw new IllegalArgumentException("item is not a potion");
+        return fromDamage(item.getDurability());
+    }
+
     /**
      * Returns an instance of {@link PotionBrewer}.
      * 
