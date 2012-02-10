@@ -55,13 +55,13 @@ public class Potion {
      * Applies the effects that would be applied by this potion to the given
      * {@link LivingEntity}.
      *
-     * @see LivingEntity#addEffects(Collection)
+     * @see LivingEntity#addPotionEffects(Collection)
      * @param to
      *            The entity to apply the effects to
      */
     public void apply(LivingEntity to) {
         Validate.notNull(to, "entity cannot be null");
-        // to.addEffects(getEffects());
+        to.addPotionEffects(getEffects());
     }
 
     @Override
