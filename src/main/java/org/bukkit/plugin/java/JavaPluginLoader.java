@@ -1042,8 +1042,10 @@ public class JavaPluginLoader implements PluginLoader {
         }
 
         if (!plugin.isEnabled()) {
-            String message = String.format("[%s] Loading %s.", plugin.getDescription().getName(), plugin.getDescription().getFullName());
-            server.getLogger().info(message);
+            if (plugin.getDescription().hasAutomatedLogging()) {
+                String message = String.format("[%s] Loading %s.", plugin.getDescription().getName(), plugin.getDescription().getFullName());
+                server.getLogger().info(message);
+            }
 
             JavaPlugin jPlugin = (JavaPlugin) plugin;
 
@@ -1071,8 +1073,10 @@ public class JavaPluginLoader implements PluginLoader {
         }
 
         if (plugin.isEnabled()) {
-            String message = String.format("[%s] Unloading %s.", plugin.getDescription().getName(), plugin.getDescription().getFullName());
-            server.getLogger().info(message);
+            if (plugin.getDescription().hasAutomatedLogging()) {
+                String message = String.format("[%s] Unloading %s.", plugin.getDescription().getName(), plugin.getDescription().getFullName());
+                server.getLogger().info(message);
+            }
 
             server.getPluginManager().callEvent(new PluginDisableEvent(plugin));
 

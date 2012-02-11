@@ -28,6 +28,7 @@ public final class PluginDescriptionFile {
     private ArrayList<String> authors = new ArrayList<String>();
     private String website = null;
     private boolean database = false;
+    private boolean automatedLogging = true;
     private PluginLoadOrder order = PluginLoadOrder.POSTWORLD;
     private List<Permission> permissions = new ArrayList<Permission>();
     private PermissionDefault defaultPerm = PermissionDefault.OP;
@@ -157,6 +158,10 @@ public final class PluginDescriptionFile {
 
     public String getClassLoaderOf() {
         return classLoaderOf;
+    }
+    
+    public boolean hasAutomatedLogging() {
+        return automatedLogging;
     }
 
     @SuppressWarnings("unchecked")
@@ -293,6 +298,13 @@ public final class PluginDescriptionFile {
                 throw new InvalidDescriptionException(ex, "permissions are of wrong type");
             }
         }
+        if (map.containsKey("automatedLogging")) {
+            try {
+                automatedLogging = (Boolean) map.get("automatedLogging");
+            } catch (ClassCastException ex) {
+                throw new InvalidDescriptionException(ex, "automatedLogging is of wrong type");
+            }
+        }
     }
 
     private Map<String, Object> saveMap() {
@@ -304,6 +316,7 @@ public final class PluginDescriptionFile {
         map.put("database", database);
         map.put("order", order.toString());
         map.put("default-permission", defaultPerm.toString());
+        map.put("automatedLogging", automatedLogging);
 
         if (commands != null) {
             map.put("command", commands);
