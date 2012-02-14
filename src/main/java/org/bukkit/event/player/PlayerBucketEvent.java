@@ -9,19 +9,19 @@ import org.bukkit.inventory.ItemStack;
 
 @SuppressWarnings("serial")
 public abstract class PlayerBucketEvent extends PlayerEvent implements Cancellable {
-
     private ItemStack itemStack;
-    private boolean cancelled = false;
-    private Block blockClicked;
-    private BlockFace blockFace;
-    private Material bucket;
+    private boolean cancel;
+    private final Block blockClicked;
+    private final BlockFace blockFace;
+    private final Material bucket;
 
-    public PlayerBucketEvent(Type type, Player who, Block blockClicked, BlockFace blockFace, Material bucket, ItemStack itemInHand) {
-        super(type, who);
+    public PlayerBucketEvent(final Player player, final Block blockClicked, final BlockFace blockFace, final Material bucket, ItemStack itemInHand) {
+        super(player);
         this.blockClicked = blockClicked;
         this.blockFace = blockFace;
         this.itemStack = itemInHand;
         this.bucket = bucket;
+        this.cancel = false;
     }
 
     /**
@@ -70,10 +70,10 @@ public abstract class PlayerBucketEvent extends PlayerEvent implements Cancellab
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        this.cancel = cancel;
     }
 }

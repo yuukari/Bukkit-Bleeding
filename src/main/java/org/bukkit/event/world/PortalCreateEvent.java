@@ -14,12 +14,13 @@ import java.util.Collection;
 @SuppressWarnings("serial")
 public class PortalCreateEvent extends WorldEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private boolean cancel = false;
-    private ArrayList<Block> blocks = new ArrayList<Block>();
+    private boolean cancel;
+    private final ArrayList<Block> blocks;
 
     public PortalCreateEvent(final Collection<Block> blocks, final World world) {
-        super(Type.PORTAL_CREATE, world);
-        this.blocks.addAll(blocks);
+        super(world);
+        this.blocks = new ArrayList<Block>(blocks);
+        this.cancel = false;
     }
 
     /**

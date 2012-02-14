@@ -1,7 +1,6 @@
 package org.bukkit.event.entity;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -13,14 +12,13 @@ import org.bukkit.inventory.ItemStack;
 @SuppressWarnings("serial")
 public class EntityShootBowEvent extends EntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-
-    private ItemStack bow;
+    private final ItemStack bow;
     private Entity projectile;
-    private float force;
-    private boolean cancelled;
+    private final float force;
+    private boolean cancel;
 
-    public EntityShootBowEvent(LivingEntity shooter, ItemStack bow, Projectile projectile, float force) {
-        super(Type.ENTITY_SHOOT_BOW, shooter);
+    public EntityShootBowEvent(final Entity shooter, final ItemStack bow, Projectile projectile, final float force) {
+        super(shooter);
         this.bow = bow;
         this.projectile = projectile;
         this.force = force;
@@ -63,11 +61,11 @@ public class EntityShootBowEvent extends EntityEvent implements Cancellable {
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        cancelled = cancel;
+        this.cancel = cancel;
     }
 
     @Override

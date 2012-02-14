@@ -12,11 +12,12 @@ import org.bukkit.event.HandlerList;
 public class PlayerDropItemEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private final Item drop;
-    private boolean cancel = false;
+    private boolean cancel;
 
     public PlayerDropItemEvent(final Player player, final Item drop) {
-        super(Type.PLAYER_DROP_ITEM, player);
+        super(player);
         this.drop = drop;
+        this.cancel = false;
     }
 
     /**

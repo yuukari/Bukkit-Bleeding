@@ -3,7 +3,6 @@ package org.bukkit.event.entity;
 import org.bukkit.entity.ComplexEntityPart;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
@@ -12,33 +11,28 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class EntityDamageEvent extends EntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-
     private int damage;
-    private boolean cancelled;
-    private DamageCause cause;
+    private boolean cancel;
+    private final DamageCause cause;
 
-    public EntityDamageEvent(Entity damagee, DamageCause cause, int damage) {
-        this(Event.Type.ENTITY_DAMAGE, damagee, cause, damage);
-    }
-
-    protected EntityDamageEvent(Event.Type type, Entity damagee, DamageCause cause, int damage) {
-        super(type, damagee);
+    public EntityDamageEvent(final Entity entity, final DamageCause cause, int damage) {
+        super(entity);
         this.cause = cause;
         this.damage = damage;
 
-        if (damagee instanceof ComplexEntityPart) {
-            ((ComplexEntityPart) damagee).getParent().setLastDamageCause(this);
+        if (entity instanceof ComplexEntityPart) {
+            ((ComplexEntityPart) entity).getParent().setLastDamageCause(this);
         } else {
-            damagee.setLastDamageCause(this);
+            entity.setLastDamageCause(this);
         }
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        cancelled = cancel;
+        this.cancel = cancel;
     }
 
     /**

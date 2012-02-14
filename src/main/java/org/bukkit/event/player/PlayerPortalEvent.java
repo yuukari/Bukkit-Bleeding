@@ -11,15 +11,13 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class PlayerPortalEvent extends PlayerTeleportEvent {
     private static final HandlerList handlers = new HandlerList();
+    private boolean useTravelAgent;
+    private TravelAgent travelAgent;
 
-    protected boolean useTravelAgent = true;
-
-    protected Player player;
-    protected TravelAgent travelAgent;
-
-    public PlayerPortalEvent(Player player, Location from, Location to, TravelAgent pta) {
-        super(Type.PLAYER_PORTAL, player, from, to);
+    public PlayerPortalEvent(final Player player, Location from, Location to, TravelAgent pta) {
+        super(player, from, to);
         this.travelAgent = pta;
+        this.useTravelAgent = true;
     }
 
     public void useTravelAgent(boolean useTravelAgent) {
@@ -31,7 +29,7 @@ public class PlayerPortalEvent extends PlayerTeleportEvent {
     }
 
     public TravelAgent getPortalTravelAgent() {
-        return this.travelAgent;
+        return travelAgent;
     }
 
     public void setPortalTravelAgent(TravelAgent travelAgent) {

@@ -12,18 +12,17 @@ import org.bukkit.inventory.ItemStack;
 @SuppressWarnings("serial")
 public class FurnaceSmeltEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private Block furnace;
-    private ItemStack source;
+    private final Block furnace;
+    private final ItemStack source;
     private ItemStack result;
-    private boolean cancelled;
+    private boolean cancel;
 
-    public FurnaceSmeltEvent(Block furnace, ItemStack source, ItemStack result) {
-        super(Type.FURNACE_SMELT);
-
+    public FurnaceSmeltEvent(final Block furnace, final ItemStack source, ItemStack result) {
+        super();
         this.furnace = furnace;
         this.source = source;
         this.result = result;
-        this.cancelled = false;
+        this.cancel = false;
     }
 
     /**
@@ -63,11 +62,11 @@ public class FurnaceSmeltEvent extends Event implements Cancellable {
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        this.cancel = cancel;
     }
 
     @Override

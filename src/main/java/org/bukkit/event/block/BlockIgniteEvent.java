@@ -3,7 +3,6 @@ package org.bukkit.event.block;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
@@ -14,14 +13,14 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class BlockIgniteEvent extends BlockEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private IgniteCause cause;
+    private final IgniteCause cause;
     private boolean cancel;
-    private Player thePlayer;
+    private final Player player;
 
-    public BlockIgniteEvent(Block theBlock, IgniteCause cause, Player thePlayer) {
-        super(Event.Type.BLOCK_IGNITE, theBlock);
+    public BlockIgniteEvent(final Block block, final IgniteCause cause, final Player player) {
+        super(block);
         this.cause = cause;
-        this.thePlayer = thePlayer;
+        this.player = player;
         this.cancel = false;
     }
 
@@ -48,7 +47,7 @@ public class BlockIgniteEvent extends BlockEvent implements Cancellable {
      * @return The Player who placed the fire block, if not ignited by a player returns null
      */
     public Player getPlayer() {
-        return thePlayer;
+        return player;
     }
 
     /**

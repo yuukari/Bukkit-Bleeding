@@ -14,19 +14,20 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class PlayerChatEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private boolean cancel = false;
+    private boolean cancel;
     private String message;
     private String format = "<%1$s> %2$s";
     private final Set<Player> recipients;
+    
+    @Deprecated
+    private Player spoofedPlayer;
 
     public PlayerChatEvent(final Player player, final String message) {
-        this(Type.PLAYER_CHAT, player, message);
-    }
-
-    protected PlayerChatEvent(final Type type, final Player player, final String message) {
-        super(type, player);
-        recipients = new HashSet<Player>(Arrays.asList(player.getServer().getOnlinePlayers()));
+        super(player);
+        this.recipients = new HashSet<Player>(Arrays.asList(player.getServer().getOnlinePlayers()));
         this.message = message;
+        this.spoofedPlayer = player;
+        this.cancel = false;
     }
 
     public boolean isCancelled() {
@@ -35,6 +36,11 @@ public class PlayerChatEvent extends PlayerEvent implements Cancellable {
 
     public void setCancelled(boolean cancel) {
         this.cancel = cancel;
+    }
+    
+    @Override
+    public Player getPlayer() {
+        return spoofedPlayer;
     }
 
     /**
@@ -60,9 +66,11 @@ public class PlayerChatEvent extends PlayerEvent implements Cancellable {
      * executed as
      *
      * @param player New player which this event will execute as
+     * @deprecated Use player.sendMessage instead
      */
+    @Deprecated
     public void setPlayer(final Player player) {
-        this.player = player;
+        this.spoofedPlayer = player;
     }
 
     /**
@@ -82,7 +90,7 @@ public class PlayerChatEvent extends PlayerEvent implements Cancellable {
     public void setFormat(final String format) {
         // Oh for a better way to do this!
         try {
-            String.format(format, player, message);
+            String.format(format, getPlayer(), message);
         } catch (RuntimeException ex) {
             ex.fillInStackTrace();
             throw ex;

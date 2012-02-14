@@ -8,11 +8,11 @@ import org.bukkit.event.Event;
  */
 @SuppressWarnings("serial")
 public abstract class BlockEvent extends Event {
-    protected Block block;
-
-    public BlockEvent(final Event.Type type, final Block theBlock) {
-        super(type);
-        block = theBlock;
+    private final Block block;
+    
+    public BlockEvent(final Block block) {
+        super();
+        this.block = block;
     }
 
     /**

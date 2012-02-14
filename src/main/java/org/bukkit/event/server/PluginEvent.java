@@ -9,9 +9,8 @@ import org.bukkit.plugin.Plugin;
 public abstract class PluginEvent extends ServerEvent {
     private final Plugin plugin;
 
-    public PluginEvent(final Type type, final Plugin plugin) {
-        super(type);
-
+    public PluginEvent(final Plugin plugin) {
+        super();
         this.plugin = plugin;
     }
 
@@ -20,7 +19,7 @@ public abstract class PluginEvent extends ServerEvent {
      *
      * @return Plugin for this event
      */
-    public Plugin getPlugin() {
+    public final Plugin getPlugin() {
         return plugin;
     }
 }

@@ -14,13 +14,13 @@ import org.bukkit.event.HandlerList;
 public class SignChangeEvent extends BlockEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private boolean cancel = false;
-    private Player player;
+    private final Player player;
     private String[] lines;
 
-    public SignChangeEvent(final Block theBlock, final Player thePlayer, String[] theLines) {
-        super(Type.SIGN_CHANGE, theBlock);
-        this.player = thePlayer;
-        this.lines = theLines;
+    public SignChangeEvent(final Block block, final Player player, String[] lines) {
+        super(block);
+        this.player = player;
+        this.lines = lines;
     }
 
     /**

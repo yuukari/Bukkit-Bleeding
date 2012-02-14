@@ -11,20 +11,21 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class PlayerInteractEntityEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    protected Entity clickedEntity;
-    boolean cancelled = false;
+    private Entity clickedEntity;
+    private boolean cancel;
 
-    public PlayerInteractEntityEvent(Player who, Entity clickedEntity) {
-        super(Type.PLAYER_INTERACT_ENTITY, who);
+    public PlayerInteractEntityEvent(final Player player, final Entity clickedEntity) {
+        super(player);
         this.clickedEntity = clickedEntity;
+        this.cancel = false;
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        this.cancel = cancel;
     }
 
     /**

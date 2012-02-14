@@ -11,21 +11,20 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class LightningStrikeEvent extends WeatherEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
+    private boolean cancel;
+    private final LightningStrike bolt;
 
-    private boolean canceled;
-    private LightningStrike bolt;
-
-    public LightningStrikeEvent(World world, LightningStrike bolt) {
-        super(Type.LIGHTNING_STRIKE, world);
+    public LightningStrikeEvent(final World world, final LightningStrike bolt) {
+        super(world);
         this.bolt = bolt;
     }
 
     public boolean isCancelled() {
-        return canceled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        canceled = cancel;
+        this.cancel = cancel;
     }
 
     /**

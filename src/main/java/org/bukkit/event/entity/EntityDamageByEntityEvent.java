@@ -7,11 +7,10 @@ import org.bukkit.entity.Entity;
  */
 @SuppressWarnings("serial")
 public class EntityDamageByEntityEvent extends EntityDamageEvent {
+    private final Entity damager;
 
-    private Entity damager;
-
-    public EntityDamageByEntityEvent(Entity damager, Entity damagee, DamageCause cause, int damage) {
-        super(Type.ENTITY_DAMAGE, damagee, cause, damage);
+    public EntityDamageByEntityEvent(final Entity damager, final Entity entity, final DamageCause cause, final int damage) {
+        super(entity, cause, damage);
         this.damager = damager;
     }
 

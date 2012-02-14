@@ -10,9 +10,8 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class PlayerAnimationEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-
-    private PlayerAnimationType animationType;
-    private boolean isCancelled = false;
+    private final PlayerAnimationType animationType;
+    private boolean cancel;
 
     /**
      * Construct a new PlayerAnimation event
@@ -20,10 +19,11 @@ public class PlayerAnimationEvent extends PlayerEvent implements Cancellable {
      * @param player The player instance
      */
     public PlayerAnimationEvent(final Player player) {
-        super(Type.PLAYER_ANIMATION, player);
+        super(player);
 
         // Only supported animation type for now:
         animationType = PlayerAnimationType.ARM_SWING;
+        this.cancel = false;
     }
 
     /**
@@ -36,11 +36,11 @@ public class PlayerAnimationEvent extends PlayerEvent implements Cancellable {
     }
 
     public boolean isCancelled() {
-        return this.isCancelled;
+        return this.cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        this.isCancelled = cancel;
+        this.cancel = cancel;
     }
 
     @Override

@@ -14,22 +14,23 @@ public class PlayerDeathEvent extends EntityDeathEvent {
     private String deathMessage = "";
     private int newLevel = 0;
     private int newTotalExp = 0;
-    private boolean keepLevel = false;
+    private boolean keepLevel;
 
-    public PlayerDeathEvent(Player player, List<ItemStack> drops, int droppedExp, String deathMessage) {
+    public PlayerDeathEvent(final Player player, final List<ItemStack> drops, final int droppedExp, String deathMessage) {
         this(player, drops, droppedExp, 0, deathMessage);
     }
 
-    public PlayerDeathEvent(Player player, List<ItemStack> drops, int droppedExp, int newExp, String deathMessage) {
+    public PlayerDeathEvent(final Player player, final List<ItemStack> drops, final int droppedExp, int newExp, String deathMessage) {
         this(player, drops, droppedExp, newExp, 0, 0, deathMessage);
     }
 
-    public PlayerDeathEvent(Player player, List<ItemStack> drops, int droppedExp, int newExp, int newTotalExp, int newLevel, String deathMessage) {
+    public PlayerDeathEvent(final Player player, final List<ItemStack> drops, final int droppedExp, int newExp, int newTotalExp, int newLevel, String deathMessage) {
         super(player, drops, droppedExp);
         this.newExp = newExp;
         this.newTotalExp = newTotalExp;
         this.newLevel = newLevel;
         this.deathMessage = deathMessage;
+        this.keepLevel = false;
     }
 
     /**

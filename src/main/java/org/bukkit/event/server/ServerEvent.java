@@ -7,7 +7,7 @@ import org.bukkit.event.Event;
  */
 @SuppressWarnings("serial")
 public abstract class ServerEvent extends Event {
-    public ServerEvent(final Type type) {
-        super(type);
+    public ServerEvent() {
+        super();
     }
 }

@@ -12,13 +12,12 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class EntityTeleportEvent extends EntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-
     private boolean cancel;
     private Location from;
     private Location to;
 
-    public EntityTeleportEvent(Entity what, Location from, Location to) {
-        super(Type.ENTITY_TELEPORT, what);
+    public EntityTeleportEvent(final Entity entity, Location from, Location to) {
+        super(entity);
         this.from = from;
         this.to = to;
         this.cancel = false;

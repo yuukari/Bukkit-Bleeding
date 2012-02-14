@@ -14,8 +14,8 @@ public class SheepDyeWoolEvent extends EntityEvent implements Cancellable {
     private boolean cancel;
     private DyeColor color;
 
-    public SheepDyeWoolEvent(Entity what, DyeColor color) {
-        super(Type.SHEEP_DYE_WOOL, what);
+    public SheepDyeWoolEvent(final Entity entity, DyeColor color) {
+        super(entity);
         this.cancel = false;
         this.color = color;
     }

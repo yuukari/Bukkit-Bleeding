@@ -12,12 +12,12 @@ import org.bukkit.event.HandlerList;
 public class PlayerShearEntityEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private boolean cancel;
-    private Entity what;
+    private final Entity entity;
 
-    public PlayerShearEntityEvent(Player who, Entity what) {
-        super(Type.PLAYER_SHEAR_ENTITY, who);
+    public PlayerShearEntityEvent(final Player player, final Entity entity) {
+        super(player);
         this.cancel = false;
-        this.what = what;
+        this.entity = entity;
     }
 
     public boolean isCancelled() {
@@ -34,7 +34,7 @@ public class PlayerShearEntityEvent extends PlayerEvent implements Cancellable {
      * @return the entity the player is shearing
      */
     public Entity getEntity() {
-        return what;
+        return entity;
     }
 
     @Override

@@ -11,14 +11,17 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class VehicleEntityCollisionEvent extends VehicleCollisionEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private Entity entity;
-    private boolean cancelled = false;
-    private boolean cancelledPickup = false;
-    private boolean cancelledCollision = false;
+    private final Entity entity;
+    private boolean cancel;
+    private boolean cancelPickup;
+    private boolean cancelCollision;
 
-    public VehicleEntityCollisionEvent(Vehicle vehicle, Entity entity) {
-        super(Type.VEHICLE_COLLISION_ENTITY, vehicle);
+    public VehicleEntityCollisionEvent(final Vehicle vehicle, final Entity entity) {
+        super(vehicle);
         this.entity = entity;
+        this.cancel = false;
+        this.cancelPickup = false;
+        this.cancelCollision = false;
     }
 
     public Entity getEntity() {
@@ -26,27 +29,27 @@ public class VehicleEntityCollisionEvent extends VehicleCollisionEvent implement
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        this.cancel = cancel;
     }
 
     public boolean isPickupCancelled() {
-        return cancelledPickup;
+        return cancelPickup;
     }
 
     public void setPickupCancelled(boolean cancel) {
-        cancelledPickup = cancel;
+        cancelPickup = cancel;
     }
 
     public boolean isCollisionCancelled() {
-        return cancelledCollision;
+        return cancelCollision;
     }
 
     public void setCollisionCancelled(boolean cancel) {
-        cancelledCollision = cancel;
+        cancelCollision = cancel;
     }
 
     @Override

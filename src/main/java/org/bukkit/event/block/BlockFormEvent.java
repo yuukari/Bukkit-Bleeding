@@ -22,21 +22,13 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class BlockFormEvent extends BlockEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private boolean cancelled;
-    private BlockState newState;
+    private boolean cancel;
+    private final BlockState newState;
 
-    public BlockFormEvent(Block block, BlockState newState) {
-        super(Type.BLOCK_FORM, block);
-        this.block = block;
+    public BlockFormEvent(final Block block, final BlockState newState) {
+        super(block);
         this.newState = newState;
-        this.cancelled = false;
-    }
-
-    public BlockFormEvent(Type type, Block block, BlockState newState) {
-        super(type, block);
-        this.block = block;
-        this.newState = newState;
-        this.cancelled = false;
+        this.cancel = false;
     }
 
     /**
@@ -49,11 +41,11 @@ public class BlockFormEvent extends BlockEvent implements Cancellable {
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        this.cancel = cancel;
     }
 
     @Override

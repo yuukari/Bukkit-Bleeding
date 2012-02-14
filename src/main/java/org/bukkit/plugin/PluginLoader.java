@@ -57,18 +57,7 @@ public interface PluginLoader {
      * @return The filters
      */
     public Pattern[] getPluginFileFilters();
-
-    /**
-     * Creates and returns an event executor
-     *
-     * @param type Type of the event executor to create
-     * @param listener the object that will handle the eventual call back
-     * @return The new executor
-     * @deprecated see PluginLoader#createRegisteredListeners
-     */
-    @Deprecated
-    public EventExecutor createExecutor(Event.Type type, Listener listener);
-
+    
     /**
      * Creates and returns registered listeners for the event classes used in this listener
      *

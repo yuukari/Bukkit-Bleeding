@@ -8,11 +8,11 @@ import org.bukkit.event.Event;
  */
 @SuppressWarnings("serial")
 public abstract class PlayerEvent extends Event {
-    protected Player player;
+    private final Player player;
 
-    public PlayerEvent(final Event.Type type, final Player who) {
-        super(type);
-        player = who;
+    public PlayerEvent(final Player player) {
+        super();
+        this.player = player;
     }
 
     /**
@@ -20,7 +20,8 @@ public abstract class PlayerEvent extends Event {
      *
      * @return Player who is involved in this event
      */
-    public final Player getPlayer() {
+    public Player getPlayer() {
+        // TODO: Mark final when PlayerChatEvent.setPlayer is removed
         return player;
     }
 }

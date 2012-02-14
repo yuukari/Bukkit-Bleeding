@@ -11,14 +11,15 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class VehicleDamageEvent extends VehicleEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private Entity attacker;
+    private final Entity attacker;
     private int damage;
-    private boolean cancelled;
+    private boolean cancel;
 
-    public VehicleDamageEvent(Vehicle vehicle, Entity attacker, int damage) {
-        super(Type.VEHICLE_DAMAGE, vehicle);
+    public VehicleDamageEvent(final Vehicle vehicle, final Entity attacker, int damage) {
+        super(vehicle);
         this.attacker = attacker;
         this.damage = damage;
+        this.cancel = false;
     }
 
     /**
@@ -49,11 +50,11 @@ public class VehicleDamageEvent extends VehicleEvent implements Cancellable {
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        this.cancel = cancel;
     }
 
     @Override

@@ -10,10 +10,11 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class ChunkUnloadEvent extends ChunkEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private boolean cancel = false;
+    private boolean cancel;
 
     public ChunkUnloadEvent(final Chunk chunk) {
-        super(Type.CHUNK_UNLOAD, chunk);
+        super(chunk);
+        this.cancel = false;
     }
 
     public boolean isCancelled() {

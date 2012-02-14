@@ -10,23 +10,22 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class PigZapEvent extends EntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
+    private boolean cancel;
+    private final Entity pigzombie;
+    private final Entity bolt;
 
-    private boolean canceled;
-    private Entity pigzombie;
-    private Entity bolt;
-
-    public PigZapEvent(Entity pig, Entity bolt, Entity pigzombie) {
-        super(Type.PIG_ZAP, pig);
+    public PigZapEvent(final Entity entity, final Entity bolt, final Entity pigzombie) {
+        super(entity);
         this.bolt = bolt;
         this.pigzombie = pigzombie;
     }
 
     public boolean isCancelled() {
-        return canceled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        canceled = cancel;
+        this.cancel = cancel;
     }
 
     /**

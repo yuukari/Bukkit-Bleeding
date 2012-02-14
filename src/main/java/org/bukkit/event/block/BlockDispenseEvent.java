@@ -14,15 +14,15 @@ import org.bukkit.util.Vector;
 @SuppressWarnings("serial")
 public class BlockDispenseEvent extends BlockEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-
-    private boolean cancelled = false;
+    private boolean cancel;;
     private ItemStack item;
     private Vector velocity;
 
-    public BlockDispenseEvent(Block block, ItemStack dispensed, Vector velocity) {
-        super(Type.BLOCK_DISPENSE, block);
-        this.item = dispensed;
+    public BlockDispenseEvent(final Block block, ItemStack item, Vector velocity) {
+        super(block);
+        this.item = item;
         this.velocity = velocity;
+        this.cancel = false;
     }
 
     /**
@@ -65,11 +65,11 @@ public class BlockDispenseEvent extends BlockEvent implements Cancellable {
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        cancelled = cancel;
+        this.cancel = cancel;
     }
 
     @Override

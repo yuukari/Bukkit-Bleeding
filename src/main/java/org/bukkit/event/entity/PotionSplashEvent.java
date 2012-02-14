@@ -16,11 +16,11 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class PotionSplashEvent extends ProjectileHitEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private boolean cancelled;
-    private Map<LivingEntity, Double> affectedEntities;
+    private boolean cancel;
+    private final Map<LivingEntity, Double> affectedEntities;
 
-    public PotionSplashEvent(ThrownPotion potion, Map<LivingEntity, Double> affectedEntities) {
-        super(Type.POTION_SPLASH, potion);
+    public PotionSplashEvent(final ThrownPotion potion, final Map<LivingEntity, Double> affectedEntities) {
+        super(potion);
 
         this.affectedEntities = affectedEntities;
     }
@@ -71,11 +71,11 @@ public class PotionSplashEvent extends ProjectileHitEvent implements Cancellable
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        cancelled = cancel;
+        this.cancel = cancel;
     }
 
     @Override

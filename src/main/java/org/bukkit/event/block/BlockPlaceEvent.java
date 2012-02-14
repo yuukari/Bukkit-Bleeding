@@ -15,18 +15,18 @@ import org.bukkit.inventory.ItemStack;
 @SuppressWarnings("serial")
 public class BlockPlaceEvent extends BlockEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    protected boolean cancel;
-    protected boolean canBuild;
-    protected Block placedAgainst;
-    protected BlockState replacedBlockState;
-    protected ItemStack itemInHand;
-    protected Player player;
+    private boolean cancel;
+    private boolean canBuild;
+    private final Block placedAgainst;
+    private final BlockState replacedBlockState;
+    private final ItemStack itemInHand;
+    private final Player player;
 
-    public BlockPlaceEvent(Block placedBlock, BlockState replacedBlockState, Block placedAgainst, ItemStack itemInHand, Player thePlayer, boolean canBuild) {
-        super(Type.BLOCK_PLACE, placedBlock);
+    public BlockPlaceEvent(final Block block, final BlockState replacedBlockState, final Block placedAgainst, final ItemStack itemInHand, final Player player, boolean canBuild) {
+        super(block);
         this.placedAgainst = placedAgainst;
         this.itemInHand = itemInHand;
-        this.player = thePlayer;
+        this.player = player;
         this.replacedBlockState = replacedBlockState;
         this.canBuild = canBuild;
         cancel = false;

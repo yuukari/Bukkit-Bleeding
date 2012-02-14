@@ -10,21 +10,20 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class ThunderChangeEvent extends WeatherEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
+    private boolean cancel;
+    private final boolean to;
 
-    private boolean canceled;
-    private boolean to;
-
-    public ThunderChangeEvent(World world, boolean to) {
-        super(Type.THUNDER_CHANGE, world);
+    public ThunderChangeEvent(final World world, final boolean to) {
+        super(world);
         this.to = to;
     }
 
     public boolean isCancelled() {
-        return canceled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        canceled = cancel;
+        this.cancel = cancel;
     }
 
     /**

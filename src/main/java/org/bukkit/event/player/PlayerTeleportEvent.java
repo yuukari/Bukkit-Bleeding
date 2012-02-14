@@ -2,7 +2,6 @@ package org.bukkit.event.player;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
@@ -11,26 +10,17 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class PlayerTeleportEvent extends PlayerMoveEvent {
     private static final HandlerList handlers = new HandlerList();
-    private TeleportCause cause = TeleportCause.UNKNOWN;
+    private final TeleportCause cause;
 
     public PlayerTeleportEvent(Player player, Location from, Location to) {
-        super(Type.PLAYER_TELEPORT, player, from, to);
+        this(player, from, to, null);
+        // TODO
     }
 
-    public PlayerTeleportEvent(Player player, Location from, Location to, TeleportCause cause) {
-        super(Type.PLAYER_TELEPORT, player, from, to);
+    public PlayerTeleportEvent(final Player player, Location from, Location to, final TeleportCause cause) {
+        super(player, from, to);
 
-        this.cause = cause;
-    }
-
-    public PlayerTeleportEvent(final Event.Type type, Player player, Location from, Location to) {
-        super(type, player, from, to);
-    }
-
-    public PlayerTeleportEvent(final Event.Type type, Player player, Location from, Location to, TeleportCause cause) {
-        super(type, player, from, to);
-
-        this.cause = cause;
+        this.cause = cause != null ? cause : TeleportCause.UNKNOWN;
     }
 
     /**

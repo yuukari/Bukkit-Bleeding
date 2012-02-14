@@ -10,11 +10,10 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class PlayerBedLeaveEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
+    private final Block bed;
 
-    private Block bed;
-
-    public PlayerBedLeaveEvent(Player who, Block bed) {
-        super(Type.PLAYER_BED_LEAVE, who);
+    public PlayerBedLeaveEvent(final Player player, final Block bed) {
+        super(player);
         this.bed = bed;
     }
 

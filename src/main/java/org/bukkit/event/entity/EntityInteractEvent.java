@@ -11,21 +11,20 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class EntityInteractEvent extends EntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    protected Block block;
+    private Block block;
+    private boolean cancel;
 
-    private boolean cancelled;
-
-    public EntityInteractEvent(Entity entity, Block block) {
-        super(Type.ENTITY_INTERACT, entity);
+    public EntityInteractEvent(final Entity entity, final Block block) {
+        super(entity);
         this.block = block;
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        cancelled = cancel;
+        this.cancel = cancel;
     }
 
     /**

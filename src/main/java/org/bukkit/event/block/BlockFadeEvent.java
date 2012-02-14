@@ -19,13 +19,13 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class BlockFadeEvent extends BlockEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private boolean cancelled;
-    private BlockState newState;
+    private boolean cancel;
+    private final BlockState newState;
 
-    public BlockFadeEvent(Block block, BlockState newState) {
-        super(Type.BLOCK_FADE, block);
+    public BlockFadeEvent(final Block block, final BlockState newState) {
+        super(block);
         this.newState = newState;
-        this.cancelled = false;
+        this.cancel = false;
     }
 
     /**
@@ -38,11 +38,11 @@ public class BlockFadeEvent extends BlockEvent implements Cancellable {
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        this.cancel = cancel;
     }
 
     @Override

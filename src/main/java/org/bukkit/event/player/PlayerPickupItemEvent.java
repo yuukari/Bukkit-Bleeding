@@ -12,13 +12,14 @@ import org.bukkit.event.HandlerList;
 public class PlayerPickupItemEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private final Item item;
-    private boolean cancel = false;
-    private int remaining;
+    private boolean cancel;
+    private final int remaining;
 
-    public PlayerPickupItemEvent(final Player player, final Item item, int remaining) {
-        super(Type.PLAYER_PICKUP_ITEM, player);
+    public PlayerPickupItemEvent(final Player player, final Item item, final int remaining) {
+        super(player);
         this.item = item;
         this.remaining = remaining;
+        this.cancel = false;
     }
 
     /**

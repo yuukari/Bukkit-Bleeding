@@ -11,13 +11,13 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class PlayerBedEnterEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-
-    private boolean cancel = false;
+    private boolean cancel;
     private Block bed;
 
-    public PlayerBedEnterEvent(Player who, Block bed) {
-        super(Type.PLAYER_BED_ENTER, who);
+    public PlayerBedEnterEvent(final Player who, final Block bed) {
+        super(who);
         this.bed = bed;
+        this.cancel = false;
     }
 
     public boolean isCancelled() {

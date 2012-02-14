@@ -14,7 +14,6 @@ import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.PluginCommandYamlParser;
 import org.bukkit.command.SimpleCommandMap;
-import org.bukkit.event.Event.Priority;
 import org.bukkit.event.*;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
@@ -481,54 +480,6 @@ public final class SimplePluginManager implements PluginManager {
                 }
             }
         }
-        // This is an ugly hack to handle old-style custom events in old plugins without breakage. All in the name of plugin compatibility.
-        if (event.getType() == Event.Type.CUSTOM_EVENT) {
-            TransitionalCustomEvent.getHandlerList().bake();
-            listeners = TransitionalCustomEvent.getHandlerList().getRegisteredListeners();
-            if (listeners != null) {
-                for (int i = 0; i < listeners.length; i++) {
-                    for (RegisteredListener registration : listeners[i]) {
-                        try {
-                            registration.callEvent(event);
-                        } catch (Throwable ex) {
-                            server.getLogger().log(Level.SEVERE, "Could not pass event " + event.getEventName() + " to " + registration.getPlugin().getDescription().getName(), ex);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Registers the given event to the specified listener
-     *
-     * @param type EventType to register
-     * @param listener PlayerListener to register
-     * @param priority Priority of this event
-     * @param plugin Plugin to register
-     * @deprecated See {@link #registerEvent(Class, Listener, EventPriority, EventExecutor, Plugin, boolean)}
-     */
-    @Deprecated
-    public void registerEvent(Event.Type type, Listener listener, Priority priority, Plugin plugin) {
-        registerEvent(type.getEventClass(), listener, priority.getNewPriority(), plugin.getPluginLoader().createExecutor(type, listener), plugin);
-    }
-
-    /**
-     * Registers the given event to the specified listener using a directly passed EventExecutor
-     *
-     * @param type EventType to register
-     * @param listener PlayerListener to register
-     * @param executor EventExecutor to register
-     * @param priority Priority of this event
-     * @param plugin Plugin to register
-     * @deprecated See {@link #registerEvent(Class, Listener, EventPriority, EventExecutor, Plugin, boolean)}
-     */
-    @Deprecated
-    public void registerEvent(Event.Type type, Listener listener, EventExecutor executor, Priority priority, Plugin plugin) {
-        Validate.notNull(type, "Type cannot be null");
-        Validate.notNull(priority, "Priority cannot be null");
-
-        registerEvent(type.getEventClass(), listener, priority.getNewPriority(), executor, plugin);
     }
 
     public void registerEvents(Listener listener, Plugin plugin) {

@@ -13,20 +13,20 @@ import org.bukkit.inventory.ItemStack;
 @SuppressWarnings("serial")
 public class PrepareItemEnchantEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private Block table;
-    private ItemStack item;
-    private int[] levelsOffered;
-    private int bonus;
-    private boolean cancelled;
-    private Player enchanter;
+    private final Block table;
+    private final ItemStack item;
+    private final int[] levelsOffered;
+    private final int bonus;
+    private boolean cancel;
+    private final Player enchanter;
 
-    public PrepareItemEnchantEvent(Player enchanter, Block table, ItemStack item, int[] levelsOffered, int bonus) {
+    public PrepareItemEnchantEvent(final Player enchanter, final Block table, final ItemStack item, final int[] levelsOffered, final int bonus) {
         this.enchanter = enchanter;
         this.table = table;
         this.item = item;
         this.levelsOffered = levelsOffered;
         this.bonus = bonus;
-        this.cancelled = false;
+        this.cancel = false;
     }
 
     /**
@@ -73,11 +73,11 @@ public class PrepareItemEnchantEvent extends Event implements Cancellable {
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        this.cancel = cancel;
     }
 
     @Override

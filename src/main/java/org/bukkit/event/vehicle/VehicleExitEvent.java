@@ -11,11 +11,11 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class VehicleExitEvent extends VehicleEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private boolean cancelled;
-    private LivingEntity exited;
+    private boolean cancel;
+    private final LivingEntity exited;
 
-    public VehicleExitEvent(Vehicle vehicle, LivingEntity exited) {
-        super(Type.VEHICLE_EXIT, vehicle);
+    public VehicleExitEvent(Vehicle vehicle, final LivingEntity exited) {
+        super(vehicle);
         this.exited = exited;
     }
 
@@ -29,11 +29,11 @@ public class VehicleExitEvent extends VehicleEvent implements Cancellable {
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        this.cancel = cancel;
     }
 
     @Override

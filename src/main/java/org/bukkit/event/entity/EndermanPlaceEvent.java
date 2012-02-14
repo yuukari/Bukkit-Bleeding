@@ -19,7 +19,7 @@ public class EndermanPlaceEvent extends EntityEvent implements Cancellable {
     private Location location;
 
     public EndermanPlaceEvent(Entity what, Location location) {
-        super(Type.ENDERMAN_PLACE, what);
+        super(what);
         this.location = location;
         this.cancel = false;
     }

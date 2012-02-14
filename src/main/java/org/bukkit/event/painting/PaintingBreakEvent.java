@@ -10,13 +10,13 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class PaintingBreakEvent extends PaintingEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
+    private boolean cancel;
+    private final RemoveCause cause;
 
-    private boolean cancelled;
-    private RemoveCause cause;
-
-    public PaintingBreakEvent(final Painting painting, RemoveCause cause) {
-        super(Type.PAINTING_BREAK, painting);
+    public PaintingBreakEvent(final Painting painting, final RemoveCause cause) {
+        super(painting);
         this.cause = cause;
+        this.cancel = false;
     }
 
     /**
@@ -29,11 +29,11 @@ public class PaintingBreakEvent extends PaintingEvent implements Cancellable {
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+        this.cancel = cancel;
     }
 
     /**

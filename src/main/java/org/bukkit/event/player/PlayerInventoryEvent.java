@@ -10,10 +10,10 @@ import org.bukkit.inventory.Inventory;
 @SuppressWarnings("serial")
 public class PlayerInventoryEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
-    protected Inventory inventory;
+    private final Inventory inventory;
 
     public PlayerInventoryEvent(final Player player, final Inventory inventory) {
-        super(Type.PLAYER_INVENTORY, player);
+        super(player);
         this.inventory = inventory;
     }
 

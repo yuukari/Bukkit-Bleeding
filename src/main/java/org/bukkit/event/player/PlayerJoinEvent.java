@@ -11,8 +11,8 @@ public class PlayerJoinEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
     private String joinMessage;
 
-    public PlayerJoinEvent(Player playerJoined, String joinMessage) {
-        super(Type.PLAYER_JOIN, playerJoined);
+    public PlayerJoinEvent(final Player player, String joinMessage) {
+        super(player);
         this.joinMessage = joinMessage;
     }
 

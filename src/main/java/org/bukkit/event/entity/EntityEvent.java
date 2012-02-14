@@ -8,11 +8,11 @@ import org.bukkit.event.Event;
  */
 @SuppressWarnings("serial")
 public abstract class EntityEvent extends Event {
-    protected Entity entity;
+    private final Entity entity;
 
-    public EntityEvent(final Event.Type type, final Entity what) {
-        super(type);
-        entity = what;
+    public EntityEvent(final Entity entity) {
+        super();
+        this.entity = entity;
     }
 
     /**

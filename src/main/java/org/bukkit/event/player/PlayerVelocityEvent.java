@@ -2,46 +2,25 @@ package org.bukkit.event.player;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.util.Vector;
 
 @SuppressWarnings("serial")
 public class PlayerVelocityEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-
-    /**
-     * Holds information for player velocity events
-     */
-    private boolean cancel = false;
+    private boolean cancel;
     private Vector velocity;
 
-    public PlayerVelocityEvent(final Player player, final Vector velocity) {
-        super(Type.PLAYER_VELOCITY, player);
+    public PlayerVelocityEvent(final Player player, Vector velocity) {
+        super(player);
         this.velocity = velocity;
+        this.cancel = false;
     }
 
-    PlayerVelocityEvent(final Event.Type type, final Player player, final Vector velocity) {
-        super(type, player);
-        this.velocity = velocity;
-    }
-
-    /**
-     * Gets the cancellation state of this event. A cancelled event will not
-     * be executed in the server, but will still pass to other plugins
-     *
-     * @return true if this event is cancelled
-     */
     public boolean isCancelled() {
         return cancel;
     }
 
-    /**
-     * Sets the cancellation state of this event. A cancelled event will not
-     * be executed in the server, but will still pass to other plugins
-     *
-     * @param cancel true if you wish to cancel this event
-     */
     public void setCancelled(boolean cancel) {
         this.cancel = cancel;
     }

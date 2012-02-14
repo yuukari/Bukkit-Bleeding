@@ -16,13 +16,13 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class BlockCanBuildEvent extends BlockEvent {
     private static final HandlerList handlers = new HandlerList();
-    protected boolean buildable;
-    protected int material;
+    private boolean buildable;
+    private final int id;
 
-    public BlockCanBuildEvent(Block block, int id, boolean canBuild) {
-        super(Type.BLOCK_CANBUILD, block);
-        buildable = canBuild;
-        material = id;
+    public BlockCanBuildEvent(final Block block, final int id, boolean buildable) {
+        super(block);
+        this.buildable = buildable;
+        this.id = id;
     }
 
     /**
@@ -50,7 +50,7 @@ public class BlockCanBuildEvent extends BlockEvent {
      * @return The Material that we are trying to place
      */
     public Material getMaterial() {
-        return Material.getMaterial(material);
+        return Material.getMaterial(id);
     }
 
     /**
@@ -59,7 +59,7 @@ public class BlockCanBuildEvent extends BlockEvent {
      * @return The Material ID for the Material that we are trying to place
      */
     public int getMaterialId() {
-        return material;
+        return id;
     }
 
     @Override

@@ -9,11 +9,10 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class PlayerQuitEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
-
     private String quitMessage;
 
-    public PlayerQuitEvent(Player who, String quitMessage) {
-        super(Type.PLAYER_QUIT, who);
+    public PlayerQuitEvent(final Player player, String quitMessage) {
+        super(player);
         this.quitMessage = quitMessage;
     }
 

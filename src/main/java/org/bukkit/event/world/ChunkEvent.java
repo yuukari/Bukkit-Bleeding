@@ -7,10 +7,10 @@ import org.bukkit.Chunk;
  */
 @SuppressWarnings("serial")
 public abstract class ChunkEvent extends WorldEvent {
-    protected Chunk chunk;
+    private final Chunk chunk;
 
-    protected ChunkEvent(Type type, Chunk chunk) {
-        super(type, chunk.getWorld());
+    protected ChunkEvent(Chunk chunk) {
+        super(chunk.getWorld());
         this.chunk = chunk;
     }
 
@@ -19,7 +19,7 @@ public abstract class ChunkEvent extends WorldEvent {
      *
      * @return Chunk that triggered this event
      */
-    public Chunk getChunk() {
+    public final Chunk getChunk() {
         return chunk;
     }
 }

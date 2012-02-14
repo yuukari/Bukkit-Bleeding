@@ -2,7 +2,6 @@ package org.bukkit.event.entity;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
@@ -11,13 +10,12 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class EntityRegainHealthEvent extends EntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-
-    private boolean cancelled;
+    private boolean cancel;
     private int amount;
-    private RegainReason regainReason;
+    private final RegainReason regainReason;
 
-    public EntityRegainHealthEvent(Entity entity, int amount, RegainReason regainReason) {
-        super(Event.Type.ENTITY_REGAIN_HEALTH, entity);
+    public EntityRegainHealthEvent(final Entity entity, int amount, final RegainReason regainReason) {
+        super(entity);
         this.amount = amount;
         this.regainReason = regainReason;
     }
@@ -41,11 +39,11 @@ public class EntityRegainHealthEvent extends EntityEvent implements Cancellable 
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        cancelled = cancel;
+        this.cancel = cancel;
     }
 
     /**

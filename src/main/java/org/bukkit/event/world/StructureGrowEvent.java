@@ -11,23 +11,24 @@ import org.bukkit.event.HandlerList;
 /**
  * Event that is called when an organic structure attempts to grow (Sapling -> Tree), (Mushroom -> Huge Mushroom), naturally or using bonemeal.
  */
+@SuppressWarnings("serial")
 public class StructureGrowEvent extends WorldEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private static final long serialVersionUID = 1L;
-    private boolean cancelled = false;
-    private Location location;
+    private boolean cancel;
+    private final Location location;
     private final TreeType species;
     private final boolean bonemeal;
-    private Player player;
-    private List<BlockState> blocks;
+    private final Player player;
+    private final List<BlockState> blocks;
 
-    public StructureGrowEvent(Location location, final TreeType species, final boolean bonemeal, Player player, List<BlockState> blocks) {
-        super(Type.STRUCTURE_GROW, location.getWorld());
+    public StructureGrowEvent(Location location, final TreeType species, final boolean bonemeal, final Player player, final List<BlockState> blocks) {
+        super(location.getWorld());
         this.location = location;
         this.species = species;
         this.bonemeal = bonemeal;
         this.player = player;
         this.blocks = blocks;
+        this.cancel = false;
     }
 
     /**
@@ -76,11 +77,11 @@ public class StructureGrowEvent extends WorldEvent implements Cancellable {
     }
 
     public boolean isCancelled() {
-        return cancelled;
+        return cancel;
     }
 
     public void setCancelled(boolean cancel) {
-        cancelled = cancel;
+        this.cancel = cancel;
     }
 
     @Override

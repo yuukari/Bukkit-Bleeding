@@ -15,16 +15,16 @@ import org.bukkit.event.block.Action;
 @SuppressWarnings("serial")
 public class PlayerInteractEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    protected ItemStack item;
-    protected Action action;
-    protected Block blockClicked;
-    protected BlockFace blockFace;
-
+    private final ItemStack item;
+    private final Action action;
+    private final Block blockClicked;
+    private final BlockFace blockFace;
+    
     private Result useClickedBlock;
     private Result useItemInHand;
 
-    public PlayerInteractEvent(Player who, Action action, ItemStack item, Block clickedBlock, BlockFace clickedFace) {
-        super(Type.PLAYER_INTERACT, who);
+    public PlayerInteractEvent(final Player player, final Action action, final ItemStack item, final Block clickedBlock, final BlockFace clickedFace) {
+        super(player);
         this.action = action;
         this.item = item;
         this.blockClicked = clickedBlock;

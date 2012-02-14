@@ -10,12 +10,13 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class PlayerToggleSneakEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private boolean isSneaking;
-    private boolean cancel = false;
+    private final boolean isSneaking;
+    private boolean cancel;
 
-    public PlayerToggleSneakEvent(final Player player, boolean isSneaking) {
-        super(Type.PLAYER_TOGGLE_SNEAK, player);
+    public PlayerToggleSneakEvent(final Player player, final boolean isSneaking) {
+        super(player);
         this.isSneaking = isSneaking;
+        this.cancel = false;
     }
 
     /**

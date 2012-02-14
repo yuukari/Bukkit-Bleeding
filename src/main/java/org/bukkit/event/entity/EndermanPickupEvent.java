@@ -17,7 +17,7 @@ public class EndermanPickupEvent extends EntityEvent implements Cancellable {
     private Block block;
 
     public EndermanPickupEvent(Entity what, Block block) {
-        super(Type.ENDERMAN_PICKUP, what);
+        super(what);
         this.block = block;
         this.cancel = false;
     }

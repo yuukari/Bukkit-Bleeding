@@ -13,12 +13,12 @@ import org.bukkit.event.HandlerList;
 @SuppressWarnings("serial")
 public class BlockFromToEvent extends BlockEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    protected Block to;
-    protected BlockFace face;
-    protected boolean cancel;
+    private Block to;
+    private final BlockFace face;
+    private boolean cancel;
 
     public BlockFromToEvent(final Block block, final BlockFace face) {
-        super(Type.BLOCK_FROMTO, block);
+        super(block);
         this.face = face;
         this.cancel = false;
     }
@@ -39,7 +39,7 @@ public class BlockFromToEvent extends BlockEvent implements Cancellable {
      */
     public Block getToBlock() {
         if (to == null) {
-            to = block.getRelative(face.getModX(), face.getModY(), face.getModZ());
+            to = getBlock().getRelative(face.getModX(), face.getModY(), face.getModZ());
         }
         return to;
     }

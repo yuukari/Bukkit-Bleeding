@@ -7,20 +7,20 @@ import org.bukkit.event.Cancellable;
 
 @SuppressWarnings("serial")
 public abstract class BlockPistonEvent extends BlockEvent implements Cancellable {
-    private boolean cancelled;
-    private BlockFace direction;
+    private boolean cancel;
+    private final BlockFace direction;
 
-    public BlockPistonEvent(Type type, Block block, BlockFace direction) {
-        super(type, block);
+    public BlockPistonEvent(final Block block, final BlockFace direction) {
+        super(block);
         this.direction = direction;
     }
 
     public boolean isCancelled() {
-        return this.cancelled;
+        return this.cancel;
     }
 
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public void setCancelled(boolean cancel) {
+        this.cancel = cancel;
     }
 
     /**
@@ -29,7 +29,7 @@ public abstract class BlockPistonEvent extends BlockEvent implements Cancellable
      * @return stickiness of the piston
      */
     public boolean isSticky() {
-        return block.getType() == Material.PISTON_STICKY_BASE;
+        return getBlock().getType() == Material.PISTON_STICKY_BASE;
     }
 
     /**

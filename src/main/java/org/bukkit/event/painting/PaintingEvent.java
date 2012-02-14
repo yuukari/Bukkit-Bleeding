@@ -8,11 +8,10 @@ import org.bukkit.event.Event;
  */
 @SuppressWarnings("serial")
 public abstract class PaintingEvent extends Event {
+    private final Painting painting;
 
-    protected Painting painting;
-
-    protected PaintingEvent(final Type type, final Painting painting) {
-        super(type);
+    public PaintingEvent(final Painting painting) {
+        super();
         this.painting = painting;
     }
 
@@ -21,7 +20,7 @@ public abstract class PaintingEvent extends Event {
      *
      * @return the painting
      */
-    public Painting getPainting() {
+    public final Painting getPainting() {
         return painting;
     }
 }

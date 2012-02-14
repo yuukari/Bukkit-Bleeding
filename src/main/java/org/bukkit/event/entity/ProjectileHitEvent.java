@@ -11,11 +11,7 @@ public class ProjectileHitEvent extends EntityEvent {
     private static final HandlerList handlers = new HandlerList();
 
     public ProjectileHitEvent(Projectile projectile) {
-        super(Type.PROJECTILE_HIT, projectile);
-    }
-
-    public ProjectileHitEvent(Type type, Projectile projectile) {
-        super(type, projectile);
+        super(projectile);
     }
 
     @Override
