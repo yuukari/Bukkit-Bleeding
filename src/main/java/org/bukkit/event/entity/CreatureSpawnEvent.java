@@ -2,6 +2,7 @@ package org.bukkit.event.entity;
 
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.Location;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -15,14 +16,19 @@ public class CreatureSpawnEvent extends EntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private final Location location;
     private boolean canceled;
-    private final CreatureType creatureType;
+    private final EntityType creatureType;
     private final SpawnReason spawnReason;
 
-    public CreatureSpawnEvent(final Entity spawnee, final CreatureType mobtype, final Location loc, final SpawnReason spawnReason) {
+    public CreatureSpawnEvent(final Entity spawnee, final EntityType type, final Location loc, final SpawnReason spawnReason) {
         super(spawnee);
-        this.creatureType = mobtype;
+        this.creatureType = type;
         this.location = loc;
         this.spawnReason = spawnReason;
+    }
+
+    @Deprecated
+    public CreatureSpawnEvent(Entity spawnee, CreatureType type, Location loc, SpawnReason reason) {
+        this(spawnee, type.toEntityType(), loc, reason);
     }
 
     public boolean isCancelled() {
@@ -46,8 +52,19 @@ public class CreatureSpawnEvent extends EntityEvent implements Cancellable {
      * Gets the type of creature being spawned.
      *
      * @return A CreatureType value detailing the type of creature being spawned
+     * @deprecated In favour of {@link #getSpawnedType()}.
      */
+    @Deprecated
     public CreatureType getCreatureType() {
+        return CreatureType.fromEntityType(creatureType);
+    }
+
+    /**
+     * Gets the type of creature being spawned.
+     *
+     * @return A CreatureType value detailing the type of creature being spawned
+     */
+    public EntityType getSpawnedType() {
         return creatureType;
     }
 
