@@ -33,9 +33,9 @@ public interface ChunkSnapshot {
      * Get block type for block at corresponding coordinate in the chunk
      *
      * @param x 0-15
-     * @param y 0-127
+     * @param y 0-(world height-1)
      * @param z 0-15
-     * @return 0-255
+     * @return 0-4095
      */
     int getBlockTypeId(int x, int y, int z);
 
@@ -43,7 +43,7 @@ public interface ChunkSnapshot {
      * Get block data for block at corresponding coordinate in the chunk
      *
      * @param x 0-15
-     * @param y 0-127
+     * @param y 0-(world height-1)
      * @param z 0-15
      * @return 0-15
      */
@@ -53,7 +53,7 @@ public interface ChunkSnapshot {
      * Get sky light level for block at corresponding coordinate in the chunk
      *
      * @param x 0-15
-     * @param y 0-127
+     * @param y 0-(world height-1)
      * @param z 0-15
      * @return 0-15
      */
@@ -63,7 +63,7 @@ public interface ChunkSnapshot {
      * Get light level emitted by block at corresponding coordinate in the chunk
      *
      * @param x 0-15
-     * @param y 0-127
+     * @param y 0-(world height-1)
      * @param z 0-15
      * @return 0-15
      */
@@ -105,6 +105,20 @@ public interface ChunkSnapshot {
      */
     double getRawBiomeRainfall(int x, int z);
 
+    /**
+     * Test if section (16x16x16 portion of chunk) is empty
+     * 
+     * @param sy Section Y coordinate (block Y / 16, from 0 to ((worldheight/16)-1))
+     * @return true if empty (all block types IDs are zero), false if not
+     */
+    boolean isSectionEmpty(int sy);
+
+    /**
+     * Get first non-empty section Y coordinate, starting from world top
+     * @return -1 if all empty, or section Y (block Y / 16) of first non-empty section in chunk
+     */
+    int getTopNonEmptySection();
+    
     /**
      * Get world full time when chunk snapshot was captured
      *

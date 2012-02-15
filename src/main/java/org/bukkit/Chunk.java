@@ -1,5 +1,6 @@
 package org.bukkit;
 
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
@@ -34,7 +35,7 @@ public interface Chunk {
      * Gets a block from this chunk
      *
      * @param x 0-15
-     * @param y 0-127
+     * @param y 0-(worldheight-1)
      * @param z 0-15
      * @return the Block
      */
@@ -56,6 +57,15 @@ public interface Chunk {
      * @return ChunkSnapshot
      */
     ChunkSnapshot getChunkSnapshot(boolean includeMaxblocky, boolean includeBiome, boolean includeBiomeTempRain);
+
+    /**
+     * Capture thread-safe read-only snapshot of chunk section data
+     *
+     * @param sy - section Y coordinate (block Y coordinate / 16)
+     * 
+     * @return ChunkSectionSnapshot
+     */
+    ChunkSectionSnapshot getChunkSectionSnapshot(int sy);
 
     /**
      * Get a list of all entities in the chunk.
@@ -82,6 +92,7 @@ public interface Chunk {
      * Loads the chunk.
      *
      * @param generate Whether or not to generate a chunk if it doesn't already exist
+     * 
      * @return true if the chunk has loaded successfully, otherwise false
      */
     boolean load(boolean generate);
@@ -98,6 +109,7 @@ public interface Chunk {
      *
      * @param save Controls whether the chunk is saved
      * @param safe Controls whether to unload the chunk when players are nearby
+     * 
      * @return true if the chunk has unloaded successfully, otherwise false
      */
     boolean unload(boolean save, boolean safe);
@@ -106,6 +118,7 @@ public interface Chunk {
      * Unloads and optionally saves the Chunk
      *
      * @param save Controls whether the chunk is saved
+     * 
      * @return true if the chunk has unloaded successfully, otherwise false
      */
     boolean unload(boolean save);
@@ -116,4 +129,41 @@ public interface Chunk {
      * @return true if the chunk has unloaded successfully, otherwise false
      */
     boolean unload();
+
+    /**
+     * Test if section (16x16x16 portion of chunk) is empty
+     * 
+     * @param sy Section Y coordinate (block Y / 16, from 0 to ((worldheight/16)-1))
+     * 
+     * @return true if empty (all block types IDs are zero), false if not
+     */
+    boolean isSectionEmpty(int sy);
+
+    /**
+     * Get first non-empty section Y coordinate, starting from world top
+     * 
+     * @return -1 if all empty, or section Y (block Y / 16) of first non-empty section in chunk
+     */
+    int getTopNonEmptySection();
+    
+    /**
+     * Get biome at given coordinates
+     *
+     * @param x 0-15
+     * @param z 0-15
+     * 
+     * @return Biome at given coordinate
+     */
+    Biome getBiome(int x, int z);
+
+    /**
+     * Set biome at given coordinates
+     *
+     * @param x 0-15
+     * @param z 0-15
+     * @param biome New biome value
+     * 
+     * @return true if biome changed, false if unchanged
+     */
+    boolean setBiome(int x, int z, Biome biome);
 }
