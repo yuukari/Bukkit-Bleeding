@@ -13,7 +13,11 @@ public class CommandHelpTopic implements HelpTopic {
     }
 
     public boolean playerCanSee(Player player) {
-        return player.hasPermission(command.getPermission());
+        if (!command.getPermission().equals("")) {
+            return player.hasPermission(command.getPermission());
+        } else {
+            return true;
+        }
     }
 
     public String getName() {
@@ -21,14 +25,18 @@ public class CommandHelpTopic implements HelpTopic {
     }
 
     public String getShortText() {
-        if (command.getAliases().size() > 0) {
-            return command.getUsage() + "\nAliases: " + StringUtils.join(command.getAliases(), ", ");
-        } else {
-            return command.getUsage();
-        }
+        return command.getUsage();
     }
 
     public String getFullText() {
-        return command.getDescription();
+        StringBuffer sb = new StringBuffer();
+        sb.append(command.getUsage());
+        sb.append("\n");
+        sb.append(command.getDescription());
+        sb.append("\n");
+        if (command.getAliases().size() > 0) {
+            sb.append(command.getDescription() + "Aliases: " + StringUtils.join(command.getAliases(), ", "));
+        }
+        return sb.toString();
     }
 }

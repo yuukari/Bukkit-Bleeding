@@ -2,22 +2,37 @@ package org.bukkit.help;
 
 import org.bukkit.entity.Player;
 
-/**
- */
 public class CustomHelpTopic implements HelpTopic {
+    
+    private String permissionNode;
+    private String name;
+    private String shortText;
+    private String fullText;
+    
+    public CustomHelpTopic(String permissionNode, String name, String shortText, String fullText) {
+        this.permissionNode = permissionNode;
+        this.name = name;
+        this.shortText = shortText;
+        this.fullText = fullText;
+    }
+    
     public boolean playerCanSee(Player player) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        if (!permissionNode.equals("")) {
+            return player.hasPermission(permissionNode);
+        } else {
+            return true;
+        }
     }
 
     public String getName() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return name;
     }
 
     public String getShortText() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return shortText;
     }
 
     public String getFullText() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return fullText;
     }
 }
