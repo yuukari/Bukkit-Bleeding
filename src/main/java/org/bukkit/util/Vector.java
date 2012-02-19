@@ -548,9 +548,8 @@ public class Vector implements Cloneable, ConfigurationSerializable {
         try {
             return (Vector) super.clone();
         } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+            throw new Error(e);
         }
-        return null;
     }
 
     /**

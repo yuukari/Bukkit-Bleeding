@@ -474,9 +474,8 @@ public class Location implements Cloneable {
         try {
             return (Location) super.clone();
         } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+            throw new Error(e);
         }
-        return null;
     }
 
     /**

@@ -220,9 +220,8 @@ public class ItemStack implements Cloneable, ConfigurationSerializable {
 
             return itemStack;
         } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+            throw new Error(e);
         }
-        return null;
     }
 
     @Override

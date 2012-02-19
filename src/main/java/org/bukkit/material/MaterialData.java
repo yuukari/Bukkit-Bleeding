@@ -108,8 +108,7 @@ public class MaterialData implements Cloneable {
         try {
             return (MaterialData) super.clone();
         } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+            throw new Error(e);
         }
-        return null;
     }
 }
