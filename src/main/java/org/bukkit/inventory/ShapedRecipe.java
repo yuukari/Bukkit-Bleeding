@@ -1,12 +1,13 @@
 package org.bukkit.inventory;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
+
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Represents a shaped (ie normal) crafting recipe.
@@ -37,33 +38,28 @@ public class ShapedRecipe implements Recipe {
      * @param shape The rows of the recipe (up to 3 rows).
      * @return The changed recipe, so you can chain calls.
      */
-    public ShapedRecipe shape(String... shape) {
-        if (shape == null || shape.length > 3 || shape.length < 1) {
-            throw new IllegalArgumentException("Crafting recipes should be 1, 2, or 3 rows.");
-        }
+    public ShapedRecipe shape(final String... shape) {
+        Validate.notNull(shape, "Must provide a shape.");
+        Validate.isTrue(shape.length > 0 && shape.length < 4, "Crafting recipes should be 1, 2, 3 rows, not ", shape.length);
+
         for (String row : shape) {
-            if (row == null || row.length() > 3 || row.length() < 1) {
-                throw new IllegalArgumentException("Crafting rows should be 1, 2, or 3 characters.");
-            }
+            Validate.notNull(row, "Shape cannot have null rows.");
+            Validate.isTrue(row.length() > 0 && row.length() < 4, "Crafting rows should be 1, 2, or 3 characters, not ", row.length());
         }
-        this.rows = shape;
+        this.rows = new String[shape.length];
+        for(int i = 0; i < shape.length; i++) {
+            this.rows[i] = shape[i];
+        }
 
         // Remove character mappings for characters that no longer exist in the shape
-        Set<Character> ingredients = new HashSet<Character>();
+        HashMap<Character, ItemStack> newIngredients = new HashMap<Character, ItemStack>();
         for (String row : shape) {
             for (Character c : row.toCharArray()) {
-                ingredients.add(c);
+                newIngredients.put(c, ingredients.get(c));
             }
         }
-        this.ingredients.keySet().retainAll(ingredients);
-        Map<Character, ItemStack> ingredientsTemp = this.ingredients;
+        this.ingredients = newIngredients;
 
-        this.ingredients = new HashMap<Character, ItemStack>();
-        for (char key : ingredientsTemp.keySet()) {
-            try {
-                setIngredient(key, ingredientsTemp.get(key).getType(), ingredientsTemp.get(key).getDurability());
-            } catch (IllegalArgumentException e) {}
-        }
         return this;
     }
 
@@ -98,22 +94,9 @@ public class ShapedRecipe implements Recipe {
      * @return The changed recipe, so you can chain calls.
      */
     public ShapedRecipe setIngredient(char key, Material ingredient, int raw) {
-        if (!hasKey(key)) {
-            throw new IllegalArgumentException("Symbol " + key + " does not appear in the shape.");
-        }
+        Validate.isTrue(ingredients.containsKey(key), "Symbol does not appear in the shape:", key);
         ingredients.put(key, new ItemStack(ingredient, 1, (short) raw));
         return this;
-    }
-
-    private boolean hasKey(char c) {
-        String key = Character.toString(c);
-
-        for (String row : rows) {
-            if (row.contains(key)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -122,11 +105,7 @@ public class ShapedRecipe implements Recipe {
      * @return The mapping of character to ingredients.
      */
     public Map<Character, ItemStack> getIngredientMap() {
-        Map<Character, ItemStack> toReturn = new HashMap<Character, ItemStack>();
-        for (char c : ingredients.keySet()) {
-            toReturn.put(c, ingredients.get(c).clone());
-        }
-        return toReturn;
+        return ImmutableMap.copyOf(ingredients);
     }
 
     /**

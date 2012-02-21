@@ -1,10 +1,14 @@
 package org.bukkit.inventory;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * Represents a shapeless recipe, where the arrangement of the ingredients on the crafting grid
@@ -92,9 +96,8 @@ public class ShapelessRecipe implements Recipe {
      * @return The changed recipe, so you can chain calls.
      */
     public ShapelessRecipe addIngredient(int count, Material ingredient, int rawdata) {
-        if (ingredients.size() + count > 9) {
-            throw new IllegalArgumentException("Shapeless recipes cannot have more than 9 ingredients");
-        }
+        Validate.isTrue(ingredients.size() + count <= 9, "Shapeless recipes cannot have more than 9 ingredients");
+
         while (count-- > 0) {
             ingredients.add(new ItemStack(ingredient, 1, (short) rawdata));
         }
@@ -145,9 +148,7 @@ public class ShapelessRecipe implements Recipe {
      * @return The changed recipe.
      */
     public ShapelessRecipe removeIngredient(Material ingredient, int rawdata) {
-        ItemStack toRemove = new ItemStack(ingredient, 1, (short) rawdata);
-        this.ingredients.remove(toRemove);
-        return this;
+        return removeIngredient(1, ingredient, rawdata);
     }
 
     /**
@@ -160,8 +161,13 @@ public class ShapelessRecipe implements Recipe {
      * @return The changed recipe.
      */
     public ShapelessRecipe removeIngredient(int count, Material ingredient, int rawdata) {
-        while (count-- > 0) {
-            removeIngredient(ingredient, rawdata);
+        Iterator<ItemStack> iterator = ingredients.iterator();
+        while(count > 0 && iterator.hasNext()) {
+            ItemStack stack = iterator.next();
+            if(stack.getType() == ingredient && stack.getDurability() == rawdata) {
+                iterator.remove();
+                count--;
+            }
         }
         return this;
     }
@@ -181,10 +187,6 @@ public class ShapelessRecipe implements Recipe {
      * @return The input list
      */
     public List<ItemStack> getIngredientList() {
-        List<ItemStack> toReturn = new ArrayList<ItemStack>();
-        for (ItemStack stack : ingredients) {
-            toReturn.add(stack.clone());
-        }
-        return toReturn;
+        return ImmutableList.copyOf(ingredients);
     }
 }
