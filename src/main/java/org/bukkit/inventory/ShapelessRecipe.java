@@ -160,9 +160,9 @@ public class ShapelessRecipe implements Recipe {
      */
     public ShapelessRecipe removeIngredient(int count, Material ingredient, int rawdata) {
         Iterator<ItemStack> iterator = ingredients.iterator();
-        while(count > 0 && iterator.hasNext()) {
+        while (count > 0 && iterator.hasNext()) {
             ItemStack stack = iterator.next();
-            if(stack.getType() == ingredient && stack.getDurability() == rawdata) {
+            if (stack.getType() == ingredient && stack.getDurability() == rawdata) {
                 iterator.remove();
                 count--;
             }
@@ -186,7 +186,7 @@ public class ShapelessRecipe implements Recipe {
      */
     public List<ItemStack> getIngredientList() {
         ArrayList<ItemStack> result = new ArrayList<ItemStack>(ingredients.size());
-        for(ItemStack ingredient : ingredients) {
+        for (ItemStack ingredient : ingredients) {
             result.add(ingredient.clone());
         }
         return result;

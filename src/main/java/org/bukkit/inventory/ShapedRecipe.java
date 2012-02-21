@@ -45,7 +45,7 @@ public class ShapedRecipe implements Recipe {
             Validate.isTrue(row.length() > 0 && row.length() < 4, "Crafting rows should be 1, 2, or 3 characters, not ", row.length());
         }
         this.rows = new String[shape.length];
-        for(int i = 0; i < shape.length; i++) {
+        for (int i = 0; i < shape.length; i++) {
             this.rows[i] = shape[i];
         }
 
@@ -104,8 +104,12 @@ public class ShapedRecipe implements Recipe {
      */
     public Map<Character, ItemStack> getIngredientMap() {
         HashMap<Character, ItemStack> result = new HashMap<Character, ItemStack>();
-        for(Map.Entry<Character, ItemStack> ingredient : ingredients.entrySet()) {
-            result.put(ingredient.getKey(), ingredient.getValue().clone());
+        for (Map.Entry<Character, ItemStack> ingredient : ingredients.entrySet()) {
+            if (ingredient.getValue() == null) {
+                result.put(ingredient.getKey(), null);
+            } else {
+                result.put(ingredient.getKey(), ingredient.getValue().clone());
+            }
         }
         return result;
     }
