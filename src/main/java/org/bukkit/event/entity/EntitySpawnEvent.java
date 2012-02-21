@@ -5,6 +5,19 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
+/**
+ * Called when an {@link Entity} spawns into a world
+ * <p />
+ * This event is not called when the following events occur:
+ * <ul>
+ * <li>{@link ItemSpawnEvent}</li>
+ * <li>{@link CreatureSpawnEvent}</li>
+ * <li>{@link EntityShootBowEvent}</li>
+ * <li>{@link org.bukkit.event.vehicle.VehicleCreateEvent}</li>
+ * <li>{@link org.bukkit.event.painting.PaintingPlaceEvent}</li>
+ * <li>{@link org.bukkit.event.player.PlayerJoinEvent} or {@link org.bukkit.event.player.PlayerRespawnEvent}</li>
+ * </ul>
+ */
 public class EntitySpawnEvent extends EntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private Location location;
