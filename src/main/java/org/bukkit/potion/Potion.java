@@ -1,6 +1,7 @@
 package org.bukkit.potion;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
@@ -14,26 +15,46 @@ public class Potion {
     private boolean extended = false;
     private boolean splash = false;
     private Tier tier = Tier.ONE;
+    private int level;
     private final PotionType type;
 
     public Potion(PotionType type) {
-        Validate.notNull(type, "type cannot be null");
         this.type = type;
     }
 
+    @Deprecated
     public Potion(PotionType type, Tier tier) {
         this(type);
         Validate.notNull(tier, "tier cannot be null");
         this.tier = tier;
+        this.level = (tier == Tier.TWO ? 2 : 1);
     }
 
+    @Deprecated
     public Potion(PotionType type, Tier tier, boolean splash) {
         this(type, tier);
         this.splash = splash;
     }
 
+    @Deprecated
     public Potion(PotionType type, Tier tier, boolean splash, boolean extended) {
         this(type, tier, splash);
+        this.extended = extended;
+    }
+
+    public Potion(PotionType type, int level) {
+        this(type);
+        this.tier = (level == 2 ? Tier.TWO : Tier.ONE);
+        this.level = level;
+    }
+
+    public Potion(PotionType type, int level, boolean splash) {
+        this(type, level);
+        this.splash = splash;
+    }
+
+    public Potion(PotionType type, int level, boolean splash, boolean extended) {
+        this(type, level, splash);
         this.extended = extended;
     }
 
@@ -73,7 +94,7 @@ public class Potion {
             return false;
         }
         Potion other = (Potion) obj;
-        return extended == other.extended && splash == other.splash && tier == other.tier && type == other.type;
+        return extended == other.extended && splash == other.splash && level == other.level && type == other.type;
     }
 
     /**
@@ -84,8 +105,19 @@ public class Potion {
      * @see Potion#toDamageValue()
      * @return The effects that this potion applies
      */
+    @SuppressWarnings("unchecked")
     public Collection<PotionEffect> getEffects() {
+        if(type == null) return Collections.EMPTY_SET;
         return getBrewer().getEffectsFromDamage(toDamageValue());
+    }
+
+    /**
+     * Returns the level of this potion.
+     *
+     * @return The level of this potion
+     */
+    public int getLevel() {
+        return level;
     }
 
     /**
@@ -93,6 +125,7 @@ public class Potion {
      *
      * @return The tier of this potion
      */
+    @Deprecated
     public Tier getTier() {
         return tier;
     }
@@ -161,10 +194,24 @@ public class Potion {
      *
      * @param tier
      *            The new tier of this potion
+     * @deprecated In favour of {@link #setLevel(int)}
      */
+    @Deprecated
     public void setTier(Tier tier) {
         Validate.notNull(tier, "tier cannot be null");
         this.tier = tier;
+        this.level = (tier == Tier.TWO ? 2 : 1);
+    }
+
+    /**
+     * Sets the level of this potion.
+     *
+     * @param level
+     *            The new level of this potion
+     */
+    public void setLevel(int level) {
+        this.level = level;
+        setTier(level == 2 ? Tier.TWO : Tier.ONE);
     }
 
     /**
@@ -197,6 +244,7 @@ public class Potion {
         return new ItemStack(Material.POTION, amount, toDamageValue());
     }
 
+    @Deprecated
     public enum Tier {
         ONE(0),
         TWO(0x20);
@@ -222,16 +270,19 @@ public class Potion {
 
     private static PotionBrewer brewer;
 
-    private static final int EXTENDED_BIT = 0x0040;
+    private static final int EXTENDED_BIT = 0x40;
     private static final int POTION_BIT = 0xF;
     private static final int SPLASH_BIT = 0x4000;
+    private static final int TIER_BIT = 0x20;
+    private static final int TIER_SHIFT = 5;
 
     public static Potion fromDamage(int damage) {
         PotionType type = PotionType.getByDamageValue(damage & POTION_BIT);
-        Validate.notNull(type, "unable to find potion type");
-        Tier tier = Tier.getByDamageBit(damage & Tier.TWO.damageBit);
-        Validate.notNull(tier, "unable to find tier");
-        return new Potion(type, tier, (damage & SPLASH_BIT) > 0, (damage & EXTENDED_BIT) > 0);
+        int level = 1;
+        if (type != null) {
+            level = (damage & TIER_BIT) >> TIER_SHIFT;
+        }
+        return new Potion(type, level, (damage & SPLASH_BIT) > 0, (damage & EXTENDED_BIT) > 0);
     }
 
     public static Potion fromItemStack(ItemStack item) {

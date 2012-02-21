@@ -23,7 +23,7 @@ public enum PotionType {
         return effect;
     }
 
-    protected int getDamageValue() {
+    public int getDamageValue() {
         return damageValue;
     }
 
