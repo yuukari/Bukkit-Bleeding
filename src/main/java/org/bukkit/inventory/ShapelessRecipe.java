@@ -27,7 +27,7 @@ public class ShapelessRecipe implements Recipe {
      * @see ShapelessRecipe#addIngredient(int,Material,int)
      */
     public ShapelessRecipe(ItemStack result) {
-        this.output = result;
+        this.output = new ItemStack(result);
     }
 
     /**
@@ -172,7 +172,7 @@ public class ShapelessRecipe implements Recipe {
      * @return The result stack.
      */
     public ItemStack getResult() {
-        return output;
+        return output.clone();
     }
 
     /**
@@ -187,7 +187,7 @@ public class ShapelessRecipe implements Recipe {
     public List<ItemStack> getIngredientList() {
         List<ItemStack> toReturn = new ArrayList<ItemStack>();
         for (ItemStack stack : ingredients) {
-            toReturn.add(new ItemStack(stack.getType(), 1, stack.getDurability()));
+            toReturn.add(stack.clone());
         }
         return toReturn;
     }

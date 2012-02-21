@@ -57,6 +57,18 @@ public class ItemStack implements ConfigurationSerializable {
         this(type.getId(), amount, damage, data);
     }
 
+    public ItemStack(final ItemStack stack) {
+        this.type = stack.type;
+        this.amount = stack.amount;
+        this.durability = stack.durability;
+        if (stack.data != null) {
+            byte data = stack.getData().getData();
+            createData(data);
+            this.durability = data;
+        }
+        enchantments.putAll(stack.enchantments);
+    }
+
     /**
      * Gets the type of this item
      *

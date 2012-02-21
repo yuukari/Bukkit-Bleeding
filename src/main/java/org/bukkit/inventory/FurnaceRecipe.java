@@ -40,7 +40,7 @@ public class FurnaceRecipe implements Recipe {
      * @param data The data value. (Note: This is currently ignored by the CraftBukkit server.)
      */
     public FurnaceRecipe(ItemStack result, Material source, int data) {
-        this.output = result;
+        this.output = new ItemStack(result);
         this.ingredient = new ItemStack(source, 1, (short) data);
     }
 
@@ -81,7 +81,7 @@ public class FurnaceRecipe implements Recipe {
      * @return The input material.
      */
     public ItemStack getInput() {
-        return new ItemStack(ingredient.getType(), 1, ingredient.getDurability());
+        return this.ingredient.clone();
     }
 
     /**
@@ -90,6 +90,6 @@ public class FurnaceRecipe implements Recipe {
      * @return The resulting stack.
      */
     public ItemStack getResult() {
-        return output;
+        return output.clone();
     }
 }

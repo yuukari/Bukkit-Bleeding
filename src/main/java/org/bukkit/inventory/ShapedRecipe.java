@@ -1,7 +1,9 @@
 package org.bukkit.inventory;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
@@ -25,7 +27,7 @@ public class ShapedRecipe implements Recipe {
      * @see ShapedRecipe#setIngredient(char, MaterialData)
      */
     public ShapedRecipe(ItemStack result) {
-        this.output = result;
+        this.output = new ItemStack(result);
     }
 
     /**
@@ -47,6 +49,13 @@ public class ShapedRecipe implements Recipe {
         this.rows = shape;
 
         // Remove character mappings for characters that no longer exist in the shape
+        Set<Character> ingredients = new HashSet<Character>();
+        for (String row : shape) {
+            for (Character c : row.toCharArray()) {
+                ingredients.add(c);
+            }
+        }
+        this.ingredients.keySet().retainAll(ingredients);
         Map<Character, ItemStack> ingredientsTemp = this.ingredients;
 
         this.ingredients = new HashMap<Character, ItemStack>();
@@ -115,7 +124,7 @@ public class ShapedRecipe implements Recipe {
     public Map<Character, ItemStack> getIngredientMap() {
         Map<Character, ItemStack> toReturn = new HashMap<Character, ItemStack>();
         for (char c : ingredients.keySet()) {
-            toReturn.put(c, new ItemStack(ingredients.get(c).getType(), 1, ingredients.get(c).getDurability()));
+            toReturn.put(c, ingredients.get(c).clone());
         }
         return toReturn;
     }
@@ -126,7 +135,7 @@ public class ShapedRecipe implements Recipe {
      * @return The recipe's shape.
      */
     public String[] getShape() {
-        return rows;
+        return rows.clone();
     }
 
     /**
@@ -135,6 +144,6 @@ public class ShapedRecipe implements Recipe {
      * @return The result stack.
      */
     public ItemStack getResult() {
-        return output;
+        return output.clone();
     }
 }
