@@ -8,8 +8,6 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
-import com.google.common.collect.ImmutableList;
-
 /**
  * Represents a shapeless recipe, where the arrangement of the ingredients on the crafting grid
  * does not matter.
@@ -187,6 +185,10 @@ public class ShapelessRecipe implements Recipe {
      * @return The input list
      */
     public List<ItemStack> getIngredientList() {
-        return ImmutableList.copyOf(ingredients);
+        ArrayList<ItemStack> result = new ArrayList<ItemStack>(ingredients.size());
+        for(ItemStack ingredient : ingredients) {
+            result.add(ingredient.clone());
+        }
+        return result;
     }
 }

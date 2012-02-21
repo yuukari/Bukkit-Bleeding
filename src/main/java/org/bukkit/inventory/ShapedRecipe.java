@@ -7,8 +7,6 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
-import com.google.common.collect.ImmutableMap;
-
 /**
  * Represents a shaped (ie normal) crafting recipe.
  */
@@ -105,7 +103,11 @@ public class ShapedRecipe implements Recipe {
      * @return The mapping of character to ingredients.
      */
     public Map<Character, ItemStack> getIngredientMap() {
-        return ImmutableMap.copyOf(ingredients);
+        HashMap<Character, ItemStack> result = new HashMap<Character, ItemStack>();
+        for(Map.Entry<Character, ItemStack> ingredient : ingredients.entrySet()) {
+            result.put(ingredient.getKey(), ingredient.getValue().clone());
+        }
+        return result;
     }
 
     /**
