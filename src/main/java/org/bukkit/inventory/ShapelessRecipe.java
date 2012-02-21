@@ -176,12 +176,8 @@ public class ShapelessRecipe implements Recipe {
     }
 
     /**
-<<<<<<< OURS
      * Get the list of ingredients used for this recipe.
      *
-=======
-     * Get a copy of the list of ingredients used for this recipe.
->>>>>>> THEIRS
      * @return The input list
      */
     public List<ItemStack> getIngredientList() {
