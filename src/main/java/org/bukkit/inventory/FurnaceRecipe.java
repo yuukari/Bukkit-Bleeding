@@ -18,9 +18,6 @@ public class FurnaceRecipe implements Recipe {
      */
     public FurnaceRecipe(ItemStack result, Material source) {
         this(result, source, 0);
-        if (this.ingredient == null) {
-            setInput(new MaterialData(source));
-        }
     }
 
     /**

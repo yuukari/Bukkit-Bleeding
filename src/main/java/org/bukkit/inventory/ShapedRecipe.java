@@ -39,11 +39,11 @@ public class ShapedRecipe implements Recipe {
      * @return The changed recipe, so you can chain calls.
      */
     public ShapedRecipe shape(final String... shape) {
-        Validate.notNull(shape, "Must provide a shape.");
+        Validate.notNull(shape, "Must provide a shape");
         Validate.isTrue(shape.length > 0 && shape.length < 4, "Crafting recipes should be 1, 2, 3 rows, not ", shape.length);
 
         for (String row : shape) {
-            Validate.notNull(row, "Shape cannot have null rows.");
+            Validate.notNull(row, "Shape cannot have null rows");
             Validate.isTrue(row.length() > 0 && row.length() < 4, "Crafting rows should be 1, 2, or 3 characters, not ", row.length());
         }
         this.rows = new String[shape.length];

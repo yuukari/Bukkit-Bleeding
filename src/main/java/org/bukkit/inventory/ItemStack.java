@@ -62,9 +62,7 @@ public class ItemStack implements ConfigurationSerializable {
         this.amount = stack.amount;
         this.durability = stack.durability;
         if (stack.data != null) {
-            byte data = stack.getData().getData();
-            createData(data);
-            this.durability = data;
+            this.data = stack.data.clone();
         }
         enchantments.putAll(stack.enchantments);
     }
