@@ -43,8 +43,12 @@ public class Potion {
         this(type);
         if (type == null && level > 0) {
             // Normalize the potion
-            level &= 63;
-        } else {
+            type = PotionType.getByDamageValue(level & POTION_BIT);
+            if (type == null) {
+                level &= 0x3F;
+            }
+        }
+        if (type != null) {
             Validate.isTrue(level > 0 && level < 3, "Level must be 1 or 2");
         }
         this.level = level;
