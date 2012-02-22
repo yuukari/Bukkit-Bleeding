@@ -14,8 +14,9 @@ import org.bukkit.inventory.ItemStack;
 public class Potion {
     private boolean extended = false;
     private boolean splash = false;
+    @Deprecated
     private Tier tier = Tier.ONE;
-    private int level;
+    private int level = 1;
     private final PotionType type;
 
     public Potion(PotionType type) {
@@ -24,16 +25,12 @@ public class Potion {
 
     @Deprecated
     public Potion(PotionType type, Tier tier) {
-        this(type);
-        Validate.notNull(tier, "tier cannot be null");
-        this.tier = tier;
-        this.level = (tier == Tier.TWO ? 2 : 1);
+        this(type, tier == Tier.TWO ? 2 : 1);
     }
 
     @Deprecated
     public Potion(PotionType type, Tier tier, boolean splash) {
-        this(type, tier);
-        this.splash = splash;
+        this(type, tier == Tier.TWO ? 2 : 1, splash);
     }
 
     @Deprecated
@@ -44,7 +41,7 @@ public class Potion {
 
     public Potion(PotionType type, int level) {
         this(type);
-        this.tier = (level == 2 ? Tier.TWO : Tier.ONE);
+        Validate.isTrue(level > 0 && level < 3, "Level must be 1 or 2");
         this.level = level;
     }
 
@@ -151,9 +148,9 @@ public class Potion {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = prime + (extended ? 1231 : 1237);
+        int result = prime + level;
+        result = prime * result + (extended ? 1231 : 1237);
         result = prime * result + (splash ? 1231 : 1237);
-        result = prime * result + ((tier == null) ? 0 : tier.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
@@ -211,7 +208,7 @@ public class Potion {
      */
     public void setLevel(int level) {
         this.level = level;
-        setTier(level == 2 ? Tier.TWO : Tier.ONE);
+        this.tier = level == 2 ? Tier.TWO : Tier.ONE;
     }
 
     /**
@@ -221,8 +218,8 @@ public class Potion {
      * @return The damage value of this potion
      */
     public short toDamageValue() {
-        short damage = (short) type.getDamageValue();
-        damage |= tier.damageBit;
+        short damage = type == null ? 0 : (short) type.getDamageValue();
+        damage |= level == 2 ? 0x20 : 0;
         if (splash) {
             damage |= SPLASH_BIT;
         }
