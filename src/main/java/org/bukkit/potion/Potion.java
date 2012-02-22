@@ -17,10 +17,14 @@ public class Potion {
     @Deprecated
     private Tier tier = Tier.ONE;
     private int level = 1;
-    private final PotionType type;
+    private int name = -1;
+    private PotionType type;
 
     public Potion(PotionType type) {
         this.type = type;
+        if (type != null) {
+            this.name = type.getDamageValue();
+        }
     }
 
     @Deprecated
@@ -41,16 +45,8 @@ public class Potion {
 
     public Potion(PotionType type, int level) {
         this(type);
-        if (type == null && level > 0) {
-            // Normalize the potion
-            type = PotionType.getByDamageValue(level & POTION_BIT);
-            if (type == null) {
-                level &= 0x3F;
-            }
-        }
-        if (type != null) {
-            Validate.isTrue(level > 0 && level < 3, "Level must be 1 or 2");
-        }
+        Validate.isTrue(type != PotionType.WATER, "Water bottles don't have a level!");
+        Validate.isTrue(level > 0 && level < 3, "Level must be 1 or 2");
         this.level = level;
     }
 
@@ -64,6 +60,25 @@ public class Potion {
         this.extended = extended;
     }
 
+    public Potion(int name) {
+        this(PotionType.getByDamageValue(name & POTION_BIT));
+        this.name = name & NAME_BIT;
+        if (name == 0) {
+            // If it's 0 it would've become PotionType.WATER, but it should actually be mundane potion
+            this.type = null;
+        }
+    }
+
+    public Potion(int name, boolean splash) {
+        this(name);
+        this.splash = splash;
+    }
+
+    public Potion(int name, boolean splash, boolean extended) {
+        this(name);
+        this.extended = extended;
+    }
+
     /**
      * Applies the effects of this potion to the given {@link ItemStack}. The
      * itemstack must be a potion.
@@ -73,8 +88,7 @@ public class Potion {
      */
     public void apply(ItemStack to) {
         Validate.notNull(to, "itemstack cannot be null");
-        if (to.getType() != Material.POTION)
-            throw new IllegalArgumentException("given itemstack is not a potion");
+        Validate.isTrue(to.getType() == Material.POTION, "given itemstack is not a potion");
         to.setDurability(toDamageValue());
     }
 
@@ -210,6 +224,16 @@ public class Potion {
     }
 
     /**
+     * Sets the {@link PotionType} of this potion.
+     *
+     * @param type
+     *            The new type of this potion
+     */
+    public void setType(PotionType type) {
+        this.type = type;
+    }
+
+    /**
      * Sets the level of this potion.
      *
      * @param level
@@ -227,13 +251,16 @@ public class Potion {
      * @return The damage value of this potion
      */
     public short toDamageValue() {
-        short damage = (short) level;
-        if(type != null) {
+        short damage;
+        if (type == PotionType.WATER) {
+            return 0;
+        } else if (type == null) {
+            // Without this, mundanePotion.toDamageValue() would return 0
+            damage = (short) (name == 0 ? 8192 : name);
+        } else {
+            damage = (short) level;
             damage = (short) type.getDamageValue();
             damage |= level << TIER_SHIFT;
-        } else if(damage == 0) {
-            // Without this, mundanePotion.toDamageValue() would return 0
-            damage = 8192;
         }
         if (splash) {
             damage |= SPLASH_BIT;
@@ -287,14 +314,19 @@ public class Potion {
     private static final int SPLASH_BIT = 0x4000;
     private static final int TIER_BIT = 0x20;
     private static final int TIER_SHIFT = 5;
+    private static final int NAME_BIT = 0x3F;
 
     public static Potion fromDamage(int damage) {
         PotionType type = PotionType.getByDamageValue(damage & POTION_BIT);
-        int level = 1;
-        if (type != null) {
-            level = (damage & TIER_BIT) >> TIER_SHIFT;
+        boolean splash = (damage & SPLASH_BIT) > 0;
+        boolean extended = (damage & EXTENDED_BIT) > 0;
+        if (type == null) {
+            return new Potion(damage & NAME_BIT, splash, extended);
+        } else {
+            int level = (damage & TIER_BIT) >> TIER_SHIFT;
+            level++;
+            return new Potion(type, level, splash, extended);
         }
-        return new Potion(type, level, (damage & SPLASH_BIT) > 0, (damage & EXTENDED_BIT) > 0);
     }
 
     public static Potion fromItemStack(ItemStack item) {
