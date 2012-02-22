@@ -1,6 +1,7 @@
 package org.bukkit.potion;
 
 public enum PotionType {
+    WATER(0, null),
     REGEN(1, PotionEffectType.REGENERATION),
     SPEED(2, PotionEffectType.SPEED),
     FIRE_RESISTANCE(3, PotionEffectType.FIRE_RESISTANCE),
@@ -36,8 +37,10 @@ public enum PotionType {
     }
 
     public static PotionType getByEffect(PotionEffectType effectType) {
+        if (effectType == null)
+            return WATER;
         for (PotionType type : PotionType.values()) {
-            if (type.effect.equals(effectType))
+            if (effectType.equals(type.effect))
                 return type;
         }
         return null;

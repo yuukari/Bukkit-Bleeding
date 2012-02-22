@@ -41,7 +41,12 @@ public class Potion {
 
     public Potion(PotionType type, int level) {
         this(type);
-        Validate.isTrue(level > 0 && level < 3, "Level must be 1 or 2");
+        if (type == null && level > 0) {
+            // Normalize the potion
+            level &= 63;
+        } else {
+            Validate.isTrue(level > 0 && level < 3, "Level must be 1 or 2");
+        }
         this.level = level;
     }
 
@@ -218,8 +223,14 @@ public class Potion {
      * @return The damage value of this potion
      */
     public short toDamageValue() {
-        short damage = type == null ? 0 : (short) type.getDamageValue();
-        damage |= level == 2 ? 0x20 : 0;
+        short damage = (short) level;
+        if(type != null) {
+            damage = (short) type.getDamageValue();
+            damage |= level << TIER_SHIFT;
+        } else if(damage == 0) {
+            // Without this, mundanePotion.toDamageValue() would return 0
+            damage = 8192;
+        }
         if (splash) {
             damage |= SPLASH_BIT;
         }
