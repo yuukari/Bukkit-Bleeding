@@ -1,9 +1,10 @@
 package org.bukkit.event.entity;
 
 import org.bukkit.entity.CreatureType;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 
@@ -14,21 +15,18 @@ import org.bukkit.event.HandlerList;
  */
 public class CreatureSpawnEvent extends EntityEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
-    private final Location location;
     private boolean canceled;
-    private final EntityType creatureType;
     private final SpawnReason spawnReason;
 
-    public CreatureSpawnEvent(final Entity spawnee, final EntityType type, final Location loc, final SpawnReason spawnReason) {
+    public CreatureSpawnEvent(final LivingEntity spawnee, final SpawnReason spawnReason) {
         super(spawnee);
-        this.creatureType = type;
-        this.location = loc;
         this.spawnReason = spawnReason;
     }
 
     @Deprecated
     public CreatureSpawnEvent(Entity spawnee, CreatureType type, Location loc, SpawnReason reason) {
-        this(spawnee, type.toEntityType(), loc, reason);
+        super(spawnee);
+        spawnReason = reason;
     }
 
     public boolean isCancelled() {
@@ -45,7 +43,7 @@ public class CreatureSpawnEvent extends EntityEvent implements Cancellable {
      * @return The location at which the creature is spawning
      */
     public Location getLocation() {
-        return location;
+        return getEntity().getLocation();
     }
 
     /**
@@ -56,7 +54,7 @@ public class CreatureSpawnEvent extends EntityEvent implements Cancellable {
      */
     @Deprecated
     public CreatureType getCreatureType() {
-        return CreatureType.fromEntityType(creatureType);
+        return CreatureType.fromEntityType(getSpawnedType());
     }
 
     /**
@@ -65,7 +63,7 @@ public class CreatureSpawnEvent extends EntityEvent implements Cancellable {
      * @return A CreatureType value detailing the type of creature being spawned
      */
     public EntityType getSpawnedType() {
-        return creatureType;
+        return getEntity().getType();
     }
 
     /**
