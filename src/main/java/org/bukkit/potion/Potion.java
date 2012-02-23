@@ -242,7 +242,8 @@ public class Potion {
      */
     public void setLevel(int level) {
         Validate.notNull(this.type, "No-effect potions don't have a level.");
-        Validate.isTrue(level > 0 && level <= type.getMaxLevel(), "Level must be 1 or 2");
+        int max = type.getMaxLevel();
+        Validate.isTrue(level > 0 && level <= max, "Level must be " + (max == 1 ? "" : "between 1 and ") + max + " for this potion");
         this.level = level;
         this.tier = level == 2 ? Tier.TWO : Tier.ONE;
     }
