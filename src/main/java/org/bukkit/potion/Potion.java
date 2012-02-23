@@ -46,8 +46,7 @@ public class Potion {
     public Potion(PotionType type, int level) {
         this(type);
         Validate.isTrue(type != PotionType.WATER, "Water bottles don't have a level!");
-        Validate.isTrue(level > 0 && level < 3, "Level must be 1 or 2");
-        this.level = level;
+        setLevel(level);
     }
 
     public Potion(PotionType type, int level, boolean splash) {
@@ -57,7 +56,7 @@ public class Potion {
 
     public Potion(PotionType type, int level, boolean splash, boolean extended) {
         this(type, level, splash);
-        this.extended = extended;
+        setHasExtendedDuration(extended);
     }
 
     public Potion(int name) {
@@ -195,6 +194,7 @@ public class Potion {
      *            Whether the potion should have extended duration
      */
     public void setHasExtendedDuration(boolean isExtended) {
+        Validate.isTrue(type == null || !type.isInstant(), "Instant potions cannot be extended");
         extended = isExtended;
     }
 
@@ -240,6 +240,8 @@ public class Potion {
      *            The new level of this potion
      */
     public void setLevel(int level) {
+        Validate.notNull(this.type, "No-effect potions don't have a level.");
+        Validate.isTrue(level > 0 && level <= type.getMaxLevel(), "Level must be 1 or 2");
         this.level = level;
         this.tier = level == 2 ? Tier.TWO : Tier.ONE;
     }
