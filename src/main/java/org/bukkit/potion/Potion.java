@@ -30,6 +30,7 @@ public class Potion {
     @Deprecated
     public Potion(PotionType type, Tier tier) {
         this(type, tier == Tier.TWO ? 2 : 1);
+        Validate.notNull(type, "Type cannot be null");
     }
 
     @Deprecated
@@ -45,6 +46,7 @@ public class Potion {
 
     public Potion(PotionType type, int level) {
         this(type);
+        Validate.notNull(type, "Type cannot be null");
         Validate.isTrue(type != PotionType.WATER, "Water bottles don't have a level!");
         Validate.isTrue(level > 0 && level < 3, "Level must be 1 or 2");
         this.level = level;
