@@ -54,7 +54,12 @@ public enum EntityType {
      */
     LIGHTNING(null, LightningStrike.class, -1, false),
     WEATHER(null, Weather.class, -1, false),
-    PLAYER(null, Player.class, -1, false);
+    PLAYER(null, Player.class, -1, false),
+    COMPLEX_PART(null, ComplexEntityPart.class, -1, false),
+    /**
+     * An unknown entity without an Entity Class
+     */
+    UNKNOWN(null, null, -1, false);
 
     private String name;
     private Class<? extends Entity> clazz;
@@ -112,7 +117,7 @@ public enum EntityType {
     /**
      * Some entities cannot be spawned using {@link World#spawn(org.bukkit.Location, EntityType)}, usually
      * because they require additional information in order to spawn.
-     * @return False if the entity type cannot be spawned without additional data.
+     * @return False if the entity type cannot be spawned
      */
     public boolean isSpawnable() {
         return independent;
