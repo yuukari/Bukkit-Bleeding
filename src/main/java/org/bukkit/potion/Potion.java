@@ -20,6 +20,13 @@ public class Potion {
     private int name = -1;
     private PotionType type;
 
+    /**
+     * Construct a new potion of the given type. Unless the type is {@link PotionType#WATER},
+     * it will be level one, without extended duration. Don't use this constructor to create
+     * a no-effect potion other than water bottle.
+     * @param type The potion type
+     * @see #Potion(int)
+     */
     public Potion(PotionType type) {
         this.type = type;
         if (type != null) {
@@ -27,23 +34,31 @@ public class Potion {
         }
     }
 
+    /** @deprecated In favour of {@link #Potion(PotionType, int)} */
     @Deprecated
     public Potion(PotionType type, Tier tier) {
         this(type, tier == Tier.TWO ? 2 : 1);
         Validate.notNull(type, "Type cannot be null");
     }
 
+    /** @deprecated In favour of {@link #Potion(PotionType, int, boolean)} */
     @Deprecated
     public Potion(PotionType type, Tier tier, boolean splash) {
         this(type, tier == Tier.TWO ? 2 : 1, splash);
     }
 
+    /** @deprecated In favour of {@link #Potion(PotionType, int, boolean, boolean)} */
     @Deprecated
     public Potion(PotionType type, Tier tier, boolean splash, boolean extended) {
         this(type, tier, splash);
         this.extended = extended;
     }
 
+    /**
+     * Create a new potion of the given type and level.
+     * @param type The type of potion.
+     * @param level The potion's level.
+     */
     public Potion(PotionType type, int level) {
         this(type);
         Validate.notNull(type, "Type cannot be null");
@@ -52,16 +67,33 @@ public class Potion {
         this.level = level;
     }
 
+    /**
+     * Create a new potion of the given type and level.
+     * @param type The type of potion.
+     * @param level The potion's level.
+     * @param splash Whether it is a splash potion.
+     */
     public Potion(PotionType type, int level, boolean splash) {
         this(type, level);
         this.splash = splash;
     }
 
+    /**
+     * Create a new potion of the given type and level.
+     * @param type The type of potion.
+     * @param level The potion's level.
+     * @param splash Whether it is a splash potion.
+     * @param extended Whether it has an extended duration.
+     */
     public Potion(PotionType type, int level, boolean splash, boolean extended) {
         this(type, level, splash);
         this.extended = extended;
     }
 
+    /**
+     * Create a potion with a specific name.
+     * @param name The name index (0-63)
+     */
     public Potion(int name) {
         this(PotionType.getByDamageValue(name & POTION_BIT));
         this.name = name & NAME_BIT;
@@ -71,13 +103,24 @@ public class Potion {
         }
     }
 
+    /**
+     * Create a potion with a specific name.
+     * @param name The name index (0-63)
+     * @param splash Whether it is a splash potion.
+     */
     public Potion(int name, boolean splash) {
         this(name);
         this.splash = splash;
     }
 
+    /**
+     * Create a potion with a specific name.
+     * @param name The name index (0-63)
+     * @param splash Whether it is a splash potion.
+     * @param extended Whether it has an extended duration.
+     */
     public Potion(int name, boolean splash, boolean extended) {
-        this(name);
+        this(name, splash);
         this.extended = extended;
     }
 
