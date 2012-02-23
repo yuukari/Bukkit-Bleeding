@@ -99,7 +99,6 @@ public final class SimplePluginManager implements PluginManager {
      * @param directory Directory to check for plugins
      * @return A list of all plugins loaded
      */
-    @SuppressWarnings("unchecked")
     public Plugin[] loadPlugins(File directory) {
         Validate.notNull(directory, "Directory cannot be null");
         Validate.isTrue(directory.isDirectory(), "Directory must be a directory");
@@ -111,7 +110,7 @@ public final class SimplePluginManager implements PluginManager {
             updateDirectory = new File(directory, server.getUpdateFolder());
         }
 
-        Map<String, File> plugins = new HashMap<String, File>();
+        Map<String, File> plugins = new LinkedHashMap<String, File>();
         Set<String> loadedPlugins = new HashSet<String>();
         Map<String, Collection<String>> dependencies = new HashMap<String, Collection<String>>();
         Map<String, Collection<String>> softDependencies = new HashMap<String, Collection<String>>();
@@ -138,14 +137,33 @@ public final class SimplePluginManager implements PluginManager {
 
             plugins.put(description.getName(), file);
 
-            Collection<? extends String> softDependencySet = (Collection<? extends String>) description.getSoftDepend();
+            Collection<String> softDependencySet = description.getSoftDepend();
             if (softDependencySet != null) {
-                softDependencies.put(description.getName(), new LinkedList<String>(softDependencySet));
+                if (softDependencies.containsKey(description.getName())) {
+                    // Duplicates do not matter, they will be removed together if applicable
+                    softDependencies.get(description.getName()).addAll(softDependencySet);
+                } else {
+                    softDependencies.put(description.getName(), new LinkedList<String>(softDependencySet));
+                }
             }
 
-            Collection<? extends String> dependencySet = (Collection<? extends String>) description.getDepend();
+            Collection<String> dependencySet = description.getDepend();
             if (dependencySet != null) {
                 dependencies.put(description.getName(), new LinkedList<String>(dependencySet));
+            }
+
+            Collection<String> loadBeforeSet = description.getLoadBefore();
+            if (loadBeforeSet != null) {
+                for (String loadBeforeTarget : loadBeforeSet) {
+                    if (softDependencies.containsKey(loadBeforeTarget)) {
+                        softDependencies.get(loadBeforeTarget).add(description.getName());
+                    } else {
+                        // softDependencies is never iterated, so 'ghost' plugins aren't an issue
+                        Collection<String> shortSoftDependency = new LinkedList<String>();
+                        shortSoftDependency.add(description.getName());
+                        softDependencies.put(loadBeforeTarget, shortSoftDependency);
+                    }
+                }
             }
         }
 
@@ -228,7 +246,6 @@ public final class SimplePluginManager implements PluginManager {
 
                     if (!dependencies.containsKey(plugin)) {
                         softDependencies.remove(plugin);
-                        dependencies.remove(plugin);
                         missingDependency = false;
                         File file = plugins.get(plugin);
                         pluginIterator.remove();

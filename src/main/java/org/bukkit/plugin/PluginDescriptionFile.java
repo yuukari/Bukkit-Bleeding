@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,8 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * Provides access to a Plugins description file, plugin.yaml
@@ -20,8 +23,9 @@ public final class PluginDescriptionFile {
     private String name = null;
     private String main = null;
     private String classLoaderOf = null;
-    private ArrayList<String> depend = null;
-    private ArrayList<String> softDepend = null;
+    private List<String> depend = null;
+    private List<String> softDepend = null;
+    private List<String> loadBefore = null;
     private String version = null;
     private Object commands = null;
     private String description = null;
@@ -110,12 +114,16 @@ public final class PluginDescriptionFile {
         return commands;
     }
 
-    public Object getDepend() {
+    public List<String> getDepend() {
         return depend;
     }
 
-    public Object getSoftDepend() {
+    public List<String> getSoftDepend() {
         return softDepend;
+    }
+
+    public List<String> getLoadBefore() {
+        return loadBefore;
     }
 
     public PluginLoadOrder getLoad() {
@@ -206,7 +214,7 @@ public final class PluginDescriptionFile {
 
         if (map.containsKey("depend")) {
             try {
-                depend = (ArrayList<String>) map.get("depend");
+                depend = ImmutableList.copyOf((Collection<String>) map.get("depend"));
             } catch (ClassCastException ex) {
                 throw new InvalidDescriptionException(ex, "depend is of wrong type");
             }
@@ -214,9 +222,17 @@ public final class PluginDescriptionFile {
 
         if (map.containsKey("softdepend")) {
             try {
-                softDepend = (ArrayList<String>) map.get("softdepend");
+                softDepend = ImmutableList.copyOf((Collection<String>) map.get("softdepend"));
             } catch (ClassCastException ex) {
                 throw new InvalidDescriptionException(ex, "softdepend is of wrong type");
+            }
+        }
+
+        if (map.containsKey("loadbefore")) {
+            try {
+                loadBefore = ImmutableList.copyOf((Collection<String>) map.get("loadbefore"));
+            } catch (ClassCastException ex) {
+                throw new InvalidDescriptionException(ex, "loadbefore is of wrong type");
             }
         }
 

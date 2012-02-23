@@ -8,7 +8,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -53,7 +54,6 @@ public class JavaPluginLoader implements PluginLoader {
         server = instance;
     }
 
-    @SuppressWarnings("unchecked")
     public Plugin loadPlugin(File file) throws InvalidPluginException {
         Validate.notNull(file, "File cannot be null");
 
@@ -104,15 +104,10 @@ public class JavaPluginLoader implements PluginLoader {
             ));
         }
 
-        ArrayList<String> depend;
+        Collection<String> depend = description.getDepend();
 
-        try {
-            depend = (ArrayList<String>) description.getDepend();
-            if (depend == null) {
-                depend = new ArrayList<String>();
-            }
-        } catch (ClassCastException ex) {
-            throw new InvalidPluginException(ex);
+        if (depend == null) {
+            depend = Collections.<String>emptyList();
         }
 
         for (String pluginName : depend) {
