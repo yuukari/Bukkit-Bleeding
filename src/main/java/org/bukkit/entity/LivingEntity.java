@@ -113,15 +113,15 @@ public interface LivingEntity extends Entity {
      */
     @Deprecated
     public Arrow shootArrow();
-    
+
     /**
      * Launches a {@link Projectile} from the entity.
-     * 
+     *
      * @param projectile Class of the projectile to launch
-     * 
+     *
      * @return The launched projectile.
      */
-    public <T extends Projectile> T launchProjectile(Class<? extends Projectile> projectile);
+    public <T extends Projectile> T launchProjectile(Class<? extends T> projectile);
 
     /**
      * Returns whether this entity is inside a vehicle.

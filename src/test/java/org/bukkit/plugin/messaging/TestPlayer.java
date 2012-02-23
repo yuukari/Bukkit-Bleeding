@@ -650,7 +650,7 @@ public class TestPlayer implements Player {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public Projectile launchProjectile(Class<? extends Projectile> projectile) {
+    public <T extends Projectile> T launchProjectile(Class<? extends T> projectile) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
