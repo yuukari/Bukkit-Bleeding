@@ -46,7 +46,8 @@ public class Potion {
     public Potion(PotionType type, int level) {
         this(type);
         Validate.isTrue(type != PotionType.WATER, "Water bottles don't have a level!");
-        setLevel(level);
+        Validate.isTrue(level > 0 && level <= type.getMaxLevel(), "Level must be 1 or 2");
+        this.level = level;
     }
 
     public Potion(PotionType type, int level, boolean splash) {
@@ -56,7 +57,7 @@ public class Potion {
 
     public Potion(PotionType type, int level, boolean splash, boolean extended) {
         this(type, level, splash);
-        setHasExtendedDuration(extended);
+        this.extended = extended;
     }
 
     public Potion(int name) {
