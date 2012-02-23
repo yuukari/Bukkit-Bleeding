@@ -125,6 +125,24 @@ public class Potion {
     }
 
     /**
+     * Chain this to the constructor to make the potion a splash potion.
+     * @return The potion.
+     */
+    public Potion splash() {
+        setSplash(true);
+        return this;
+    }
+
+    /**
+     * Chain this to the constructor to extend the potion's duration.
+     * @return The potion.
+     */
+    public Potion extend() {
+        setHasExtendedDuration(true);
+        return this;
+    }
+
+    /**
      * Applies the effects of this potion to the given {@link ItemStack}. The
      * itemstack must be a potion.
      *
