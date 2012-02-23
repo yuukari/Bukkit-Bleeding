@@ -1,7 +1,7 @@
 package org.bukkit.help;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class DefaultHelpTopic implements HelpTopic {
         this.allTopics = allTopics;
     }
 
-    public boolean playerCanSee(Player player) {
+    public boolean canSee(CommandSender player) {
         return true;
     }
 

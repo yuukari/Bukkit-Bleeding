@@ -1,6 +1,7 @@
 package org.bukkit.help;
 
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 
 public class CustomHelpTopic implements HelpTopic {
     
@@ -16,9 +17,13 @@ public class CustomHelpTopic implements HelpTopic {
         this.fullText = fullText;
     }
     
-    public boolean playerCanSee(Player player) {
+    public boolean canSee(CommandSender sender) {
+        if (sender instanceof ConsoleCommandSender) {
+            return true;
+        }
+
         if (!permissionNode.equals("")) {
-            return player.hasPermission(permissionNode);
+            return sender.hasPermission(permissionNode);
         } else {
             return true;
         }

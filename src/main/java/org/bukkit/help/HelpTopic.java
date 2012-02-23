@@ -1,5 +1,6 @@
 package org.bukkit.help;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
@@ -8,10 +9,11 @@ import org.bukkit.entity.Player;
 public interface HelpTopic {
     /**
      * Determines if a {@link Player} is allowed to see this help topic.
+     *
      * @param player The Player in question.
      * @return True of the Player can see this help topic, false otherwise.
      */
-    boolean playerCanSee(Player player);
+    boolean canSee(CommandSender player);
 
     /**
      * Returns the name of this help topic. Must not contain spaces.

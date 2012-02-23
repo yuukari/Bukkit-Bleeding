@@ -1,23 +1,28 @@
 package org.bukkit.help;
 
-import org.bukkit.command.Command;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.PluginCommand;
 
-public class CommandHelpTopic implements HelpTopic {
+public class PluginCommandHelpTopic implements HelpTopic {
 
-    private Command command;
+    private PluginCommand command;
 
-    public CommandHelpTopic(Command command) {
+    public PluginCommandHelpTopic(PluginCommand command) {
         this.command = command;
     }
 
-    public boolean playerCanSee(Player player) {
-        if (!command.getPermission().equals("")) {
-            return player.hasPermission(command.getPermission());
-        } else {
+    public boolean canSee(CommandSender sender) {
+        if (!command.isRegistered() || command.getExecutor() == null) {
+            return false;
+        }
+
+        if (sender instanceof ConsoleCommandSender) {
             return true;
         }
+
+        return command.testPermissionSilent(sender);
     }
 
     public String getName() {
