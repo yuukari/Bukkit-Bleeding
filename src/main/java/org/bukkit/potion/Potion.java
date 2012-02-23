@@ -46,7 +46,7 @@ public class Potion {
     public Potion(PotionType type, int level) {
         this(type);
         Validate.isTrue(type != PotionType.WATER, "Water bottles don't have a level!");
-        Validate.isTrue(level > 0 && level <= type.getMaxLevel(), "Level must be 1 or 2");
+        Validate.isTrue(level > 0 && level < 3, "Level must be 1 or 2");
         this.level = level;
     }
 
