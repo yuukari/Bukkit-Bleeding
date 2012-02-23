@@ -1,7 +1,9 @@
 package org.bukkit.inventory;
 
 import java.util.HashMap;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 
 /**
  * Interface to the various inventories
@@ -49,6 +51,31 @@ public interface Inventory {
     public HashMap<Integer, ItemStack> addItem(ItemStack... items);
 
     /**
+     *
+     * @param forceDurability
+     * @param items
+     * @return
+     */
+    public HashMap<Integer, ItemStack> addItem(boolean forceDurability, ItemStack... items);
+
+    /**
+     *
+     * @param forceDurability
+     * @param oversizedStacks
+     * @param items
+     * @return
+     */
+    public HashMap<Integer, ItemStack> addItem(boolean forceDurability, int oversizedStacks, ItemStack... items);
+
+    /**
+     *
+     * @param forceDurability
+     * @param items
+     * @return
+     */
+    public boolean addAllItems(boolean forceDurability, ItemStack... items);
+
+    /**
      * Removes the given ItemStacks from the inventory.
      * <p />
      * It will try to remove 'as much as possible' from the types and amounts you
@@ -58,6 +85,18 @@ public interface Inventory {
      * @return The items that couldn't be removed.
      */
     public HashMap<Integer, ItemStack> removeItem(ItemStack... items);
+
+    /**
+     * Removes the given ItemStacks from the inventory. <p /> It will try to
+     * remove 'as much as possible' from the types and amounts you give as
+     * arguments. It will return a HashMap of what it couldn't remove.
+     *
+     * @param forceDurability
+     * @param forceEnchantments
+     * @param items The ItemStacks to remove
+     * @return The items that couldn't be removed.
+     */
+    public HashMap<Integer, ItemStack> removeItem(boolean forceDurability, boolean forceEnchantments, ItemStack... items);
 
     /**
      * Get all ItemStacks from the inventory
@@ -127,6 +166,15 @@ public interface Inventory {
     public boolean contains(ItemStack item, int amount);
 
     /**
+     *
+     * @param forceDurability
+     * @param forceEnchantments
+     * @param items
+     * @return
+     */
+    public boolean containsItem(boolean forceDurability, boolean forceEnchantments, ItemStack... items);
+
+/**
      * Find all slots in the inventory containing any ItemStacks with the given materialId
      *
      * @param materialId The materialId to look for
@@ -177,11 +225,39 @@ public interface Inventory {
     public int first(ItemStack item);
 
     /**
+     *
+     * @param inventory
+     * @param item The ItemStack to match against
+     * @param forceDurability
+     * @param forceAmount
+     * @param forceEnchantments
+     * @return The Slot found.
+     */
+    public int first(Inventory inventory, ItemStack item, boolean forceDurability, boolean forceAmount, boolean forceEnchantments);
+
+    /**
      * Find the first empty Slot.
      *
      * @return The first empty Slot found.
      */
     public int firstEmpty();
+
+    /**
+     *
+     * @param item
+     * @param forceDurability
+     * @return
+     */
+    public int firstPartial(ItemStack item, boolean forceDurability);
+
+    /**
+     *
+     * @param item
+     * @param forceDurability
+     * @param maxAmount
+     * @return
+     */
+    public int firstPartial(ItemStack item, boolean forceDurability, int maxAmount);
 
     /**
      * Remove all stacks in the inventory matching the given materialId.
@@ -216,4 +292,23 @@ public interface Inventory {
      * Clear out the whole index
      */
     public void clear();
+
+    /**
+     *
+     * @param location where to drop the itemstack
+     * @param item the itemstack to drop
+     * @return an array of item entities which were dropped
+     */
+    public Item[] drop(Location location, ItemStack item);
+
+    /**
+     *
+     * @param item
+     * @param start
+     * @param forceDurability
+     * @param forceAmount
+     * @param forceEnchantments
+     * @return
+     */
+    public int next(ItemStack item, int start, boolean forceDurability, boolean forceAmount, boolean forceEnchantments);
 }
