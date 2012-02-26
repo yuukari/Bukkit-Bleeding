@@ -302,7 +302,7 @@ public final class PluginDescriptionFile {
             try {
                 prefix = (String) map.get("prefix");
             } catch (ClassCastException ex) {
-                throw new InvalidDescriptionException(ex, "prefix is f the wrong type!");
+                throw new InvalidDescriptionException(ex, "prefix is of the wrong type!");
             }
         }
     }
