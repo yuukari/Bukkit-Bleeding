@@ -1,13 +1,9 @@
 package org.bukkit.command;
 
 import org.bukkit.command.defaults.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Iterator;
+
+import java.util.*;
+
 import org.bukkit.Server;
 import static org.bukkit.util.Java15Compat.Arrays_copyOfRange;
 
@@ -187,6 +183,10 @@ public class SimpleCommandMap implements CommandMap {
 
     public Command getCommand(String name) {
         return knownCommands.get(name.toLowerCase());
+    }
+
+    public Collection<Command> getCommands() {
+        return knownCommands.values();
     }
 
     public void registerServerAliases() {
