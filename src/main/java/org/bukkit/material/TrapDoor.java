@@ -67,8 +67,11 @@ public class TrapDoor extends SimpleAttachableMaterialData {
         case NORTH:
             data |= 0x2;
             break;
+        default:
         case SOUTH:
             data |= 0x3;
+            break;
+        case EAST:
             break;
         }
 
