@@ -11,7 +11,6 @@ import java.util.logging.Logger;
  * The API for PluginLogger is exactly the same as {@link java.util.logging.Logger}.
  */
 public class PluginLogger extends Logger {
-
     private String pluginName;
 
     /**
