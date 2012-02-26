@@ -8,26 +8,28 @@ import com.google.common.collect.Maps;
  * A list of effects that the server is able to send to players.
  */
 public enum Effect {
-    CLICK2(1000),
-    CLICK1(1001),
-    BOW_FIRE(1002),
-    DOOR_TOGGLE(1003),
-    EXTINGUISH(1004),
-    RECORD_PLAY(1005),
-    GHAST_SHRIEK(1007),
-    GHAST_SHOOT(1008),
-    BLAZE_SHOOT(1009),
-    SMOKE(2000),
-    STEP_SOUND(2001),
-    POTION_BREAK(2002),
-    ENDER_SIGNAL(2003),
-    MOBSPAWNER_FLAMES(2004);
+    CLICK2(1000, Type.SOUND),
+    CLICK1(1001, Type.SOUND),
+    BOW_FIRE(1002, Type.SOUND),
+    DOOR_TOGGLE(1003, Type.SOUND),
+    EXTINGUISH(1004, Type.SOUND),
+    RECORD_PLAY(1005, Type.SOUND),
+    GHAST_SHRIEK(1007, Type.SOUND),
+    GHAST_SHOOT(1008, Type.SOUND),
+    BLAZE_SHOOT(1009, Type.SOUND),
+    SMOKE(2000, Type.VISUAL),
+    STEP_SOUND(2001, Type.VISUAL),
+    POTION_BREAK(2002, Type.VISUAL),
+    ENDER_SIGNAL(2003, Type.VISUAL),
+    MOBSPAWNER_FLAMES(2004, Type.VISUAL);
 
     private final int id;
+    private final Type type;
     private static final Map<Integer, Effect> BY_ID = Maps.newHashMap();
 
-    Effect(int id) {
+    Effect(int id, Type type) {
         this.id = id;
+        this.type = type;
     }
 
     /**
@@ -37,6 +39,13 @@ public enum Effect {
      */
     public int getId() {
         return this.id;
+    }
+
+    /**
+     * @return The type of the effect.
+     */
+    public Type getType() {
+        return this.type;
     }
 
     /**
@@ -54,4 +63,9 @@ public enum Effect {
             BY_ID.put(effect.id, effect);
         }
     }
+
+    /**
+     * Represents the type of an effect.
+     */
+    public enum Type {SOUND, VISUAL}
 }
