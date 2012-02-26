@@ -658,4 +658,8 @@ public class TestPlayer implements Player {
     public EntityType getType() {
         return EntityType.PLAYER;
     }
+
+    public <T> void playEffect(Location loc, Effect effect, T data) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
