@@ -27,6 +27,7 @@ public final class PluginDescriptionFile {
     private String description = null;
     private ArrayList<String> authors = new ArrayList<String>();
     private String website = null;
+    private String prefix = null;
     private boolean database = false;
     private PluginLoadOrder order = PluginLoadOrder.POSTWORLD;
     private List<Permission> permissions = new ArrayList<Permission>();
@@ -157,6 +158,10 @@ public final class PluginDescriptionFile {
 
     public String getClassLoaderOf() {
         return classLoaderOf;
+    }
+    
+    public String getPrefix() {
+        return prefix;
     }
 
     @SuppressWarnings("unchecked")
@@ -293,6 +298,13 @@ public final class PluginDescriptionFile {
                 throw new InvalidDescriptionException(ex, "permissions are of wrong type");
             }
         }
+        if (map.containsKey("prefix")) {
+            try {
+                prefix = (String) map.get("prefix");
+            } catch (ClassCastException ex) {
+                throw new InvalidDescriptionException(ex, "prefix is f the wrong type!");
+            }
+        }
     }
 
     private Map<String, Object> saveMap() {
@@ -329,6 +341,10 @@ public final class PluginDescriptionFile {
 
         if (classLoaderOf != null) {
             map.put("class-loader-of", classLoaderOf);
+        }
+        
+        if (prefix != null) {
+            map.put("prefix", prefix);
         }
 
         return map;
