@@ -3,6 +3,7 @@ package org.bukkit;
 import org.bukkit.generator.ChunkGenerator;
 import com.avaje.ebean.config.ServerConfig;
 import org.bukkit.entity.Player;
+import org.bukkit.help.HelpMap;
 import org.bukkit.inventory.Recipe;
 
 import java.util.List;
@@ -590,4 +591,11 @@ public interface Server extends PluginMessageRecipient {
      * @return Messenger responsible for this server.
      */
     public Messenger getMessenger();
+
+    /**
+     * Gets the {@link HelpMap} providing help topics for this server.
+     *
+     * @return The server's HelpMap.
+     */
+    public HelpMap getHelpMap();
 }
