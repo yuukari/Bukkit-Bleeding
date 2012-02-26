@@ -11,6 +11,7 @@ import java.util.List;
 public class ChatPaginator {
     public static final int DEFAULT_CHAT_WIDTH = 54;
     public static final int DEFAULT_PAGE_HEIGHT = 20;
+    public static final int UNBOUNDED_PAGE_HEIGHT = Integer.MAX_VALUE;
 
     /**
      * Breaks a raw string up into pages using the default width and height.
@@ -33,8 +34,7 @@ public class ChatPaginator {
     public static ChatPage paginate(String unpaginatedString, int pageNumber, int lineLength, int pageHeight) {
         String[] lines = wordWrap(unpaginatedString, lineLength);
 
-        int totalPages = lines.length % pageHeight == 0 ? lines.length / pageHeight :
-                                                          lines.length / pageHeight + 1;
+        int totalPages = lines.length / pageHeight + (lines.length % pageHeight == 0 ? 0 : 1);
         int actualPageNumber = pageNumber <= totalPages ? pageNumber : totalPages;
 
         int from = (actualPageNumber - 1) * pageHeight;
