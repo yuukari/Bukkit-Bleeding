@@ -10,7 +10,8 @@ import java.util.List;
  */
 public class ChatPaginator {
     public static final int DEFAULT_CHAT_WIDTH = 54;
-    public static final int DEFAULT_PAGE_HEIGHT = 20;
+    public static final int OPEN_CHAT_PAGE_HEIGHT = 20;
+    public static final int CLOSED_CHAT_PAGE_HEIGHT = 10;
     public static final int UNBOUNDED_PAGE_HEIGHT = Integer.MAX_VALUE;
 
     /**
@@ -20,7 +21,7 @@ public class ChatPaginator {
      * @return A single chat page.
      */
     public static ChatPage paginate(String unpaginatedString, int pageNumber) {
-        return  paginate(unpaginatedString, pageNumber, DEFAULT_CHAT_WIDTH, DEFAULT_PAGE_HEIGHT);
+        return  paginate(unpaginatedString, pageNumber, DEFAULT_CHAT_WIDTH, CLOSED_CHAT_PAGE_HEIGHT);
     }
 
     /**
