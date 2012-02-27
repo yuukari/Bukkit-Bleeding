@@ -30,7 +30,11 @@ public interface HelpTopic {
     /**
      * Returns the full description of this help topic that is displayed when the user requests this topic's details.
      * The result will be paginated to properly fit the user's client.
-     * @return
+     *
+     * @param forWho The player or console requesting the full text. Useful for further security trimming
+     *               the command's full text based on sub-permissions.
+     *
+     * @return A full topic description.
      */
-    String getFullText();
+    String getFullText(CommandSender forWho);
 }

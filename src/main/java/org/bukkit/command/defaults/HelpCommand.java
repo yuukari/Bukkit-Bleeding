@@ -57,12 +57,12 @@ public class HelpCommand extends VanillaCommand {
         
         HelpMap helpMap = Bukkit.getServer().getHelpMap();
         HelpTopic topic = helpMap.getHelpTopic(command);
-        if (topic == null) {
+        if (topic == null || !topic.canSee(sender)) {
             sender.sendMessage(ChatColor.RED + "No help for " + command);
             return true;
         }
 
-        ChatPaginator.ChatPage page = ChatPaginator.paginate(topic.getFullText(), pageNumber, ChatPaginator.DEFAULT_CHAT_WIDTH, pageHeight);
+        ChatPaginator.ChatPage page = ChatPaginator.paginate(topic.getFullText(sender), pageNumber, ChatPaginator.DEFAULT_CHAT_WIDTH, pageHeight);
 
         String header = ChatColor.GREEN + "===== Help: " + topic.getName();
         if (page.getTotalPages() > 1) {

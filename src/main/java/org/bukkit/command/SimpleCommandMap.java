@@ -139,6 +139,10 @@ public class SimpleCommandMap implements CommandMap {
 
         return null;
     }
+    
+    public Set<VanillaCommand> getFallbackCommands() {
+        return Collections.unmodifiableSet(fallbackCommands);
+    }
 
     /**
      * {@inheritDoc}
