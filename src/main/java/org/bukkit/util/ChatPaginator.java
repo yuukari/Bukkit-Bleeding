@@ -59,7 +59,7 @@ public class ChatPaginator {
         }
         
         // A string shorter than the lineWidth is a single line
-        if (rawString.length() <= lineLength) {
+        if (rawString.length() <= lineLength && !rawString.contains("\n")) {
             return new String[] {rawString};
         }
 

@@ -109,6 +109,16 @@ public class ChatPaginatorTest {
         assertThat(lines[5], is("123456"));
         assertThat(lines[6], is("789"));
     }
+
+    @Test
+    public void testWordWrap10() {
+        String rawString = "123456789\n123456789";
+        String[] lines = ChatPaginator.wordWrap(rawString, 19);
+
+        assertThat(lines.length, is(2));
+        assertThat(lines[0], is("123456789"));
+        assertThat(lines[1], is("123456789"));
+    }
     
     @Test
     public void testPaginate1() {
