@@ -3,9 +3,11 @@ package org.bukkit.help;
 /**
  */
 public interface HelpMap {
-    HelpTopic getHelpTopic(String topicName);
+    public HelpTopic getHelpTopic(String topicName);
 
-    void addTopic(HelpTopic topic);
+    public void addTopic(HelpTopic topic);
 
-    void clear();
+    public void clear();
+
+    public void registerHelpTopicFactory(Class commandClass, HelpTopicFactory factory);
 }
