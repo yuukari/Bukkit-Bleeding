@@ -13,7 +13,7 @@ public class HelpCommand extends VanillaCommand {
     public HelpCommand() {
         super("help");
         this.description = "Shows the help menu";
-        this.usageMessage = "/help";
+        this.usageMessage = "/help <pageNumber>\n/help <topic>\n/help <topic> <pageNumber>";
         this.setPermission("bukkit.command.help");
     }
 
@@ -24,6 +24,7 @@ public class HelpCommand extends VanillaCommand {
         String command;
         int pageNumber;
         int pageHeight;
+        int pageWidth;
         
         if (args.length == 0) {
             command = "";
@@ -47,29 +48,42 @@ public class HelpCommand extends VanillaCommand {
 
         if (sender instanceof ConsoleCommandSender) {
             pageHeight = ChatPaginator.UNBOUNDED_PAGE_HEIGHT;
+            pageWidth = ChatPaginator.UNBOUNDED_PAGE_WIDTH;
         } else {
             pageHeight = ChatPaginator.CLOSED_CHAT_PAGE_HEIGHT - 1;
-        }
-
-        if (command.length() > 0 && !command.startsWith("/")) {
-            command = "/" + command;
+            pageWidth = ChatPaginator.AVERAGE_CHAT_PAGE_WIDTH;
         }
         
         HelpMap helpMap = Bukkit.getServer().getHelpMap();
         HelpTopic topic = helpMap.getHelpTopic(command);
+
+        if (topic == null) {
+            topic = helpMap.getHelpTopic("/" + command);
+        }
+
         if (topic == null || !topic.canSee(sender)) {
             sender.sendMessage(ChatColor.RED + "No help for " + command);
             return true;
         }
 
-        ChatPaginator.ChatPage page = ChatPaginator.paginate(topic.getFullText(sender), pageNumber, ChatPaginator.DEFAULT_CHAT_WIDTH, pageHeight);
+        ChatPaginator.ChatPage page = ChatPaginator.paginate(topic.getFullText(sender), pageNumber, pageWidth, pageHeight);
 
-        String header = ChatColor.GREEN + "===== Help: " + topic.getName();
+        StringBuilder header = new StringBuilder();
+        header.append(ChatColor.GREEN);
+        header.append("===== Help: ");
+        header.append(topic.getName());
+        header.append(" ");
         if (page.getTotalPages() > 1) {
-            header += " (" + page.getPageNumber() + " of " + page.getTotalPages() + ")";
+            header.append("(");
+            header.append(page.getPageNumber());
+            header.append(" of ");
+            header.append(page.getTotalPages());
+            header.append(") ");
         }
-        header += " =====" + ChatColor.WHITE;
-        sender.sendMessage(header);
+        for (int i = header.length(); i < ChatPaginator.GUARANTEED_NO_WRAP_CHAT_PAGE_WIDTH; i++) {
+            header.append("=");
+        }
+        sender.sendMessage(header.toString());
 
         sender.sendMessage(page.getLines());
 
