@@ -9,9 +9,11 @@ import java.util.List;
  * for displaying on the Minecraft player console.
  */
 public class ChatPaginator {
-    public static final int DEFAULT_CHAT_WIDTH = 54;
-    public static final int OPEN_CHAT_PAGE_HEIGHT = 20;
-    public static final int CLOSED_CHAT_PAGE_HEIGHT = 10;
+    public static final int GUARANTEED_NO_WRAP_CHAT_PAGE_WIDTH = 55; // Will never wrap, even with the largest characters
+    public static final int AVERAGE_CHAT_PAGE_WIDTH = 65; // Will typically not wrap using an average character distribution
+    public static final int UNBOUNDED_PAGE_WIDTH = Integer.MAX_VALUE;
+    public static final int OPEN_CHAT_PAGE_HEIGHT = 20; // The height of an expanded chat window
+    public static final int CLOSED_CHAT_PAGE_HEIGHT = 10; // The height of the default chat window
     public static final int UNBOUNDED_PAGE_HEIGHT = Integer.MAX_VALUE;
 
     /**
@@ -21,7 +23,7 @@ public class ChatPaginator {
      * @return A single chat page.
      */
     public static ChatPage paginate(String unpaginatedString, int pageNumber) {
-        return  paginate(unpaginatedString, pageNumber, DEFAULT_CHAT_WIDTH, CLOSED_CHAT_PAGE_HEIGHT);
+        return  paginate(unpaginatedString, pageNumber, GUARANTEED_NO_WRAP_CHAT_PAGE_WIDTH, CLOSED_CHAT_PAGE_HEIGHT);
     }
 
     /**
