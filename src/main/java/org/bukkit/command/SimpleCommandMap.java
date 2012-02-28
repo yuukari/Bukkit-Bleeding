@@ -156,9 +156,7 @@ public class SimpleCommandMap implements CommandMap {
 
         String sentCommandLabel = args[0].toLowerCase();
         Command target = getCommand(sentCommandLabel);
-        if (target == null) {
-            target = getFallback(commandLine.toLowerCase());
-        }
+
         if (target == null) {
             return false;
         }
@@ -186,7 +184,11 @@ public class SimpleCommandMap implements CommandMap {
     }
 
     public Command getCommand(String name) {
-        return knownCommands.get(name.toLowerCase());
+        Command target =  knownCommands.get(name.toLowerCase());
+        if (target == null) {
+            target = getFallback(name);
+        }
+        return target;
     }
 
     public Collection<Command> getCommands() {
