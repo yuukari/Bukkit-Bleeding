@@ -152,7 +152,7 @@ public class HandlerList {
                 }
             }
         }
-        if (changed) baked = false;
+        if (changed) handlers = null;
     }
 
     /**
