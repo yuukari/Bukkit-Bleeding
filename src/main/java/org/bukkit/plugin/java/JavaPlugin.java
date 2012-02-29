@@ -328,6 +328,10 @@ public abstract class JavaPlugin extends Plugin {
         return null;
     }
 
+    public String getName() {
+        return description.getName();
+    }
+
     public final boolean isNaggable() {
         return naggable;
     }
@@ -359,6 +363,25 @@ public abstract class JavaPlugin extends Plugin {
             logger = new PluginLogger(this);
         }
         return logger;
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Plugin)) {
+            return false;
+        }
+        return getName().equals(((Plugin) obj).getName());
     }
 
     @Override

@@ -31,6 +31,10 @@ public class TestPlugin extends Plugin {
         this.enabled = enabled;
     }
 
+    public String getName() {
+        return pluginName;
+    }
+
     public File getDataFolder() {
         throw new UnsupportedOperationException("Not supported.");
     }

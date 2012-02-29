@@ -11,8 +11,6 @@ import org.bukkit.generator.ChunkGenerator;
 
 import com.avaje.ebean.EbeanServer;
 
-import com.avaje.ebean.EbeanServer;
-
 /**
  * Represents a Plugin
  */
@@ -152,30 +150,13 @@ public abstract class Plugin implements CommandExecutor {
      */
     public abstract Logger getLogger();
 
-    @Override
-    public int hashCode() {
-        return 31 + ((getDescription() != null && getDescription().getName() == null) ? 0 : getDescription().getName().hashCode());
-    }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Plugin other = (Plugin) obj;
-        if (getDescription() == null || other.getDescription() == null) {
-            return false;
-        }
-        if (getDescription().getName() == null || other.getDescription().getName() == null) {
-            return false;
-        }
-
-        return getDescription().getName().equals(other.getDescription().getName());
-    }
+    /**
+     * Returns the name of the plugin.
+     *
+     * This should return the bare name of the plugin and should be used for comparison.
+     *
+     * @return name of the plugin
+     */
+    String getName();
 }
