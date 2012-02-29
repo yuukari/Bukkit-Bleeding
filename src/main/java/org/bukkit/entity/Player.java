@@ -144,6 +144,13 @@ public interface Player extends HumanEntity, CommandSender, OfflinePlayer, Plugi
      * @param sprinting true if the player should be sprinting
      */
     public void setSprinting(boolean sprinting);
+    
+    /**
+     * Gets whether the player is blocking or not.
+     * 
+     * @return true if the player is blocking
+     */
+    public boolean isBlocking();
 
     /**
      * Saves the players current location, health, inventory, motion, and other information into the username.dat file, in the world/player folder

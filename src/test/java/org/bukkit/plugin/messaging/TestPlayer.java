@@ -94,6 +94,10 @@ public class TestPlayer implements Player {
     public void setSprinting(boolean sprinting) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+    public boolean isBlocking() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     public void saveData() {
         throw new UnsupportedOperationException("Not supported yet.");
