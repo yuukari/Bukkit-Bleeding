@@ -107,7 +107,17 @@ public abstract class Command {
      * @return true if they can use it, otherwise false
      */
     public boolean testPermissionSilent(CommandSender target) {
-        return ((permission == null) || (permission.length() == 0) || (target.hasPermission(permission)));
+        if ((permission == null) || (permission.length() == 0)) {
+            return true;
+        }
+        
+        for (String p : permission.split(";")) {
+            if (target.hasPermission(p)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
