@@ -150,7 +150,6 @@ public abstract class Plugin implements CommandExecutor {
      */
     public abstract Logger getLogger();
 
-
     /**
      * Returns the name of the plugin.
      *
@@ -158,5 +157,26 @@ public abstract class Plugin implements CommandExecutor {
      *
      * @return name of the plugin
      */
-    String getName();
+    public String getName() {
+        return getDescription().getName();
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Plugin)) {
+            return false;
+        }
+        return getName().equals(((Plugin) obj).getName());
+    }
 }
