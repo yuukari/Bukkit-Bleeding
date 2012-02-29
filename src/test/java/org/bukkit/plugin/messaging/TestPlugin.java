@@ -2,6 +2,7 @@ package org.bukkit.plugin.messaging;
 
 import java.io.File;
 import java.io.InputStream;
+
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,11 +18,7 @@ import com.avaje.ebean.EbeanServer;
 public class TestPlugin extends Plugin {
     private boolean enabled = true;
 
-    private String pluginName;
-
-    public TestPlugin() {
-        super();
-    }
+    final private String pluginName;
 
     public TestPlugin(String pluginName) {
         this.pluginName = pluginName;
@@ -117,23 +114,17 @@ public class TestPlugin extends Plugin {
 
     @Override
     public int hashCode() {
-        return 31 + ((pluginName == null) ? 0 : pluginName.hashCode());
+        return getName().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (!super.equals(obj))
+        if (obj == null)
             return false;
         if (getClass() != obj.getClass())
             return false;
-        TestPlugin other = (TestPlugin) obj;
-        if (pluginName == null) {
-            if (other.pluginName != null)
-                return false;
-        } else if (!pluginName.equals(other.pluginName))
-            return false;
-        return true;
+        return getName().equals(((TestPlugin) obj).getName());
     }
 }
