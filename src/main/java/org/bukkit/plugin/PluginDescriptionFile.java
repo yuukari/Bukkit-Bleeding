@@ -299,11 +299,7 @@ public final class PluginDescriptionFile {
             }
         }
         if (map.containsKey("prefix")) {
-            try {
-                prefix = (String) map.get("prefix");
-            } catch (ClassCastException ex) {
-                throw new InvalidDescriptionException(ex, "prefix is of the wrong type!");
-            }
+            prefix = map.get("prefix").toString();
         }
     }
 
