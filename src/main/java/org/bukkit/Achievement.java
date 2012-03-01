@@ -39,7 +39,7 @@ public enum Achievement {
     /**
      * The offset used to distinguish Achievements and Statistics
      */
-    public final static int STATISTIC_OFFSET = 0x500000;
+    public final static int STATISTIC_OFFSET = 5242880;
     private final static Map<Integer, Achievement> BY_ID = Maps.newHashMap();
     private final int id;
 
