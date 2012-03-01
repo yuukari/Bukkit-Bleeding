@@ -1,5 +1,7 @@
 package org.bukkit.command.defaults;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -8,6 +10,8 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.help.HelpMap;
 import org.bukkit.help.HelpTopic;
 import org.bukkit.util.ChatPaginator;
+
+import java.util.Arrays;
 
 public class HelpCommand extends VanillaCommand {
     public HelpCommand() {
@@ -25,25 +29,16 @@ public class HelpCommand extends VanillaCommand {
         int pageNumber;
         int pageHeight;
         int pageWidth;
-        
+
         if (args.length == 0) {
             command = "";
             pageNumber = 1;
-        } else if (args.length == 1) {
-            if (NumberUtils.isDigits(args[0])) {
-                command = "";
-                pageNumber = NumberUtils.createInteger(args[0]);
-            } else {
-                command = args[0];
-                pageNumber = 1;
-            }
+        } else if (NumberUtils.isDigits(args[args.length - 1])) {
+            command = StringUtils.join(ArrayUtils.subarray(args, 0, args.length - 1), " ");
+            pageNumber = NumberUtils.createInteger(args[args.length - 1]);
         } else {
-            command = args[0];
-            if (NumberUtils.isDigits(args[1])) {
-                pageNumber = NumberUtils.createInteger(args[1]);
-            } else {
-                pageNumber = 1;
-            }
+            command = StringUtils.join(args, " ");
+            pageNumber = 1;
         }
 
         if (sender instanceof ConsoleCommandSender) {
