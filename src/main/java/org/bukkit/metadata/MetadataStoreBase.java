@@ -81,10 +81,12 @@ public abstract class MetadataStoreBase<T> {
      */
     public synchronized void removeMetadata(T subject, String metadataKey, Plugin owningPlugin) {
         String key = cachedDisambiguate(subject, metadataKey);
-        List<MetadataValue> metadataList = metadataMap.get(key);
-        for (int i = 0; i < metadataList.size(); i++) {
-            if (metadataList.get(i).getOwningPlugin().equals(owningPlugin)) {
-                metadataList.remove(i);
+        if (metadataMap.containsKey(key)) {
+            List<MetadataValue> metadataList = metadataMap.get(key);
+            for (int i = 0; i < metadataList.size(); i++) {
+                if (metadataList.get(i).getOwningPlugin().equals(owningPlugin)) {
+                    metadataList.remove(i);
+                }
             }
         }
     }
