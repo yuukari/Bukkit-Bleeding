@@ -42,7 +42,7 @@ public abstract class ChunkGenerator {
      * @return byte[] containing the types for each block created by this generator
      */
     public byte[] generate(World world, Random random, int x, int z) {
-        return null;
+        throw new UnsupportedOperationException("Custom generator is missing required methods: generate(), generateBlockSections() and generateExtBlockSections()");
     }
 
     /**
@@ -79,7 +79,7 @@ public abstract class ChunkGenerator {
      * @return short[][] containing the types for each block created by this generator
      */
     public short[][] generateExtBlockSections(World world, Random random, int x, int z) {
-        return null;
+        return null;    /* Default - returns null, which drives call to generateBlockSections() */
     }
 
     /**
@@ -112,7 +112,7 @@ public abstract class ChunkGenerator {
      * @return short[][] containing the types for each block created by this generator
      */
     public byte[][] generateBlockSections(World world, Random random, int x, int z) {
-        return null;
+        return null;    /* Default - returns null, which drives call to generate() */
     }
 
     /**
